@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risk Dashboard — PT Pupuk Indonesia (Persero)</title>
+<style>
+  :root{
+    --bg:#f4f7f4;
+    --bg-2:#ffffff;
+    --card:#ffffff;
+    --card-2:#f2f6f2;
+    --border:#dde6dd;
+    --border-soft:#e7eee7;
+    --accent:#2f8f4e;
+    --accent-soft:#e6f4ea;
+    --accent-dark:#1f6b39;
+    --text:#1c2b22;
+    --text-dim:#5c6f61;
+    --text-faint:#93a397;
+    --green:#2f8f4e;
+    --red:#c94a3f;
+    --amber:#c98a2b;
+    /* 5-tier risk scale: very high -> very low */
+    --sc-vhigh:#c94a3f;   /* merah */
+    --sc-high:#e08a3c;    /* oranye */
+    --sc-med:#e0c23c;     /* kuning */
+    --sc-low:#9dc95c;     /* hijau muda */
+    --sc-vlow:#2f8f4e;    /* hijau */
+    --sc-vhigh-bg:#fbe8e5;
+    --sc-high-bg:#fcefe0;
+    --sc-med-bg:#fbf6dd;
+    --sc-low-bg:#eef6df;
+    --sc-vlow-bg:#e6f4ea;
+    --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: radial-gradient(1200px 600px at 10% -10%, #eef6ef 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:var(--font);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  a{color:inherit;}
+
+  /* HEADER */
+  header.top{
+    background: #ffffff;
+    border-bottom:2px solid var(--accent);
+    box-shadow:0 1px 3px rgba(30,60,40,0.05);
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:14px;}
+  .brand .logo{
+    width:46px; height:46px; border-radius:10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+  }
+  .brand h1{font-size:19px; font-weight:700; letter-spacing:.2px; color:var(--text);}
+  .brand .sub1{font-size:12.5px; color:var(--accent-dark); font-weight:700; margin-top:2px;}
+  .brand .sub2{font-size:11.5px; color:var(--text-faint); margin-top:2px;}
+  .brand .sub3{font-size:11px; color:var(--text-faint); margin-top:4px; font-style:italic;}
+  .brand .sub3 .verif{color:var(--green); font-style:normal; margin-left:4px; font-weight:600;}
+
+  .top-right{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .pill{
+    border:1px solid var(--border); border-radius:8px;
+    padding:7px 14px; font-size:12.5px; color:var(--text-dim);
+    background:var(--card-2);
+    white-space:nowrap;
+  }
+  .pill b{color:var(--text);}
+  .pill.warn{color:var(--red); border-color:#f0d4d0;}
+  .btn{
+    border:1px solid var(--border); border-radius:8px;
+    padding:8px 16px; font-size:12.5px; font-weight:600;
+    background:var(--card-2); color:var(--text); cursor:pointer;
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent-dark);}
+  .user-chip{
+    display:flex; align-items:center; gap:10px;
+    background:var(--card-2); border:1px solid var(--border);
+    border-radius:8px; padding:6px 14px 6px 6px;
+  }
+  .avatar{
+    width:26px; height:26px; border-radius:50%;
+    background:var(--accent); color:#fff; font-weight:800; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .logout{color:var(--text-faint); font-size:12px; margin-left:6px;}
+
+  /* WARNING BANNER */
+  .banner{
+    margin:18px 28px 0 28px;
+    border:1px solid #f0e2c0;
+    background:#fdf7e8;
+    border-left:4px solid var(--amber);
+    border-radius:10px;
+    padding:14px 18px;
+    font-size:13px; color:#6b5a2c;
+  }
+  .banner b{color:#8a6e18;}
+  .banner code{
+    background:#f3e6bd; color:#7a5f16; padding:2px 8px; border-radius:5px;
+    font-family:Consolas, monospace; font-size:12px; border:1px solid #e8d69a;
+  }
+
+  /* KPI ROW */
+  .kpi-row{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:16px;
+    margin:20px 28px 0 28px;
+  }
+  .kpi{
+    background:var(--card); border:1px solid var(--border-soft);
+    border-top:3px solid var(--accent);
+    border-radius:10px; padding:18px 18px 16px 18px;
+    box-shadow:0 1px 2px rgba(30,60,40,0.04);
+  }
+  .kpi .label{font-size:11px; letter-spacing:.06em; color:var(--text-faint); font-weight:700; text-transform:uppercase;}
+  .kpi .value{font-size:26px; font-weight:800; margin-top:10px; letter-spacing:.2px; color:var(--text);}
+  .kpi .foot{font-size:11.5px; color:var(--text-faint); margin-top:8px;}
+
+  /* LAYOUT */
+  .layout{
+    display:grid; grid-template-columns:250px 1fr; gap:18px;
+    margin:22px 28px 0 28px;
+    align-items:start;
+  }
+  nav.side{
+    background:var(--card); border:1px solid var(--border-soft);
+    border-radius:10px; padding:8px; position:sticky; top:16px;
+    box-shadow:0 1px 2px rgba(30,60,40,0.04);
+  }
+  nav.side button{
+    width:100%; text-align:left; display:flex; gap:10px; align-items:center;
+    background:transparent; border:none; color:var(--text-dim);
+    padding:13px 12px; border-radius:8px; font-size:13.5px; font-weight:600;
+    cursor:pointer; margin-bottom:2px;
+  }
+  nav.side button .ic{font-size:16px;}
+  nav.side button.active{
+    background:var(--accent);
+    color:#fff; font-weight:700;
+  }
+  nav.side button:not(.active):hover{background:var(--accent-soft); color:var(--accent-dark);}
+
+  main.content{min-width:0;}
+  .tab{display:none;}
+  .tab.active{display:block;}
+
+  .section-head{
+    display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .section-head h2{font-size:18px; font-weight:800; color:var(--text);}
+  .section-head .bar{width:4px; align-self:stretch; background:var(--accent); border-radius:2px;}
+  .section-head .desc{font-size:12.5px; color:var(--text-faint);}
+  .head-flex{display:flex; gap:12px; align-items:flex-start;}
+
+  .source-note{
+    background:var(--card-2); border:1px solid var(--border-soft);
+    border-radius:10px; padding:14px 16px; font-size:12.5px; color:var(--text-dim);
+    margin:14px 0 18px 0; display:flex; gap:10px;
+  }
+  .source-note b{color:var(--text);}
+
+  .kpi-row-2{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:20px;
+  }
+  .kpi-sm{
+    background:var(--card); border:1px solid var(--border-soft);
+    border-radius:10px; padding:15px 16px;
+    box-shadow:0 1px 2px rgba(30,60,40,0.04);
+  }
+  .kpi-sm .label{font-size:10.5px; letter-spacing:.05em; color:var(--text-faint); font-weight:700; text-transform:uppercase;}
+  .kpi-sm .value{font-size:22px; font-weight:800; margin-top:8px; color:var(--text);}
+  .kpi-sm .value.green{color:var(--green);}
+  .kpi-sm .value.red{color:var(--red);}
+  .kpi-sm .value.gold{color:var(--accent-dark);}
+  .kpi-sm .foot{font-size:11px; color:var(--text-faint); margin-top:6px;}
+
+  .panel{
+    background:var(--card); border:1px solid var(--border-soft);
+    border-radius:12px; padding:20px; margin-bottom:20px;
+    box-shadow:0 1px 3px rgba(30,60,40,0.05);
+  }
+  .panel-title{font-size:14.5px; font-weight:800; margin-bottom:14px; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; color:var(--text);}
+  .panel-title .tag{font-size:11px; color:var(--text-faint); font-weight:500;}
+
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  thead th{
+    text-align:left; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--text-faint); font-weight:700; padding:10px 12px; border-bottom:1px solid var(--border);
+  }
+  tbody td{padding:13px 12px; border-bottom:1px solid var(--border-soft); vertical-align:middle;}
+  tbody tr{transition:background .12s ease;}
+  tbody tr:hover{background:var(--accent-soft);}
+  .risk-name{font-weight:700; color:var(--text);}
+  .risk-sub{font-size:11px; color:var(--text-faint); margin-top:2px;}
+
+  .badge{
+    display:inline-block; padding:4px 12px; border-radius:20px;
+    font-size:11px; font-weight:700; text-align:center; min-width:64px;
+  }
+  .badge.vlow{background:var(--sc-vlow-bg); color:var(--sc-vlow); border:1px solid #c9e8d2;}
+  .badge.low{background:var(--sc-low-bg); color:#6b9a34; border:1px solid #d3e8b6;}
+  .badge.med{background:var(--sc-med-bg); color:#a68a1f; border:1px solid #ecdd9e;}
+  .badge.high{background:var(--sc-high-bg); color:var(--sc-high); border:1px solid #f2d3ac;}
+  .badge.vhigh{background:var(--sc-vhigh-bg); color:var(--sc-vhigh); border:1px solid #f0c7c1;}
+
+  .num-box{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:34px; padding:5px 8px; border-radius:6px; font-weight:800; font-size:12.5px;
+  }
+  .num-box.vhigh{background:var(--sc-vhigh-bg); color:var(--sc-vhigh);}
+  .num-box.high{background:var(--sc-high-bg); color:var(--sc-high);}
+  .num-box.med{background:var(--sc-med-bg); color:#a68a1f;}
+  .num-box.low{background:var(--sc-low-bg); color:#6b9a34;}
+  .num-box.vlow{background:var(--sc-vlow-bg); color:var(--sc-vlow);}
+
+  .delta{font-weight:700; font-size:12.5px;}
+  .delta.down{color:var(--green);}
+  .delta.up{color:var(--red);}
+  .delta.flat{color:var(--text-faint);}
+
+  .status-pill{font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:6px;}
+  .status-pill.ok{background:#e6f4ea; color:var(--green);}
+  .status-pill.watch{background:#faf0da; color:var(--amber);}
+
+  /* Heatmap grid for Profil Risiko */
+  .heatmap-wrap{overflow-x:auto;}
+  .heatmap{border-collapse:separate; border-spacing:4px;}
+  .heatmap th{font-size:10px; color:var(--text-faint); font-weight:700; padding:4px;}
+  .heatmap td.cell{
+    width:64px; height:44px; border-radius:6px; text-align:center; vertical-align:middle;
+    font-size:11px; font-weight:800; color:#ffffff; cursor:default; position:relative;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .heatmap td.cell:hover{transform:scale(1.08); box-shadow:0 2px 8px rgba(30,60,40,0.25); cursor:help;}
+  .heatmap td.axis{color:var(--text-dim); font-size:11px; font-weight:700; text-align:right; padding-right:8px;}
+  .heatmap td.corner{background:transparent;}
+
+  /* Ranking bars */
+  .rank-row{display:flex; align-items:center; gap:14px; padding:12px 4px; border-bottom:1px solid var(--border-soft);}
+  .rank-row:last-child{border-bottom:none;}
+  .rank-num{
+    width:26px; height:26px; border-radius:50%; background:var(--card-2);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--text-dim);
+    flex-shrink:0; border:1px solid var(--border-soft);
+  }
+  .rank-num.top3{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .rank-name{width:190px; flex-shrink:0; font-size:13px; font-weight:700; color:var(--text);}
+  .rank-track{flex:1; height:10px; background:var(--card-2); border-radius:6px; overflow:hidden; border:1px solid var(--border-soft);}
+  .rank-fill{height:100%; border-radius:6px; background:linear-gradient(90deg, var(--accent), var(--amber));}
+  .rank-score{width:50px; text-align:right; font-weight:800; font-size:13px; flex-shrink:0; color:var(--text);}
+
+  /* Market cards */
+  .market-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  .market-card{
+    background:var(--card-2); border:1px solid var(--border-soft); border-radius:10px; padding:16px;
+  }
+  .market-card .m-label{font-size:11px; color:var(--text-faint); font-weight:700; text-transform:uppercase; letter-spacing:.04em;}
+  .market-card .m-value{font-size:20px; font-weight:800; margin-top:8px; color:var(--text);}
+  .market-card .m-change{font-size:12px; font-weight:700; margin-top:6px;}
+  .market-card .m-change.up{color:var(--red);}
+  .market-card .m-change.down{color:var(--green);}
+
+  /* Monte carlo */
+  .mc-controls{display:flex; gap:20px; flex-wrap:wrap; align-items:flex-end; margin-bottom:18px;}
+  .mc-field{display:flex; flex-direction:column; gap:6px;}
+  .mc-field label{font-size:11px; color:var(--text-faint); font-weight:700; text-transform:uppercase;}
+  .mc-field input[type=range]{width:200px; accent-color:var(--accent);}
+  .mc-field .val{font-size:13px; font-weight:700; color:var(--accent-dark);}
+  .run-btn{
+    background:var(--accent); color:#fff;
+    border:none; border-radius:8px; padding:11px 22px; font-weight:800; font-size:13px; cursor:pointer;
+  }
+  .run-btn:hover{background:var(--accent-dark);}
+  #histCanvas{width:100%; height:220px; display:block;}
+
+  .foot-note{
+    margin:30px 28px 0 28px; font-size:11.5px; color:var(--text-faint); text-align:center;
+  }
+
+  @media (max-width:1000px){
+    .kpi-row, .kpi-row-2{grid-template-columns:repeat(2,1fr);}
+    .layout{grid-template-columns:1fr;}
+    nav.side{position:static; display:flex; overflow-x:auto; gap:4px;}
+    nav.side button{white-space:nowrap;}
+    .market-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo">🌾</div>
+    <div>
+      <h1>Risk Dashboard — PT Pupuk Indonesia (Persero)</h1>
+      <div class="sub1">Departemen Perencanaan &amp; Pelaporan Manajemen Risiko</div>
+      <div class="sub2">Pemantauan Profil Risiko Bulan Berjalan · Pasar &amp; Kondisi Global · Simulasi Monte Carlo</div>
+      <div class="sub3">Dibuat dan disusun oleh Tim PPMR 🔒<span class="verif">terverifikasi</span></div>
+    </div>
+  </div>
+  <div class="top-right">
+    <div class="pill">FRED: <b>nonaktif</b></div>
+    <div class="pill">Periode: <b id="periodLabel">Agustus 2026</b></div>
+    <button class="btn" onclick="refreshDashboard()">⟳ Refresh</button>
+    <div class="user-chip"><div class="avatar">P</div> pupuk <span class="logout">Keluar</span></div>
+  </div>
+</header>
+
+<div class="banner">
+  ⚠ <b>Data contoh (sample).</b> Angka pada dashboard ini adalah placeholder untuk ilustrasi tampilan. Ganti array <code>DATA</code> di bagian bawah file HTML dengan data riil dari Laporan Manajemen Risiko sebelum digunakan untuk pelaporan resmi.
+</div>
+
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="label">VaR Portofolio (MC)</div>
+    <div class="value" id="kpiVar">Rp 25,24 T</div>
+    <div class="foot">CVaR Rp 32,47 T · 95% keyakinan</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Expected Loss</div>
+    <div class="value" id="kpiEL">Rp 8,04 T</div>
+    <div class="foot">Rata-rata kerugian tahunan</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Laba Bersih Ekspektasi</div>
+    <div class="value" id="kpiNP">Rp 0,76 T</div>
+    <div class="foot">Baseline Rp 8,80 T − EL</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Prob. Laba Negatif</div>
+    <div class="value" id="kpiProb">34,9%</div>
+    <div class="foot">Peluang laba bersih &lt; 0 (skenario)</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Parameter Melampaui</div>
+    <div class="value">0 / 43</div>
+    <div class="foot">1 menunggu input</div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="side">
+    <button class="active" data-tab="rtm"><span class="ic">📊</span> RTM — Risk That Matters</button>
+    <button data-tab="peringkat"><span class="ic">🏅</span> Peringkat Profil PI</button>
+    <button data-tab="profil"><span class="ic">🛡️</span> Profil Risiko</button>
+    <button data-tab="pasar"><span class="ic">📈</span> Pasar &amp; Kondisi Global</button>
+    <button data-tab="mc"><span class="ic">🎲</span> Simulasi Monte Carlo</button>
+  </nav>
+
+  <main class="content">
+
+    <!-- TAB 1: RTM -->
+    <section class="tab active" id="tab-rtm">
+      <div class="section-head"><div class="bar"></div>
+        <div>
+          <h2>RTM — Risk That Matters</h2>
+          <div class="desc">10 Risiko Utama konsolidasi PI Group dengan skala inheren → residual (Kemungkinan × Dampak) dan status pengendalian.</div>
+        </div>
+      </div>
+
+      <div class="source-note">
+        📄 <div><b>Sumber:</b> Laporan Manajemen Risiko Konsolidasi Triwulan-II 2026 (bagian Risiko Utama/RTM). Peringkat Komposit Risiko: <b>2 — Risiko terkendali baik; kemungkinan tidak tercapainya target kinerja tergolong rendah.</b></div>
+      </div>
+
+      <div class="kpi-row-2">
+        <div class="kpi-sm"><div class="label">Total Risiko Utama</div><div class="value">10</div><div class="foot">RTM konsolidasi 2026</div></div>
+        <div class="kpi-sm"><div class="label">Di Bawah Target</div><div class="value green">7</div><div class="foot">termitigasi efektif</div></div>
+        <div class="kpi-sm"><div class="label">Sama Dengan Target</div><div class="value gold">3</div><div class="foot">perlu perhatian</div></div>
+        <div class="kpi-sm"><div class="label">Residual High</div><div class="value red">2</div><div class="foot">skala ≥ 20 (High)</div></div>
+        <div class="kpi-sm"><div class="label">Skala Turun</div><div class="value green">7/10</div><div class="foot">inheren → residual</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">
+          Register Risk That Matters <span class="tag">Inheren → Residual (K×D) · Skala · Status TW-II</span>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+          <input id="rtmSearch" type="text" placeholder="Cari nama risiko..." oninput="buildRTM()"
+            style="flex:1; min-width:200px; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; background:var(--card-2); color:var(--text);">
+          <select id="rtmStatusFilter" onchange="buildRTM()" style="padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; background:var(--card-2); color:var(--text);">
+            <option value="">Semua Status</option>
+            <option value="ok">Termitigasi</option>
+            <option value="watch">Perlu Perhatian</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Risiko Utama</th>
+              <th style="cursor:pointer;" onclick="sortRTM('inheren')">Inheren ⇅</th>
+              <th style="cursor:pointer;" onclick="sortRTM('residual')">Residual TW-II ⇅</th>
+              <th>Δ</th><th>Status</th><th>Dampak Inheren</th>
+            </tr>
+          </thead>
+          <tbody id="rtmTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: PERINGKAT PROFIL PI -->
+    <section class="tab" id="tab-peringkat">
+      <div class="section-head"><div class="bar"></div>
+        <div>
+          <h2>Peringkat Profil Risiko — PI Group</h2>
+          <div class="desc">Skor komposit risiko 10 Anak Perusahaan, diurutkan dari yang tertinggi.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Skor Komposit Risiko per Anak Perusahaan <span class="tag">Skala 0–100</span></div>
+        <div id="rankList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PROFIL RISIKO -->
+    <section class="tab" id="tab-profil">
+      <div class="section-head"><div class="bar"></div>
+        <div>
+          <h2>Profil Risiko — Peta Kemungkinan × Dampak</h2>
+          <div class="desc">Sebaran risiko residual PI Group pada matriks 5×5.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Heatmap Risiko Residual</div>
+        <div class="heatmap-wrap"><table class="heatmap" id="heatmapTable"></table></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PASAR & KONDISI GLOBAL -->
+    <section class="tab" id="tab-pasar">
+      <div class="section-head"><div class="bar"></div>
+        <div>
+          <h2>Pasar &amp; Kondisi Global</h2>
+          <div class="desc">Indikator harga komoditas, nilai tukar, dan suku bunga yang relevan bagi eksposur PI Group.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Indikator Pasar Terkini</div>
+        <div class="market-grid" id="marketGrid"></div>
+      </div>
+    </section>
+
+    <!-- TAB 5: SIMULASI MONTE CARLO -->
+    <section class="tab" id="tab-mc">
+      <div class="section-head"><div class="bar"></div>
+        <div>
+          <h2>Simulasi Monte Carlo</h2>
+          <div class="desc">Simulasi laba bersih berbasis distribusi harga komoditas &amp; nilai tukar (ilustratif, dijalankan di browser).</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="mc-controls">
+          <div class="mc-field">
+            <label>Jumlah Iterasi</label>
+            <input type="range" id="mcIter" min="500" max="10000" step="500" value="3000" oninput="mcIterVal.textContent=this.value">
+            <div class="val" id="mcIterVal">3000</div>
+          </div>
+          <div class="mc-field">
+            <label>Volatilitas Harga (σ)</label>
+            <input type="range" id="mcVol" min="5" max="40" step="1" value="18" oninput="mcVolVal.textContent=this.value+'%'">
+            <div class="val" id="mcVolVal">18%</div>
+          </div>
+          <div class="mc-field">
+            <label>Baseline Laba Bersih (Rp T)</label>
+            <input type="range" id="mcBase" min="4" max="14" step="0.1" value="8.8" oninput="mcBaseVal.textContent=this.value">
+            <div class="val" id="mcBaseVal">8.8</div>
+          </div>
+          <button class="run-btn" onclick="runMonteCarlo()">▶ Jalankan Simulasi</button>
+        </div>
+
+        <canvas id="histCanvas"></canvas>
+
+        <div class="kpi-row-2" style="margin-top:18px;">
+          <div class="kpi-sm"><div class="label">Rata-rata Laba</div><div class="value" id="mcMean">—</div><div class="foot">Rp Triliun</div></div>
+          <div class="kpi-sm"><div class="label">VaR 95%</div><div class="value red" id="mcVar95">—</div><div class="foot">CVaR pada ekor 5%</div></div>
+          <div class="kpi-sm"><div class="label">Prob. Laba Negatif</div><div class="value gold" id="mcProbNeg">—</div><div class="foot">dari total simulasi</div></div>
+          <div class="kpi-sm"><div class="label">P10 / P90</div><div class="value" id="mcP10P90" style="font-size:16px;">—</div><div class="foot">rentang persentil</div></div>
+          <div class="kpi-sm"><div class="label">Iterasi Dijalankan</div><div class="value" id="mcRunCount">—</div><div class="foot">simulasi Monte Carlo</div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="foot-note">Risk Dashboard · PPMR PT Pupuk Indonesia (Persero) · Data ilustratif — ganti dengan sumber data riil sebelum digunakan untuk keputusan.</div>
+
+<script>
+/* ============ TAB SWITCHING ============ */
+document.querySelectorAll('nav.side button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.side button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+function refreshDashboard(){
+  document.getElementById('periodLabel').textContent = 'Agustus 2026';
+  buildRTM(); buildRank(); buildHeatmap(); buildMarket();
+}
+
+/* ============ SAMPLE DATA — GANTI DENGAN DATA RIIL ============ */
+const RTM_DATA = [
+  {name:"Risiko Harga Gas Alam (Bahan Baku)", sub:"Fluktuasi harga gas & pasokan energi", inheren:20, residual:12, status:"ok"},
+  {name:"Risiko Piutang Subsidi Pemerintah", sub:"Keterlambatan pencairan subsidi pupuk", inheren:16, residual:16, status:"watch"},
+  {name:"Risiko Nilai Tukar (Impor Bahan Baku)", sub:"Volatilitas USD/IDR terhadap impor amoniak", inheren:15, residual:9, status:"ok"},
+  {name:"Risiko Rantai Pasok Bahan Baku", sub:"Ketergantungan pemasok fosfat & kalium impor", inheren:15, residual:10, status:"ok"},
+  {name:"Risiko Operasional Pabrik", sub:"Downtime & keandalan mesin produksi", inheren:12, residual:8, status:"ok"},
+  {name:"Risiko Likuiditas Konsolidasi", sub:"Mismatch arus kas jangka pendek", inheren:20, residual:20, status:"watch"},
+  {name:"Risiko Kredit Anak Perusahaan", sub:"Kualitas piutang usaha antar-AP", inheren:12, residual:6, status:"ok"},
+  {name:"Risiko Kepatuhan Regulasi", sub:"Perubahan kebijakan pupuk bersubsidi", inheren:16, residual:20, status:"watch"},
+  {name:"Risiko Lingkungan & ESG", sub:"Emisi karbon & kepatuhan AMDAL", inheren:9, residual:6, status:"ok"},
+  {name:"Risiko Reputasi", sub:"Persepsi publik terkait distribusi pupuk", inheren:10, residual:5, status:"ok"},
+];
+
+const RANK_DATA = [
+  {name:"PT Pupuk Kujang", score:78},
+  {name:"PT Petrokimia Gresik", score:71},
+  {name:"PT Pupuk Sriwijaya", score:66},
+  {name:"PT Pupuk Kaltim", score:60},
+  {name:"PT Pupuk Iskandar Muda", score:55},
+  {name:"PT Rekayasa Industri", score:49},
+  {name:"PT Mega Eltra", score:44},
+  {name:"PT Pupuk Indonesia Pangan", score:38},
+  {name:"PT Pupuk Indonesia Logistik", score:33},
+  {name:"PT Pupuk Indonesia Energi", score:27},
+];
+
+const MARKET_DATA = [
+  {label:"Harga Urea (FOB, USD/ton)", value:"USD 372", change:"+3,4% MoM", dir:"up"},
+  {label:"Harga NPK (avg, USD/ton)", value:"USD 415", change:"+1,1% MoM", dir:"up"},
+  {label:"Harga Amoniak (USD/ton)", value:"USD 398", change:"−2,6% MoM", dir:"down"},
+  {label:"Nilai Tukar USD/IDR", value:"Rp 16.240", change:"+0,8% MoM", dir:"up"},
+  {label:"Harga Gas Alam (USD/MMBtu)", value:"USD 6,15", change:"−1,2% MoM", dir:"down"},
+  {label:"BI 7-Day Reverse Repo", value:"5,75%", change:"tetap", dir:"flat"},
+  {label:"Inflasi YoY Indonesia", value:"2,9%", change:"+0,1 ppt", dir:"up"},
+  {label:"Indeks Harga Komoditas Pangan (FAO)", value:"121,4", change:"−0,4% MoM", dir:"down"},
+];
+
+/* ============ RENDER RTM TABLE ============ */
+/* Skala 5 tingkat (matriks 5x5, skor 1-25): merah-oranye-kuning-hijau muda-hijau */
+function scaleClass(v){
+  if(v>=20) return 'vhigh';
+  if(v>=15) return 'high';
+  if(v>=10) return 'med';
+  if(v>=5)  return 'low';
+  return 'vlow';
+}
+function badgeClass(v){ return scaleClass(v); }
+function badgeText(v){
+  if(v>=20) return 'Sangat Tinggi';
+  if(v>=15) return 'Tinggi';
+  if(v>=10) return 'Sedang';
+  if(v>=5)  return 'Rendah';
+  return 'Sangat Rendah';
+}
+
+let rtmSortKey = null;
+let rtmSortDir = 1;
+
+function sortRTM(key){
+  if(rtmSortKey === key){ rtmSortDir *= -1; } else { rtmSortKey = key; rtmSortDir = -1; }
+  buildRTM();
+}
+
+function buildRTM(){
+  const body = document.getElementById('rtmTableBody');
+  const q = (document.getElementById('rtmSearch')?.value || '').toLowerCase();
+  const statusF = document.getElementById('rtmStatusFilter')?.value || '';
+
+  let rows = RTM_DATA.filter(r=>{
+    const matchQ = r.name.toLowerCase().includes(q) || r.sub.toLowerCase().includes(q);
+    const matchS = !statusF || r.status === statusF;
+    return matchQ && matchS;
+  });
+
+  if(rtmSortKey){
+    rows = [...rows].sort((a,b)=>(a[rtmSortKey]-b[rtmSortKey])*rtmSortDir);
+  }
+
+  if(rows.length === 0){
+    body.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-faint); padding:24px;">Tidak ada risiko yang cocok dengan pencarian.</td></tr>`;
+    return;
+  }
+
+  body.innerHTML = rows.map(r=>{
+    const diff = r.inheren - r.residual;
+    const deltaClass = diff>0 ? 'down' : diff<0 ? 'up' : 'flat';
+    const deltaSign = diff>0 ? '↓' : diff<0 ? '↑' : '→';
+    return `<tr>
+      <td><div class="risk-name">${r.name}</div><div class="risk-sub">${r.sub}</div></td>
+      <td><span class="num-box ${scaleClass(r.inheren)}">${r.inheren}</span></td>
+      <td><span class="num-box ${scaleClass(r.residual)}">${r.residual}</span></td>
+      <td><span class="delta ${deltaClass}">${deltaSign} ${Math.abs(diff)}</span></td>
+      <td><span class="status-pill ${r.status==='ok'?'ok':'watch'}">${r.status==='ok'?'Termitigasi':'Perlu Perhatian'}</span></td>
+      <td><span class="badge ${badgeClass(r.inheren)}">${badgeText(r.inheren)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+/* ============ RENDER RANKING ============ */
+function buildRank(){
+  const max = Math.max(...RANK_DATA.map(d=>d.score));
+  document.getElementById('rankList').innerHTML = RANK_DATA.map((d,i)=>`
+    <div class="rank-row">
+      <div class="rank-num ${i<3?'top3':''}">${i+1}</div>
+      <div class="rank-name">${d.name}</div>
+      <div class="rank-track"><div class="rank-fill" style="width:${(d.score/max*100).toFixed(0)}%"></div></div>
+      <div class="rank-score">${d.score}</div>
+    </div>`).join('');
+}
+
+/* ============ RENDER HEATMAP ============ */
+function buildHeatmap(){
+  const buckets = {};
+  const bucketNames = {};
+  RTM_DATA.forEach(r=>{
+    const impact = Math.min(5, Math.max(1, Math.round(Math.sqrt(r.residual))));
+    const like = Math.min(5, Math.max(1, Math.round(r.residual/impact)));
+    const key = like+'-'+impact;
+    buckets[key] = (buckets[key]||0)+1;
+    bucketNames[key] = bucketNames[key] || [];
+    bucketNames[key].push(r.name);
+  });
+  function colorFor(l,i){
+    const score = l*i;
+    if(score>=20) return 'var(--sc-vhigh)';  /* merah */
+    if(score>=15) return 'var(--sc-high)';   /* oranye */
+    if(score>=10) return 'var(--sc-med)';    /* kuning */
+    if(score>=5)  return 'var(--sc-low)';    /* hijau muda */
+    return 'var(--sc-vlow)';                 /* hijau */
+  }
+  function textFor(l,i){
+    const score = l*i;
+    return (score>=10 && score<20) ? '#3a3010' : '#ffffff'; /* teks gelap di atas kuning/oranye terang */
+  }
+  let html = '<tr><td class="corner"></td><td class="axis" colspan="5" style="text-align:center;color:var(--text-faint);font-size:10px;">DAMPAK →</td></tr><tr><td class="corner"></td>';
+  for(let i=1;i<=5;i++) html += `<th>${i}</th>`;
+  html += '</tr>';
+  for(let l=5; l>=1; l--){
+    html += `<tr><td class="axis">${l===5?'KEMUNGKINAN ↑ ':''}${l}</td>`;
+    for(let i=1;i<=5;i++){
+      const count = buckets[l+'-'+i] || 0;
+      const names = (bucketNames[l+'-'+i] || []).join(', ');
+      const title = count>0 ? names.replace(/"/g,'&quot;') : '';
+      html += `<td class="cell" style="background:${colorFor(l,i)};color:${textFor(l,i)}" title="${title}">${count>0?count:''}</td>`;
+    }
+    html += '</tr>';
+  }
+  document.getElementById('heatmapTable').innerHTML = html;
+}
+
+/* ============ RENDER MARKET ============ */
+function buildMarket(){
+  document.getElementById('marketGrid').innerHTML = MARKET_DATA.map(m=>`
+    <div class="market-card">
+      <div class="m-label">${m.label}</div>
+      <div class="m-value">${m.value}</div>
+      <div class="m-change ${m.dir}">${m.dir==='up'?'▲':m.dir==='down'?'▼':'—'} ${m.change}</div>
+    </div>`).join('');
+}
+
+/* ============ MONTE CARLO SIMULATION ============ */
+function gaussianRandom(){
+  let u=0,v=0;
+  while(u===0) u=Math.random();
+  while(v===0) v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+
+function runMonteCarlo(){
+  const n = parseInt(document.getElementById('mcIter').value);
+  const vol = parseFloat(document.getElementById('mcVol').value)/100;
+  const base = parseFloat(document.getElementById('mcBase').value);
+
+  const results = [];
+  for(let i=0;i<n;i++){
+    const shock = gaussianRandom()*vol;
+    results.push(base*(1+shock) - Math.abs(gaussianRandom())*0.6);
+  }
+  results.sort((a,b)=>a-b);
+
+  const mean = results.reduce((a,b)=>a+b,0)/n;
+  const p5idx = Math.floor(n*0.05);
+  const p10idx = Math.floor(n*0.10);
+  const p90idx = Math.floor(n*0.90);
+  const cvar = results.slice(0,p5idx+1).reduce((a,b)=>a+b,0)/(p5idx+1);
+  const probNeg = results.filter(r=>r<0).length/n*100;
+
+  document.getElementById('mcMean').textContent = 'Rp '+mean.toFixed(2)+' T';
+  document.getElementById('mcVar95').textContent = 'Rp '+cvar.toFixed(2)+' T';
+  document.getElementById('mcProbNeg').textContent = probNeg.toFixed(1)+'%';
+  document.getElementById('mcP10P90').textContent = results[p10idx].toFixed(1)+' / '+results[p90idx].toFixed(1)+' T';
+  document.getElementById('mcRunCount').textContent = n.toLocaleString('id-ID');
+
+  drawHistogram(results);
+}
+
+function drawHistogram(results){
+  const canvas = document.getElementById('histCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width*dpr;
+  canvas.height = 220*dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  const W = rect.width, H = 220;
+  ctx.clearRect(0,0,W,H);
+
+  const bins = 40;
+  const min = results[0], max = results[results.length-1];
+  const range = max-min || 1;
+  const counts = new Array(bins).fill(0);
+  results.forEach(r=>{
+    let idx = Math.floor((r-min)/range*bins);
+    if(idx>=bins) idx = bins-1;
+    if(idx<0) idx = 0;
+    counts[idx]++;
+  });
+  const maxCount = Math.max(...counts);
+  const barW = W/bins;
+
+  counts.forEach((c,i)=>{
+    const h = (c/maxCount)*(H-30);
+    const x = i*barW;
+    const binVal = min + (i/bins)*range;
+    ctx.fillStyle = binVal<0 ? 'rgba(201,74,63,0.75)' : 'rgba(47,143,78,0.75)';
+    ctx.fillRect(x+1, H-30-h, barW-2, h);
+  });
+
+  // zero line
+  if(min<0 && max>0){
+    const zeroX = ((0-min)/range)*W;
+    ctx.strokeStyle = '#5c6f61';
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();
+    ctx.moveTo(zeroX,10);
+    ctx.lineTo(zeroX,H-30);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#5c6f61';
+    ctx.font = '11px Segoe UI';
+    ctx.fillText('Rp 0', zeroX+4, 20);
+  }
+
+  ctx.fillStyle = '#93a397';
+  ctx.font = '11px Segoe UI';
+  ctx.fillText(min.toFixed(1)+' T', 4, H-10);
+  ctx.textAlign = 'right';
+  ctx.fillText(max.toFixed(1)+' T', W-4, H-10);
+  ctx.textAlign = 'left';
+}
+
+/* ============ INIT ============ */
+buildRTM();
+buildRank();
+buildHeatmap();
+buildMarket();
+setTimeout(runMonteCarlo, 300);
+</script>
+</body>
+</html>
