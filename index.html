@@ -3,29 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Enterprise Risk Intelligence — PT Pupuk Indonesia</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
 :root{
   --bg:#F4F9F8;
-  --card:#FFF;
+  --card:#FFFFFF;
+
   --teal:#087F73;
   --teal-dark:#075C55;
   --teal-mid:#15998C;
   --teal-light:#E3F3F0;
+
   --navy:#123047;
   --text:#344B58;
   --muted:#7B8C96;
+
   --border:#E1ECE9;
+  --shadow:0 10px 30px rgba(18,48,71,.055);
+
   --low:#00B050;
   --lowmod:#92D050;
   --moderate:#FFFF00;
   --modhigh:#FFC000;
   --high:#FF0000;
-  --shadow:0 10px 30px rgba(18,48,71,.055);
+
+  --inherent:#1677C8;
+  --residual:#00A86B;
 }
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 *{
   box-sizing:border-box;
@@ -35,24 +53,42 @@
 
 body{
   font-family:Inter,"Segoe UI",Arial,sans-serif;
+
   background:
-    radial-gradient(circle at 90% 0%,rgba(8,127,115,.07),transparent 25%),
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(8,127,115,.07),
+      transparent 25%
+    ),
     var(--bg);
+
   color:var(--text);
   min-height:100vh;
 }
 
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .header{
   height:78px;
+
   background:rgba(255,255,255,.94);
+
   backdrop-filter:blur(14px);
+
   border-bottom:1px solid var(--border);
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 34px;
+
   position:sticky;
   top:0;
+
   z-index:100;
 }
 
@@ -65,7 +101,9 @@ body{
 .logo-wrap{
   width:45px;
   height:45px;
+
   position:relative;
+
   display:grid;
   place-items:center;
 }
@@ -73,33 +111,50 @@ body{
 .logo-ring{
   position:absolute;
   inset:2px;
+
   border-radius:50%;
+
   border:1px solid rgba(8,127,115,.28);
 }
 
 .logo{
   width:34px;
   height:34px;
+
   border-radius:10px;
-  background:linear-gradient(135deg,var(--teal-dark),var(--teal-mid));
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--teal-dark),
+      var(--teal-mid)
+    );
+
   color:white;
+
   font-size:18px;
   font-weight:800;
+
   display:grid;
   place-items:center;
-  box-shadow:0 6px 18px rgba(8,127,115,.25);
+
+  box-shadow:
+    0 6px 18px rgba(8,127,115,.25);
 }
 
 .brand-title{
   font-size:15px;
   font-weight:800;
+
   color:var(--navy);
+
   letter-spacing:.35px;
 }
 
 .brand-subtitle{
   font-size:11px;
   color:var(--muted);
+
   margin-top:3px;
 }
 
@@ -114,76 +169,140 @@ body{
   display:flex;
   align-items:center;
   gap:7px;
+
   font-size:10px;
   font-weight:800;
+
   color:var(--low);
+
   background:#E8F5EE;
+
   padding:7px 11px;
+
   border-radius:20px;
 }
 
 .live-dot{
   width:7px;
   height:7px;
+
   background:var(--low);
+
   border-radius:50%;
 }
 
 .refresh-btn,
 select{
   border:1px solid var(--border);
+
   background:white;
+
   border-radius:9px;
+
   padding:8px 12px;
+
   color:var(--teal);
+
   cursor:pointer;
+
   font-weight:700;
 }
 
+
+/* =========================================================
+   DISABLED PERIOD
+========================================================= */
+
+select option:disabled{
+  color:#AEB9BE;
+}
+
+.period-disabled{
+  color:#AEB9BE !important;
+  background:#F4F6F6 !important;
+  cursor:not-allowed !important;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
 .container{
   max-width:1500px;
+
   margin:auto;
-  padding:30px 34px 60px;
+
+  padding:
+    30px
+    34px
+    60px;
 }
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
 
 .page-heading{
   display:flex;
+
   justify-content:space-between;
   align-items:flex-end;
+
   margin-bottom:25px;
 }
 
 .page-heading h1{
   font-size:25px;
+
   color:var(--navy);
+
   letter-spacing:-.5px;
 }
 
 .page-heading p{
   color:var(--muted);
+
   font-size:12px;
+
   margin-top:6px;
 }
 
+
+/* =========================================================
+   KPI
+========================================================= */
+
 .kpi-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:16px;
+
   margin-bottom:18px;
 }
 
 .kpi,
 .card{
   background:white;
+
   border:1px solid var(--border);
+
   border-radius:15px;
+
   padding:20px;
+
   box-shadow:var(--shadow);
+
   transition:.25s;
 }
 
 .kpi{
   position:relative;
+
   overflow:hidden;
 }
 
@@ -194,34 +313,53 @@ select{
 
 .kpi:after{
   content:"";
+
   position:absolute;
+
   right:-30px;
   bottom:-35px;
+
   width:100px;
   height:100px;
+
   border-radius:50%;
+
   background:var(--teal-light);
+
   opacity:.7;
 }
 
 .kpi-label{
   color:var(--muted);
+
   font-size:10px;
+
   font-weight:800;
+
   text-transform:uppercase;
+
   letter-spacing:.7px;
 }
 
 .kpi-value{
   font-size:29px;
+
   color:var(--navy);
+
   font-weight:800;
+
   margin-top:9px;
+}
+
+.kpi-value small{
+  font-size:13px;
 }
 
 .kpi-meta{
   margin-top:7px;
+
   font-size:10px;
+
   font-weight:700;
 }
 
@@ -237,112 +375,178 @@ select{
   color:var(--muted);
 }
 
+
+/* =========================================================
+   GRID
+========================================================= */
+
 .grid-2{
   display:grid;
-  grid-template-columns:1.5fr 1fr;
+
+  grid-template-columns:
+    1.5fr 1fr;
+
   gap:18px;
+
   margin-bottom:18px;
 }
 
 .grid-equal{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:18px;
+
   margin-bottom:18px;
 }
 
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
 .card-header{
   display:flex;
+
   justify-content:space-between;
   align-items:center;
+
   margin-bottom:16px;
 }
 
 .card-title{
   color:var(--navy);
+
   font-size:13px;
+
   font-weight:800;
 }
 
 .card-subtitle{
   font-size:10px;
+
   color:var(--muted);
+
   margin-top:3px;
 }
 
 .badge{
   font-size:8px;
+
   padding:5px 8px;
+
   border-radius:7px;
+
   background:var(--teal-light);
+
   color:var(--teal-dark);
+
   font-weight:800;
 }
 
+
+/* =========================================================
+   CHART
+========================================================= */
+
 .chart-container{
   height:250px;
+
   position:relative;
 }
 
+
+/* =========================================================
+   DONUT
+========================================================= */
+
 .donut-layout{
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   gap:28px;
+
   height:250px;
 }
 
 .donut-box{
   width:190px;
   height:190px;
+
   position:relative;
 }
 
 .donut-center{
   position:absolute;
+
   inset:0;
+
   display:flex;
+
   flex-direction:column;
+
   align-items:center;
+
   justify-content:center;
+
   pointer-events:none;
 }
 
 .donut-number{
   font-size:27px;
+
   font-weight:800;
+
   color:var(--navy);
 }
 
 .donut-label{
   color:var(--muted);
+
   font-size:9px;
 }
 
 .legend{
   display:flex;
+
   flex-direction:column;
+
   gap:13px;
 }
 
 .legend-item{
   display:flex;
+
   align-items:center;
+
   gap:8px;
+
   font-size:10px;
 }
 
 .legend-dot{
   width:9px;
   height:9px;
+
   border-radius:50%;
 }
 
 .legend-value{
   margin-left:auto;
+
   font-weight:800;
+
   color:var(--navy);
 }
+
+
+/* =========================================================
+   TABLE
+========================================================= */
 
 .table-wrap{
   overflow-x:auto;
@@ -350,99 +554,141 @@ select{
 
 .risk-table{
   width:100%;
+
   border-collapse:collapse;
 }
 
 .risk-table th{
   text-align:left;
+
   color:var(--muted);
+
   font-size:8px;
+
   text-transform:uppercase;
+
   letter-spacing:.6px;
+
   padding:9px 8px;
+
   border-bottom:1px solid var(--border);
 }
 
 .risk-table td{
   padding:11px 8px;
+
   border-bottom:1px solid #EDF2F1;
+
   font-size:10px;
 }
 
 .risk-name{
   font-weight:700;
+
   color:var(--navy);
 }
 
 .risk-score{
   font-weight:800;
+
   font-size:13px;
 }
 
+
+/* =========================================================
+   STATUS
+========================================================= */
+
 .status{
   display:inline-block;
+
   padding:4px 7px;
+
   border-radius:6px;
+
   font-size:7px;
+
   font-weight:800;
 }
 
 .status-high{
   background:#FDEAEA;
+
   color:#D60000;
 }
 
 .status-watch{
   background:#FFF5D6;
+
   color:#967200;
 }
 
 .status-controlled{
   background:#E7F2DF;
+
   color:var(--low);
 }
 
 .status-trigger{
   background:#EEE8FF;
+
   color:#6741B8;
 }
 
+
+/* =========================================================
+   DRIVER
+========================================================= */
+
 .driver-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(2,1fr);
+
   gap:12px;
 }
 
 .driver{
   background:#F0F8F6;
+
   border:1px solid #DCEFEB;
+
   border-radius:11px;
+
   padding:14px;
 }
 
 .driver-name{
   font-size:9px;
+
   font-weight:800;
+
   color:var(--muted);
 }
 
 .driver-value{
   margin-top:6px;
+
   font-size:18px;
+
   font-weight:800;
+
   color:var(--navy);
 }
 
 .driver-change{
   font-size:9px;
+
   margin-top:5px;
+
   font-weight:800;
 }
 
 
 /* =========================================================
    HEATMAP RTM
-   ========================================================= */
+========================================================= */
 
 .rtm-card{
   overflow:visible;
@@ -450,39 +696,58 @@ select{
 
 .rtm-heatmap-container{
   position:relative;
+
   width:100%;
 }
 
 .matrix-wrap{
   display:flex;
+
   align-items:stretch;
+
   gap:8px;
 }
 
 .vertical-title{
   writing-mode:vertical-rl;
+
   transform:rotate(180deg);
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   color:var(--muted);
+
   font-size:9px;
+
   font-weight:800;
+
   text-transform:uppercase;
+
   width:24px;
 }
 
 .matrix-area{
   flex:1;
+
   position:relative;
 }
 
 .risk-matrix{
   display:grid;
-  grid-template-columns:82px repeat(5,1fr);
-  grid-template-rows:48px repeat(5,47px);
+
+  grid-template-columns:
+    82px repeat(5,1fr);
+
+  grid-template-rows:
+    48px repeat(5,47px);
+
   gap:3px;
+
   position:relative;
+
   z-index:1;
 }
 
@@ -493,30 +758,41 @@ select{
 .impact-label,
 .probability-label{
   background:#F7F9F9;
+
   border:1px solid #E1E8E6;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   flex-direction:column;
+
   text-align:center;
+
   border-radius:3px;
 }
 
 .impact-label{
   font-size:8px;
+
   line-height:1.15;
+
   font-weight:600;
 }
 
 .impact-label span,
 .probability-label span{
   font-weight:800;
+
   color:var(--muted);
+
   margin-top:2px;
 }
 
 .probability-label strong{
   font-size:8px;
+
   line-height:1.15;
 }
 
@@ -526,206 +802,266 @@ select{
 
 .risk-cell{
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   font-size:10px;
+
   font-weight:800;
+
   border-radius:3px;
+
   border:1px solid rgba(255,255,255,.55);
+
   position:relative;
 }
 
 .low{
   background:var(--low);
+
   color:white;
 }
 
 .lowmod{
   background:var(--lowmod);
+
   color:#172A1A;
 }
 
 .moderate{
   background:var(--moderate);
+
   color:#332F00;
 }
 
 .modhigh{
   background:var(--modhigh);
+
   color:#3E2D00;
 }
 
 .high{
   background:var(--high);
+
   color:white;
 }
 
 .impact-title{
   text-align:center;
+
   padding:5px;
+
   color:var(--muted);
+
   font-size:9px;
+
   font-weight:800;
+
   text-transform:uppercase;
+
   margin-top:5px;
+
   border:1px solid #E1E8E6;
+
   border-radius:3px;
 }
 
 
 /* =========================================================
-   RTM MARKER LAYER
-   ========================================================= */
+   RTM MARKERS
+========================================================= */
 
 .rtm-overlay{
   position:absolute;
-  top:48px;
+
+  top:51px;
+
   left:85px;
+
   right:0;
+
   height:247px;
+
   display:grid;
-  grid-template-columns:repeat(5,1fr);
-  grid-template-rows:repeat(5,1fr);
+
+  grid-template-columns:
+    repeat(5,1fr);
+
+  grid-template-rows:
+    repeat(5,1fr);
+
   gap:3px;
+
   z-index:5;
+
   pointer-events:none;
 }
 
 .rtm-point{
   position:relative;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   pointer-events:none;
 }
 
 .rtm-marker{
   width:23px;
   height:23px;
+
   border-radius:50%;
+
   border:3px solid white;
+
   box-shadow:
     0 2px 7px rgba(18,48,71,.35),
     0 0 0 1px rgba(18,48,71,.15);
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   color:white;
+
   font-size:7px;
+
   font-weight:900;
+
   position:relative;
+
   z-index:10;
 }
 
 .rtm-marker.inherent{
-  background:#1677C8;
+  background:var(--inherent);
 }
 
 .rtm-marker.residual{
-  background:#00A86B;
+  background:var(--residual);
 }
 
 .rtm-label{
   position:absolute;
+
   top:-18px;
+
   left:50%;
+
   transform:translateX(-50%);
+
   white-space:nowrap;
+
   background:rgba(18,48,71,.94);
+
   color:white;
+
   padding:3px 5px;
+
   border-radius:4px;
+
   font-size:7px;
+
   font-weight:800;
-  box-shadow:0 2px 6px rgba(18,48,71,.18);
+
+  box-shadow:
+    0 2px 6px rgba(18,48,71,.18);
 }
 
 .rtm-label.residual-label{
   top:auto;
+
   bottom:-18px;
-}
-
-.rtm-connector{
-  position:absolute;
-  height:2px;
-  background:rgba(18,48,71,.45);
-  transform-origin:left center;
-  z-index:4;
-}
-
-.rtm-connector:after{
-  content:"";
-  position:absolute;
-  right:-1px;
-  top:50%;
-  transform:translateY(-50%);
-  width:0;
-  height:0;
-  border-top:4px solid transparent;
-  border-bottom:4px solid transparent;
-  border-left:6px solid rgba(18,48,71,.55);
 }
 
 
 /* =========================================================
-   RTM LEGEND
-   ========================================================= */
+   LEGEND
+========================================================= */
 
 .rtm-legend{
   display:flex;
+
   justify-content:center;
   align-items:center;
+
   gap:20px;
+
   flex-wrap:wrap;
+
   margin-top:17px;
+
   padding-top:13px;
+
   border-top:1px solid var(--border);
 }
 
 .rtm-legend-item{
   display:flex;
+
   align-items:center;
+
   gap:6px;
+
   font-size:8px;
+
   color:var(--muted);
+
   font-weight:700;
 }
 
 .rtm-marker-mini{
   width:12px;
   height:12px;
+
   border-radius:50%;
+
   border:2px solid white;
-  box-shadow:0 1px 4px rgba(0,0,0,.25);
+
+  box-shadow:
+    0 1px 4px rgba(0,0,0,.25);
 }
 
 .rtm-marker-mini.inherent{
-  background:#1677C8;
+  background:var(--inherent);
 }
 
 .rtm-marker-mini.residual{
-  background:#00A86B;
+  background:var(--residual);
 }
 
 .rtm-line-mini{
   width:22px;
+
   height:2px;
+
   background:rgba(18,48,71,.45);
 }
 
 
 /* =========================================================
    RTM SUMMARY
-   ========================================================= */
+========================================================= */
 
 .rtm-summary{
   margin-top:14px;
+
   background:#F0F8F6;
+
   border:1px solid #DCEFEB;
+
   border-radius:9px;
+
   padding:10px 13px;
+
   font-size:9px;
+
   line-height:1.5;
+
   color:var(--text);
 }
 
@@ -735,24 +1071,30 @@ select{
 
 .rtm-count{
   color:var(--teal-dark);
+
   font-weight:800;
 }
 
 
 /* =========================================================
-   APPETITE
-   ========================================================= */
+   RISK STATUS
+========================================================= */
 
 .appetite{
   min-height:250px;
+
   display:flex;
+
   flex-direction:column;
+
   justify-content:center;
 }
 
 .appetite-scale{
   height:18px;
+
   border-radius:20px;
+
   background:
     linear-gradient(
       to right,
@@ -762,93 +1104,138 @@ select{
       var(--modhigh) 60% 80%,
       var(--high) 80% 100%
     );
+
   position:relative;
 }
 
 .appetite-marker{
   position:absolute;
+
   top:-8px;
+
   left:76%;
+
   width:4px;
+
   height:34px;
+
   background:var(--navy);
+
   border-radius:5px;
 }
 
 .appetite-marker:after{
   content:"7 > Tolerance";
+
   position:absolute;
+
   top:-30px;
+
   left:50%;
+
   transform:translateX(-50%);
+
   background:var(--navy);
+
   color:white;
+
   font-size:9px;
+
   padding:4px 6px;
+
   border-radius:5px;
+
   font-weight:800;
+
   white-space:nowrap;
 }
 
 .scale-labels{
   display:flex;
+
   justify-content:space-between;
+
   margin-top:9px;
+
   color:var(--muted);
+
   font-size:8px;
 }
 
 .appetite-info{
   display:flex;
+
   justify-content:space-around;
+
   margin-top:30px;
+
   text-align:center;
 }
 
 .appetite-info strong{
   display:block;
+
   font-size:20px;
+
   color:var(--navy);
 }
 
 .appetite-info span{
   font-size:8px;
+
   color:var(--muted);
 }
 
 .note{
   background:#F0F8F6;
+
   border-left:4px solid var(--teal);
+
   padding:12px 14px;
+
   border-radius:8px;
+
   font-size:10px;
+
   line-height:1.5;
+
   color:var(--text);
+
   margin-top:12px;
 }
 
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
 .footer{
   text-align:center;
+
   color:#94A3AB;
+
   font-size:9px;
+
   margin-top:30px;
 }
 
 
 /* =========================================================
    RESPONSIVE
-   ========================================================= */
+========================================================= */
 
 @media(max-width:1100px){
 
   .kpi-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .grid-2,
   .grid-equal{
     grid-template-columns:1fr;
   }
+
 }
 
 @media(max-width:700px){
@@ -868,7 +1255,9 @@ select{
 
   .page-heading{
     align-items:flex-start;
+
     flex-direction:column;
+
     gap:15px;
   }
 
@@ -878,35 +1267,66 @@ select{
 
   .donut-layout{
     flex-direction:column;
+
     height:auto;
   }
 
   .risk-matrix{
-    grid-template-columns:65px repeat(5,minmax(55px,1fr));
-    grid-template-rows:55px repeat(5,55px);
+    grid-template-columns:
+      65px repeat(5,minmax(55px,1fr));
+
+    grid-template-rows:
+      55px repeat(5,55px);
   }
 
   .rtm-overlay{
     top:58px;
+
     left:68px;
+
     height:287px;
   }
 
   .rtm-marker{
     width:20px;
     height:20px;
+
     font-size:6px;
   }
 
   .rtm-label{
     font-size:6px;
   }
+
 }
+
+
+/* =========================================================
+   EMPTY / DISABLED
+========================================================= */
+
+.no-data{
+  padding:20px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  background:#F8FAFA;
+
+  border:1px dashed var(--border);
+
+  border-radius:9px;
+}
+
 </style>
 </head>
 
 
 <body>
+
 
 <!-- =========================================================
      HEADER
@@ -917,11 +1337,17 @@ select{
   <div class="brand">
 
     <div class="logo-wrap">
+
       <div class="logo-ring"></div>
-      <div class="logo">P</div>
+
+      <div class="logo">
+        P
+      </div>
+
     </div>
 
     <div>
+
       <div class="brand-title">
         ENTERPRISE RISK INTELLIGENCE
       </div>
@@ -929,26 +1355,35 @@ select{
       <div class="brand-subtitle">
         PT Pupuk Indonesia (Persero) · Risk Profile 2026
       </div>
+
     </div>
 
   </div>
 
+
   <div class="header-right">
 
     <div class="live">
+
       <span class="live-dot"></span>
+
       JULY 2026 DATA
+
     </div>
+
 
     <button
       class="refresh-btn"
       onclick="refreshDashboard()">
+
       ↻ Refresh
+
     </button>
 
   </div>
 
 </header>
+
 
 
 <main class="container">
@@ -967,25 +1402,31 @@ select{
     </h1>
 
     <p>
-      Enterprise risk profile, Risk That Matters and key indicators · Data s.d. Juli 2026
+      Enterprise risk profile, Risk That Matters and key indicators
+      · Data s.d. Juli 2026
     </p>
 
   </div>
+
 
   <div class="filters">
 
     <select id="periodSelect">
 
-      <option selected>
+      <option selected value="july">
         Juli 2026
       </option>
 
-      <option>
-        Juni 2026
+      <option
+        value="june"
+        disabled>
+        Juni 2026 — Data belum tersedia
       </option>
 
-      <option>
-        Mei 2026
+      <option
+        value="may"
+        disabled>
+        Mei 2026 — Data belum tersedia
       </option>
 
     </select>
@@ -1026,7 +1467,7 @@ select{
 
 
 <!-- =========================================================
-     KPI PROFILE RISIKO
+     1. PROFILE RISIKO — KPI
 ========================================================= -->
 
 <section class="kpi-grid">
@@ -1052,14 +1493,17 @@ select{
   <div class="kpi">
 
     <div class="kpi-label">
-      Within Limit
+      Within Risk Limit
     </div>
 
     <div class="kpi-value">
+
       30
-      <small style="font-size:13px">
+
+      <small>
         70%
       </small>
+
     </div>
 
     <div class="kpi-meta down">
@@ -1072,14 +1516,17 @@ select{
   <div class="kpi">
 
     <div class="kpi-label">
-      &gt; Tolerance
+      &gt; Risk Limit
     </div>
 
     <div class="kpi-value">
-      7
-      <small style="font-size:13px">
-        16%
+
+      8
+
+      <small>
+        19%
       </small>
+
     </div>
 
     <div class="kpi-meta up">
@@ -1096,10 +1543,13 @@ select{
     </div>
 
     <div class="kpi-value">
+
       1
-      <small style="font-size:13px">
+
+      <small>
         2%
       </small>
+
     </div>
 
     <div class="kpi-meta neutral">
@@ -1114,11 +1564,13 @@ select{
 
 
 <!-- =========================================================
-     FINANCIAL TREND + DISTRIBUTION
+     2. FINANCIAL TREND + DISTRIBUTION
 ========================================================= -->
 
 <section class="grid-2">
 
+
+  <!-- FINANCIAL TREND -->
 
   <div class="card">
 
@@ -1142,13 +1594,18 @@ select{
 
     </div>
 
+
     <div class="chart-container">
+
       <canvas id="financialTrend"></canvas>
+
     </div>
 
   </div>
 
 
+
+  <!-- DISTRIBUTION -->
 
   <div class="card">
 
@@ -1175,6 +1632,7 @@ select{
 
     <div class="donut-layout">
 
+
       <div class="donut-box">
 
         <canvas id="riskDonut"></canvas>
@@ -1196,7 +1654,9 @@ select{
 
       <div class="legend">
 
+
         <div class="legend-item">
+
           <span
             class="legend-dot"
             style="background:#00B050">
@@ -1207,6 +1667,7 @@ select{
           <span class="legend-value">
             30 · 70%
           </span>
+
         </div>
 
 
@@ -1273,6 +1734,7 @@ select{
 
         </div>
 
+
       </div>
 
     </div>
@@ -1284,496 +1746,28 @@ select{
 
 
 <!-- =========================================================
-     RTM HEATMAP + RISK STATUS
+     3. RISK PARAMETERS REQUIRING ATTENTION
+     ONLY > RISK LIMIT
 ========================================================= -->
 
-<section class="grid-equal">
-
-
-<!-- =========================================================
-     HEATMAP RTM
-========================================================= -->
-
-<div class="card rtm-card">
+<section class="card">
 
   <div class="card-header">
 
     <div>
 
       <div class="card-title">
-        Heatmap Risk That Matters (RTM)
+        Risk Parameters Requiring Attention
       </div>
 
       <div class="card-subtitle">
-        Risk Matrix · Probability × Impact
+        Parameter dengan aktual berada di atas Risk Limit
       </div>
 
     </div>
 
     <div class="badge">
-      RTM / PER-02
-    </div>
-
-  </div>
-
-
-  <div class="rtm-heatmap-container">
-
-    <div class="matrix-wrap">
-
-      <div class="vertical-title">
-        Probabilitas
-      </div>
-
-
-      <div class="matrix-area">
-
-
-        <!-- =================================================
-             BASE MATRIX
-        ================================================== -->
-
-        <div class="risk-matrix">
-
-
-          <div class="matrix-corner"></div>
-
-
-          <div class="impact-label">
-            Sangat<br>Rendah
-            <span>1</span>
-          </div>
-
-          <div class="impact-label">
-            Rendah
-            <span>2</span>
-          </div>
-
-          <div class="impact-label">
-            Moderat
-            <span>3</span>
-          </div>
-
-          <div class="impact-label">
-            Tinggi
-            <span>4</span>
-          </div>
-
-          <div class="impact-label">
-            Sangat<br>Tinggi
-            <span>5</span>
-          </div>
-
-
-          <!-- PROBABILITY 5 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Hampir<br>Pasti
-            </strong>
-
-            <span>
-              5
-            </span>
-
-          </div>
-
-          <div class="risk-cell lowmod">
-            7
-          </div>
-
-          <div class="risk-cell moderate">
-            12
-          </div>
-
-          <div class="risk-cell modhigh">
-            17
-          </div>
-
-          <div class="risk-cell high">
-            22
-          </div>
-
-          <div class="risk-cell high">
-            25
-          </div>
-
-
-          <!-- PROBABILITY 4 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Sangat<br>Mungkin
-            </strong>
-
-            <span>
-              4
-            </span>
-
-          </div>
-
-          <div class="risk-cell low">
-            4
-          </div>
-
-          <div class="risk-cell lowmod">
-            9
-          </div>
-
-          <div class="risk-cell moderate">
-            14
-          </div>
-
-          <div class="risk-cell modhigh">
-            19
-          </div>
-
-          <div class="risk-cell high">
-            24
-          </div>
-
-
-          <!-- PROBABILITY 3 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Bisa<br>Terjadi
-            </strong>
-
-            <span>
-              3
-            </span>
-
-          </div>
-
-          <div class="risk-cell low">
-            3
-          </div>
-
-          <div class="risk-cell lowmod">
-            8
-          </div>
-
-          <div class="risk-cell moderate">
-            13
-          </div>
-
-          <div class="risk-cell modhigh">
-            18
-          </div>
-
-          <div class="risk-cell high">
-            23
-          </div>
-
-
-          <!-- PROBABILITY 2 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Jarang<br>Terjadi
-            </strong>
-
-            <span>
-              2
-            </span>
-
-          </div>
-
-          <div class="risk-cell low">
-            2
-          </div>
-
-          <div class="risk-cell low">
-            6
-          </div>
-
-          <div class="risk-cell lowmod">
-            11
-          </div>
-
-          <div class="risk-cell modhigh">
-            16
-          </div>
-
-          <div class="risk-cell high">
-            21
-          </div>
-
-
-          <!-- PROBABILITY 1 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Sangat<br>Jarang<br>Terjadi
-            </strong>
-
-            <span>
-              1
-            </span>
-
-          </div>
-
-          <div class="risk-cell low">
-            1
-          </div>
-
-          <div class="risk-cell low">
-            5
-          </div>
-
-          <div class="risk-cell lowmod">
-            10
-          </div>
-
-          <div class="risk-cell moderate">
-            15
-          </div>
-
-          <div class="risk-cell high">
-            20
-          </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             RTM MARKERS GENERATED BY JAVASCRIPT
-        ================================================== -->
-
-        <div
-          id="rtmOverlay"
-          class="rtm-overlay">
-        </div>
-
-
-        <div class="impact-title">
-          Dampak
-        </div>
-
-
-      </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         RTM LEGEND
-    ====================================================== -->
-
-    <div class="rtm-legend">
-
-      <div class="rtm-legend-item">
-
-        <span class="rtm-marker-mini inherent"></span>
-
-        Inherent Risk
-
-      </div>
-
-
-      <div class="rtm-legend-item">
-
-        <span class="rtm-marker-mini residual"></span>
-
-        Residual Risk
-
-      </div>
-
-
-      <div class="rtm-legend-item">
-
-        <span class="rtm-line-mini"></span>
-
-        Risk Movement
-
-      </div>
-
-    </div>
-
-
-    <div class="rtm-summary">
-
-      <b>RTM Focus:</b>
-      Menampilkan posisi
-      <b>Inherent Risk</b>
-      dan
-      <b>Residual Risk</b>
-      untuk Risk That Matters (RTM) 1–10.
-      Heatmap ini merupakan
-      <b>risk view</b>
-      yang berbeda dari
-      <b>43 Risk Parameters</b>
-      pada Profil Risiko Enterprise.
-
-      <span class="rtm-count" id="rtmCount">
-        RTM tersedia: 1
-      </span>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================================================
-     RISK STATUS
-========================================================= -->
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title">
-        Risk Status
-      </div>
-
-      <div class="card-subtitle">
-        Current exposure based on parameter thresholds
-      </div>
-
-    </div>
-
-    <div class="badge">
-      JULY 2026
-    </div>
-
-  </div>
-
-
-  <div class="appetite">
-
-    <div class="appetite-scale">
-
-      <div class="appetite-marker"></div>
-
-    </div>
-
-
-    <div class="scale-labels">
-
-      <span>
-        Low
-      </span>
-
-      <span>
-        Low–Moderate
-      </span>
-
-      <span>
-        Moderate
-      </span>
-
-      <span>
-        Moderate–High
-      </span>
-
-      <span>
-        High
-      </span>
-
-    </div>
-
-
-    <div class="appetite-info">
-
-      <div>
-
-        <strong>
-          30
-        </strong>
-
-        <span>
-          Within Limit
-        </span>
-
-      </div>
-
-
-      <div>
-
-        <strong>
-          5
-        </strong>
-
-        <span>
-          Within Appetite
-        </span>
-
-      </div>
-
-
-      <div>
-
-        <strong>
-          7
-        </strong>
-
-        <span>
-          &gt; Tolerance
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <div class="note">
-
-      <b>Attention:</b>
-      8 parameter conditions require follow-up:
-      7 berada di atas tolerance dan
-      1 berada di atas trigger level.
-      Dibanding Juni 2026,
-      parameter &gt; tolerance bertambah 1.
-
-    </div>
-
-  </div>
-
-</div>
-
-</section>
-
-
-
-<!-- =========================================================
-     TOP PARAMETERS + FINANCIAL OPERATIONAL
-========================================================= -->
-
-<section class="grid-equal">
-
-
-<!-- TOP PARAMETERS -->
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title">
-        Top Parameters Requiring Attention
-      </div>
-
-      <div class="card-subtitle">
-        Parameter dengan status &gt; Tolerance / &gt; Trigger Level
-      </div>
-
-    </div>
-
-    <div class="badge">
-      TOP 8
+      8 PARAMETERS
     </div>
 
   </div>
@@ -1826,9 +1820,11 @@ select{
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1849,9 +1845,11 @@ select{
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1872,9 +1870,11 @@ select{
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1890,14 +1890,16 @@ select{
             79.9%
           </td>
 
-          <td class="down">
+          <td class="up">
             ↑
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1918,9 +1920,11 @@ select{
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1941,9 +1945,11 @@ select{
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1964,9 +1970,11 @@ select{
           </td>
 
           <td>
+
             <span class="status status-high">
-              &gt; TOLERANCE
+              &gt; RISK LIMIT
             </span>
+
           </td>
 
         </tr>
@@ -1982,14 +1990,16 @@ select{
             N/A
           </td>
 
-          <td class="down">
+          <td class="neutral">
             ↗
           </td>
 
           <td>
+
             <span class="status status-trigger">
               &gt; TRIGGER
             </span>
+
           </td>
 
         </tr>
@@ -2001,13 +2011,16 @@ select{
 
   </div>
 
-</div>
+</section>
 
 
 
-<!-- FINANCIAL & OPERATIONAL -->
+<!-- =========================================================
+     4. KEY FINANCIAL & OPERATIONAL INDICATORS
+========================================================= -->
 
-<div class="card">
+<section class="card" style="margin-top:18px; margin-bottom:18px;">
+
 
   <div class="card-header">
 
@@ -2021,6 +2034,10 @@ select{
         Selected actuals s.d. Juli 2026
       </div>
 
+    </div>
+
+    <div class="badge">
+      JULY 2026
     </div>
 
   </div>
@@ -2133,17 +2150,400 @@ select{
 
   </div>
 
-</div>
+</section>
+
+
+
+<!-- =========================================================
+     5. HEATMAP RTM
+     MOVED TO BOTTOM OF PROFILE
+========================================================= -->
+
+<section class="card rtm-card" style="margin-top:18px;">
+
+
+  <div class="card-header">
+
+    <div>
+
+      <div class="card-title">
+        Heatmap Risk That Matters (RTM)
+      </div>
+
+      <div class="card-subtitle">
+        Risk Matrix · Probability × Impact
+      </div>
+
+    </div>
+
+    <div class="badge">
+      RTM / PER-02
+    </div>
+
+  </div>
+
+
+  <div class="rtm-heatmap-container">
+
+
+    <div class="matrix-wrap">
+
+
+      <div class="vertical-title">
+        Probabilitas
+      </div>
+
+
+      <div class="matrix-area">
+
+
+        <!-- BASE MATRIX -->
+
+        <div class="risk-matrix">
+
+
+          <div class="matrix-corner"></div>
+
+
+          <div class="impact-label">
+
+            Sangat<br>Rendah
+
+            <span>1</span>
+
+          </div>
+
+
+          <div class="impact-label">
+
+            Rendah
+
+            <span>2</span>
+
+          </div>
+
+
+          <div class="impact-label">
+
+            Moderat
+
+            <span>3</span>
+
+          </div>
+
+
+          <div class="impact-label">
+
+            Tinggi
+
+            <span>4</span>
+
+          </div>
+
+
+          <div class="impact-label">
+
+            Sangat<br>Tinggi
+
+            <span>5</span>
+
+          </div>
+
+
+
+          <!-- PROBABILITY 5 -->
+
+          <div class="probability-label">
+
+            <strong>
+              Hampir<br>Pasti
+            </strong>
+
+            <span>
+              5
+            </span>
+
+          </div>
+
+
+          <div class="risk-cell lowmod">
+            7
+          </div>
+
+          <div class="risk-cell moderate">
+            12
+          </div>
+
+          <div class="risk-cell modhigh">
+            17
+          </div>
+
+          <div class="risk-cell high">
+            22
+          </div>
+
+          <div class="risk-cell high">
+            25
+          </div>
+
+
+
+          <!-- PROBABILITY 4 -->
+
+          <div class="probability-label">
+
+            <strong>
+              Sangat<br>Mungkin
+            </strong>
+
+            <span>
+              4
+            </span>
+
+          </div>
+
+
+          <div class="risk-cell low">
+            4
+          </div>
+
+          <div class="risk-cell lowmod">
+            9
+          </div>
+
+          <div class="risk-cell moderate">
+            14
+          </div>
+
+          <div class="risk-cell modhigh">
+            19
+          </div>
+
+          <div class="risk-cell high">
+            24
+          </div>
+
+
+
+          <!-- PROBABILITY 3 -->
+
+          <div class="probability-label">
+
+            <strong>
+              Bisa<br>Terjadi
+            </strong>
+
+            <span>
+              3
+            </span>
+
+          </div>
+
+
+          <div class="risk-cell low">
+            3
+          </div>
+
+          <div class="risk-cell lowmod">
+            8
+          </div>
+
+          <div class="risk-cell moderate">
+            13
+          </div>
+
+          <div class="risk-cell modhigh">
+            18
+          </div>
+
+          <div class="risk-cell high">
+            23
+          </div>
+
+
+
+          <!-- PROBABILITY 2 -->
+
+          <div class="probability-label">
+
+            <strong>
+              Jarang<br>Terjadi
+            </strong>
+
+            <span>
+              2
+            </span>
+
+          </div>
+
+
+          <div class="risk-cell low">
+            2
+          </div>
+
+          <div class="risk-cell low">
+            6
+          </div>
+
+          <div class="risk-cell lowmod">
+            11
+          </div>
+
+          <div class="risk-cell modhigh">
+            16
+          </div>
+
+          <div class="risk-cell high">
+            21
+          </div>
+
+
+
+          <!-- PROBABILITY 1 -->
+
+          <div class="probability-label">
+
+            <strong>
+              Sangat<br>Jarang<br>Terjadi
+            </strong>
+
+            <span>
+              1
+            </span>
+
+          </div>
+
+
+          <div class="risk-cell low">
+            1
+          </div>
+
+          <div class="risk-cell low">
+            5
+          </div>
+
+          <div class="risk-cell lowmod">
+            10
+          </div>
+
+          <div class="risk-cell moderate">
+            15
+          </div>
+
+          <div class="risk-cell high">
+            20
+          </div>
+
+
+        </div>
+
+
+        <!-- RTM MARKERS -->
+
+        <div
+          id="rtmOverlay"
+          class="rtm-overlay">
+        </div>
+
+
+        <div class="impact-title">
+          Dampak
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+    <!-- LEGEND -->
+
+    <div class="rtm-legend">
+
+
+      <div class="rtm-legend-item">
+
+        <span class="rtm-marker-mini inherent"></span>
+
+        Inherent Risk
+
+      </div>
+
+
+      <div class="rtm-legend-item">
+
+        <span class="rtm-marker-mini residual"></span>
+
+        Residual Risk
+
+      </div>
+
+
+      <div class="rtm-legend-item">
+
+        <span class="rtm-line-mini"></span>
+
+        Risk Movement
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- SUMMARY -->
+
+    <div class="rtm-summary">
+
+      <b>RTM Focus:</b>
+
+      Menampilkan posisi
+
+      <b>Inherent Risk</b>
+
+      dan
+
+      <b>Residual Risk</b>
+
+      untuk Risk That Matters (RTM) 1–10.
+
+      Heatmap ini merupakan
+
+      <b>risk view</b>
+
+      yang berbeda dari
+
+      <b>43 Risk Parameters</b>
+
+      pada Profil Risiko Enterprise.
+
+
+      <span
+        class="rtm-count"
+        id="rtmCount">
+
+        RTM tersedia: 10
+
+      </span>
+
+    </div>
+
+
+  </div>
 
 </section>
 
 
 
 <!-- =========================================================
-     SELECTED KRI
+     6. KRI
+     BELOW HEATMAP
 ========================================================= -->
 
-<section class="card">
+<section class="card" style="margin-top:18px;">
+
 
   <div class="card-header">
 
@@ -2166,9 +2566,11 @@ select{
   </div>
 
 
+
   <div class="table-wrap">
 
     <table class="risk-table">
+
 
       <thead>
 
@@ -2333,6 +2735,141 @@ select{
 
 
 
+<!-- =========================================================
+     7. RISK STATUS
+========================================================= -->
+
+<section class="card" style="margin-top:18px;">
+
+
+  <div class="card-header">
+
+    <div>
+
+      <div class="card-title">
+        Risk Status
+      </div>
+
+      <div class="card-subtitle">
+        Current exposure based on parameter thresholds
+      </div>
+
+    </div>
+
+    <div class="badge">
+      JULY 2026
+    </div>
+
+  </div>
+
+
+  <div class="appetite">
+
+
+    <div class="appetite-scale">
+
+      <div class="appetite-marker"></div>
+
+    </div>
+
+
+    <div class="scale-labels">
+
+      <span>
+        Low
+      </span>
+
+      <span>
+        Low–Moderate
+      </span>
+
+      <span>
+        Moderate
+      </span>
+
+      <span>
+        Moderate–High
+      </span>
+
+      <span>
+        High
+      </span>
+
+    </div>
+
+
+    <div class="appetite-info">
+
+
+      <div>
+
+        <strong>
+          30
+        </strong>
+
+        <span>
+          Within Limit
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          5
+        </strong>
+
+        <span>
+          Within Appetite
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          7
+        </strong>
+
+        <span>
+          &gt; Tolerance
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="note">
+
+      <b>Attention:</b>
+
+      8 parameter conditions require follow-up:
+
+      7 berada di atas tolerance dan
+
+      1 berada di atas trigger level.
+
+      Dibanding Juni 2026,
+
+      parameter &gt; tolerance bertambah 1.
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <div class="footer">
 
   Enterprise Risk Intelligence Dashboard ·
@@ -2348,380 +2885,215 @@ select{
 
 <script>
 
-/* ==========================================================
+
+/* =========================================================
    RTM DATA
-   ==========================================================
-
-   CARA INPUT DATA:
-
-   probability:
-   1 = Sangat Jarang Terjadi
-   2 = Jarang Terjadi
-   3 = Bisa Terjadi
-   4 = Sangat Mungkin
-   5 = Hampir Pasti
-
-   impact:
-   1 = Sangat Rendah
-   2 = Rendah
-   3 = Moderat
-   4 = Tinggi
-   5 = Sangat Tinggi
-
-   SCORE = probability × impact
-
-   Contoh:
-   Probability 5 × Impact 4 = 20
-
-   Jika score RTM yang kamu punya adalah 24,
-   berarti:
-   Probability 4 × Impact 5 = 20 sebenarnya.
-
-   CATATAN:
-   Karena matrix menggunakan perkalian probability × impact,
-   score 24 pada matrix yang sekarang adalah cell khusus
-   berdasarkan pola matrix existing, yaitu:
-   Probability 4 × Impact 5.
-
-   Untuk RTM 1 di bawah, kita gunakan langsung
-   koordinat matrix berdasarkan score 24 dan 14.
-
-========================================================== */
-
+========================================================= */
 
 const RTM_DATA = [
 
   {
-    id: "RTM 1",
-    name: "1",
-    inherent: {
-      score: 24,
-      probability: 4,
-      impact: 5
+    id:"RTM 1",
+    name:"RTM 1",
+
+    inherent:{
+      score:24,
+      probability:4,
+      impact:5
     },
-    residual: {
-      score: 14,
-      probability: 4,
-      impact: 3
-    }
-  },
-  {
-    id: "RTM 2",
-    name: "2",
-    inherent: {
-      score: 24,
-      probability: 4,
-      impact: 5
-    },
-    residual: {
-      score: 24,
-      probability: 4,
-      impact: 5
-    }
-  },
-  {
-    id: "RTM 3",
-    name: "3",
-    inherent: {
-      score: 11,
-      probability: 2,
-      impact: 3
-    },
-    residual: {
-      score: 11,
-      probability: 2,
-      impact: 3
+
+    residual:{
+      score:14,
+      probability:4,
+      impact:3
     }
   },
 
+
   {
-    id: "RTM 4",
-    name: "4",
-    inherent: {
-      score: 19,
-      probability: 4,
-      impact: 4
+    id:"RTM 2",
+    name:"RTM 2",
+
+    inherent:{
+      score:24,
+      probability:4,
+      impact:5
     },
-    residual: {
-      score: 11,
-      probability: 2,
-      impact: 3
+
+    residual:{
+      score:24,
+      probability:4,
+      impact:5
     }
   },
 
+
   {
-    id: "RTM 5",
-    name: "5",
-    inherent: {
-      score: 24,
-      probability: 4,
-      impact: 5
+    id:"RTM 3",
+    name:"RTM 3",
+
+    inherent:{
+      score:11,
+      probability:2,
+      impact:3
     },
-    residual: {
-      score: 14,
-      probability: 4,
-      impact: 3
+
+    residual:{
+      score:11,
+      probability:2,
+      impact:3
     }
   },
 
+
   {
-    id: "RTM 6",
-    name: "6",
-    inherent: {
-      score: 23,
-      probability: 3,
-      impact: 5
+    id:"RTM 4",
+    name:"RTM 4",
+
+    inherent:{
+      score:19,
+      probability:4,
+      impact:4
     },
-    residual: {
-      score: 15,
-      probability: 1,
-      impact: 4
+
+    residual:{
+      score:11,
+      probability:2,
+      impact:3
     }
   },
 
+
   {
-    id: "RTM 7",
-    name: "7",
-    inherent: {
-      score: 18,
-      probability: 3,
-      impact: 4
+    id:"RTM 5",
+    name:"RTM 5",
+
+    inherent:{
+      score:24,
+      probability:4,
+      impact:5
     },
-    residual: {
-      score: 16,
-      probability: 2,
-      impact: 4
+
+    residual:{
+      score:14,
+      probability:4,
+      impact:3
     }
   },
 
+
   {
-    id: "RTM 8",
-    name: "8",
-    inherent: {
-      score: 20,
-      probability: 1,
-      impact: 5
+    id:"RTM 6",
+    name:"RTM 6",
+
+    inherent:{
+      score:23,
+      probability:3,
+      impact:5
     },
-    residual: {
-      score: 15,
-      probability: 1,
-      impact: 4
+
+    residual:{
+      score:15,
+      probability:1,
+      impact:4
     }
   },
 
+
   {
-    id: "RTM 9",
-    name: "9",
-    inherent: {
-      score: 25,
-      probability: 5,
-      impact: 5
+    id:"RTM 7",
+    name:"RTM 7",
+
+    inherent:{
+      score:18,
+      probability:3,
+      impact:4
     },
-    residual: {
-      score: 13,
-      probability: 3,
-      impact: 3
+
+    residual:{
+      score:16,
+      probability:2,
+      impact:4
     }
   },
 
+
   {
-    id: "RTM 10",
-    name: "10",
-    inherent: {
-      score: 24,
-      probability: 4,
-      impact: 5
+    id:"RTM 8",
+    name:"RTM 8",
+
+    inherent:{
+      score:20,
+      probability:1,
+      impact:5
     },
-    residual: {
-      score: 24,
-      probability: 4,
-      impact: 5
+
+    residual:{
+      score:15,
+      probability:1,
+      impact:4
+    }
+  },
+
+
+  {
+    id:"RTM 9",
+    name:"RTM 9",
+
+    inherent:{
+      score:25,
+      probability:5,
+      impact:5
+    },
+
+    residual:{
+      score:13,
+      probability:3,
+      impact:3
+    }
+  },
+
+
+  {
+    id:"RTM 10",
+    name:"RTM 10",
+
+    inherent:{
+      score:24,
+      probability:4,
+      impact:5
+    },
+
+    residual:{
+      score:24,
+      probability:4,
+      impact:5
     }
   }
-
-
-  /*
-  ============================================================
-  COPY TEMPLATE INI UNTUK RTM 2 - RTM 10
-  ============================================================
-
-  {
-    id: "RTM 2",
-    name: "Harga Bahan Baku Gas",
-    inherent: {
-      score: XX,
-      probability: X,
-      impact: X
-    },
-    residual: {
-      score: XX,
-      probability: X,
-      impact: X
-    }
-  },
-
-  */
-
-
-  /*
-  {
-    id: "RTM 2",
-    name: "RTM 2",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 3",
-    name: "RTM 3",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 4",
-    name: "RTM 4",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 5",
-    name: "RTM 5",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 6",
-    name: "RTM 6",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 7",
-    name: "RTM 7",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 8",
-    name: "RTM 8",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 9",
-    name: "RTM 9",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  },
-
-  {
-    id: "RTM 10",
-    name: "RTM 10",
-    inherent: {
-      score: null,
-      probability: null,
-      impact: null
-    },
-    residual: {
-      score: null,
-      probability: null,
-      impact: null
-    }
-  }
-
-  */
 
 ];
 
 
-/* ==========================================================
-   HELPER
-========================================================== */
+/* =========================================================
+   VALIDATE RTM
+========================================================= */
 
 function validRTMPoint(point){
 
-  return point &&
+  return (
+    point &&
     point.probability >= 1 &&
     point.probability <= 5 &&
     point.impact >= 1 &&
-    point.impact <= 5;
+    point.impact <= 5
+  );
 
 }
 
 
-/* ==========================================================
-   RENDER RTM MARKERS
-========================================================== */
+/* =========================================================
+   RENDER RTM
+========================================================= */
 
 function renderRTM(){
 
@@ -2732,49 +3104,40 @@ function renderRTM(){
     document.getElementById("rtmCount");
 
 
+  if(!overlay){
+    return;
+  }
+
+
   overlay.innerHTML = "";
 
 
   let validCount = 0;
 
 
-  /*
-  ------------------------------------------------------------
-  GRID POSITION
-
-  CSS grid:
-  column 1 = impact 1
-  column 5 = impact 5
-
-  row 1 = probability 5
-  row 5 = probability 1
-
-  Therefore:
-  column = impact
-  row = 6 - probability
-  ------------------------------------------------------------
-  */
-
-
-  function createMarker(
-    point,
-    type,
-    rtm
-  ){
+  function createMarker(point,type,rtm){
 
     if(!validRTMPoint(point)){
-      return null;
+      return;
     }
 
 
     const cell =
       document.createElement("div");
 
-    cell.className = "rtm-point";
+
+    cell.className =
+      "rtm-point";
 
 
     /*
-    CSS Grid placement
+      Column:
+      Impact 1 → column 1
+      Impact 5 → column 5
+
+      Row:
+      Probability 5 → row 1
+      Probability 1 → row 5
     */
 
     cell.style.gridColumn =
@@ -2787,13 +3150,10 @@ function renderRTM(){
     const marker =
       document.createElement("div");
 
+
     marker.className =
       "rtm-marker " + type;
 
-
-    /*
-    Tampilkan score di dalam marker
-    */
 
     marker.innerHTML =
       point.score;
@@ -2802,11 +3162,14 @@ function renderRTM(){
     const label =
       document.createElement("div");
 
+
     label.className =
       "rtm-label " +
-      (type === "residual"
+      (
+        type === "residual"
         ? "residual-label"
-        : "");
+        : ""
+      );
 
 
     label.innerHTML =
@@ -2817,94 +3180,97 @@ function renderRTM(){
 
     marker.appendChild(label);
 
+
     cell.appendChild(marker);
+
 
     overlay.appendChild(cell);
 
-
-    return cell;
   }
 
 
-  RTM_DATA.forEach(
-    (rtm) => {
+  RTM_DATA.forEach(rtm => {
 
-      const hasInherent =
-        validRTMPoint(rtm.inherent);
+    const hasInherent =
+      validRTMPoint(rtm.inherent);
 
-      const hasResidual =
-        validRTMPoint(rtm.residual);
-
-
-      if(hasInherent || hasResidual){
-
-        validCount++;
-
-      }
+    const hasResidual =
+      validRTMPoint(rtm.residual);
 
 
-      createMarker(
-        rtm.inherent,
-        "inherent",
-        rtm
-      );
+    if(hasInherent || hasResidual){
 
-
-      createMarker(
-        rtm.residual,
-        "residual",
-        rtm
-      );
+      validCount++;
 
     }
-  );
+
+
+    createMarker(
+      rtm.inherent,
+      "inherent",
+      rtm
+    );
+
+
+    createMarker(
+      rtm.residual,
+      "residual",
+      rtm
+    );
+
+  });
 
 
   countLabel.innerHTML =
-    "RTM tersedia: " + validCount;
+    "RTM tersedia: " +
+    validCount;
 
 }
 
 
-/* ==========================================================
+/* =========================================================
    CHART DEFAULT
-========================================================== */
+========================================================= */
 
 Chart.defaults.font.family =
   'Inter, Segoe UI, Arial';
 
-Chart.defaults.font.size = 10;
+Chart.defaults.font.size =
+  10;
 
 Chart.defaults.color =
   '#7B8C96';
 
 
-
-/* ==========================================================
+/* =========================================================
    FINANCIAL TREND
-========================================================== */
+========================================================= */
 
 new Chart(
+
   document.getElementById(
-    'financialTrend'
+    "financialTrend"
   ),
+
   {
 
-    type:'line',
+    type:"line",
+
 
     data:{
 
       labels:[
-        'Mei 2026',
-        'Juni 2026',
-        'Juli 2026'
+        "Mei 2026",
+        "Juni 2026",
+        "Juli 2026"
       ],
+
 
       datasets:[
 
         {
 
-          label:'CFO (Rp T)',
+          label:"CFO (Rp T)",
 
           data:[
             9.70,
@@ -2912,10 +3278,10 @@ new Chart(
             2.40
           ],
 
-          borderColor:'#087F73',
+          borderColor:"#087F73",
 
           backgroundColor:
-            'rgba(8,127,115,.10)',
+            "rgba(8,127,115,.10)",
 
           fill:true,
 
@@ -2930,7 +3296,7 @@ new Chart(
 
         {
 
-          label:'Current Ratio (x)',
+          label:"Current Ratio (x)",
 
           data:[
             1.77,
@@ -2938,10 +3304,9 @@ new Chart(
             1.92
           ],
 
-          borderColor:'#FFC000',
+          borderColor:"#FFC000",
 
-          backgroundColor:
-            'transparent',
+          backgroundColor:"transparent",
 
           fill:false,
 
@@ -2951,7 +3316,7 @@ new Chart(
 
           pointRadius:4,
 
-          yAxisID:'y1'
+          yAxisID:"y1"
 
         }
 
@@ -2966,18 +3331,19 @@ new Chart(
 
       maintainAspectRatio:false,
 
+
       plugins:{
 
         legend:{
-          position:'bottom',
+          position:"bottom",
 
           labels:{
             boxWidth:10
           }
-
         }
 
       },
+
 
       scales:{
 
@@ -2985,22 +3351,25 @@ new Chart(
 
           title:{
             display:true,
-            text:'CFO (Rp Trillion)'
+
+            text:"CFO (Rp Trillion)"
           },
 
           grid:{
-            color:'#EDF2F1'
+            color:"#EDF2F1"
           }
 
         },
 
+
         y1:{
 
-          position:'right',
+          position:"right",
 
           title:{
             display:true,
-            text:'Current Ratio (x)'
+
+            text:"Current Ratio (x)"
           },
 
           grid:{
@@ -3014,49 +3383,73 @@ new Chart(
     }
 
   }
+
 );
 
 
-
-/* ==========================================================
+/* =========================================================
    RISK DONUT
-========================================================== */
+========================================================= */
 
 new Chart(
+
   document.getElementById(
-    'riskDonut'
+    "riskDonut"
   ),
+
   {
 
-    type:'doughnut',
+    type:"doughnut",
+
 
     data:{
 
       labels:[
-        'Within Limit',
-        'Within Appetite',
-        'Within Tolerance',
-        '> Tolerance',
-        '> Trigger Level'
+
+        "Within Limit",
+
+        "Within Appetite",
+
+        "Within Tolerance",
+
+        "> Tolerance",
+
+        "> Trigger Level"
+
       ],
+
 
       datasets:[{
 
         data:[
+
           30,
+
           5,
+
           0,
+
           7,
+
           1
+
         ],
 
+
         backgroundColor:[
-          '#00B050',
-          '#92D050',
-          '#FFFF00',
-          '#FFC000',
-          '#FF0000'
+
+          "#00B050",
+
+          "#92D050",
+
+          "#FFFF00",
+
+          "#FFC000",
+
+          "#FF0000"
+
         ],
+
 
         borderWidth:0,
 
@@ -3066,134 +3459,117 @@ new Chart(
 
     },
 
+
     options:{
 
       responsive:true,
 
       maintainAspectRatio:false,
 
-      cutout:'74%',
+      cutout:"74%",
+
 
       plugins:{
+
         legend:{
           display:false
         }
+
       }
 
     }
 
   }
+
 );
 
 
-
-/* ==========================================================
+/* =========================================================
    REFRESH
-========================================================== */
+========================================================= */
 
 function refreshDashboard(){
 
   const button =
     document.querySelector(
-      '.refresh-btn'
+      ".refresh-btn"
     );
 
 
   button.innerHTML =
-    '↻ Updating...';
+    "↻ Updating...";
 
 
-  setTimeout(
+  setTimeout(() => {
 
-    () => {
+    button.innerHTML =
+      "✓ Updated";
+
+
+    setTimeout(() => {
 
       button.innerHTML =
-        '✓ Updated';
+        "↻ Refresh";
 
+    },1200);
 
-      setTimeout(
-
-        () => {
-
-          button.innerHTML =
-            '↻ Refresh';
-
-        },
-
-        1200
-
-      );
-
-    },
-
-    700
-
-  );
+  },700);
 
 }
 
 
-
-/* ==========================================================
+/* =========================================================
    PERIOD FILTER
-========================================================== */
+========================================================= */
 
 document
-  .getElementById(
-    'periodSelect'
-  )
-  .addEventListener(
+  .getElementById("periodSelect")
+  .addEventListener("change",function(){
 
-    'change',
+    /*
+      Saat ini hanya Juli yang tersedia.
+      Juni dan Mei disabled.
+    */
 
-    e => {
+    if(this.value !== "july"){
 
       alert(
-        'Dashboard saat ini menggunakan data s.d. Juli 2026. Periode ' +
-        e.target.value +
-        ' dipilih sebagai tampilan.'
+        "Data untuk periode tersebut belum tersedia."
       );
+
+      this.value =
+        "july";
 
     }
 
-  );
+  });
 
 
-
-/* ==========================================================
+/* =========================================================
    CATEGORY FILTER
-========================================================== */
+========================================================= */
 
 document
-  .getElementById(
-    'categorySelect'
-  )
-  .addEventListener(
+  .getElementById("categorySelect")
+  .addEventListener("change",function(){
 
-    'change',
+    alert(
+      "Filter kategori: " +
+      this.value +
+      ". KPI utama tetap menampilkan total profil risiko Juli 2026."
+    );
 
-    e => {
-
-      alert(
-        'Filter kategori: ' +
-        e.target.value +
-        '. KPI utama tetap menampilkan total profil risiko Juli 2026.'
-      );
-
-    }
-
-  );
+  });
 
 
-
-/* ==========================================================
-   INITIALIZE RTM
-========================================================== */
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
 renderRTM();
 
-
 </script>
+
 
 </body>
 </html>
