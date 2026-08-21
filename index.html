@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Risk Dashboard — PT Pupuk Indonesia (Persero)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   :root{
     --bg:#f4f7f4;
@@ -32,16 +36,22 @@
     --sc-med-bg:#fbf6dd;
     --sc-low-bg:#eef6df;
     --sc-vlow-bg:#e6f4ea;
-    --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    --font-display: 'Sora', 'Plus Jakarta Sans', sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
   body{
     background: radial-gradient(1200px 600px at 10% -10%, #eef6ef 0%, var(--bg) 45%);
     color:var(--text);
     font-family:var(--font);
     min-height:100vh;
     padding-bottom:60px;
+    animation:pageFadeIn .5s ease both;
   }
+  @keyframes pageFadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes cardIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes tabFadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
   a{color:inherit;}
 
   /* HEADER */
@@ -64,7 +74,7 @@
     display:flex; align-items:center; justify-content:center;
     font-size:18px;
   }
-  .brand h1{font-size:19px; font-weight:700; letter-spacing:.2px; color:var(--text);}
+  .brand h1{font-family:var(--font-display); font-size:19px; font-weight:700; letter-spacing:.1px; color:var(--text);}
   .brand .sub1{font-size:12.5px; color:var(--accent-dark); font-weight:700; margin-top:2px;}
   .brand .sub2{font-size:11.5px; color:var(--text-faint); margin-top:2px;}
   .brand .sub3{font-size:11px; color:var(--text-faint); margin-top:4px; font-style:italic;}
@@ -123,9 +133,14 @@
     border-top:3px solid var(--accent);
     border-radius:10px; padding:18px 18px 16px 18px;
     box-shadow:0 1px 2px rgba(30,60,40,0.04);
+    animation:cardIn .5s ease both;
+    transition:transform .18s ease, box-shadow .18s ease;
   }
+  .kpi:hover{transform:translateY(-3px); box-shadow:0 8px 20px rgba(30,60,40,0.10);}
+  .kpi:nth-child(1){animation-delay:.02s;} .kpi:nth-child(2){animation-delay:.08s;}
+  .kpi:nth-child(3){animation-delay:.14s;} .kpi:nth-child(4){animation-delay:.2s;} .kpi:nth-child(5){animation-delay:.26s;}
   .kpi .label{font-size:11px; letter-spacing:.06em; color:var(--text-faint); font-weight:700; text-transform:uppercase;}
-  .kpi .value{font-size:26px; font-weight:800; margin-top:10px; letter-spacing:.2px; color:var(--text);}
+  .kpi .value{font-family:var(--font-display); font-size:27px; font-weight:800; margin-top:10px; letter-spacing:.1px; color:var(--text);}
   .kpi .foot{font-size:11.5px; color:var(--text-faint); margin-top:8px;}
 
   /* LAYOUT */
@@ -160,7 +175,7 @@
     display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
     margin-bottom:10px;
   }
-  .section-head h2{font-size:18px; font-weight:800; color:var(--text);}
+  .section-head h2{font-family:var(--font-display); font-size:19px; font-weight:800; color:var(--text);}
   .section-head .bar{width:4px; align-self:stretch; background:var(--accent); border-radius:2px;}
   .section-head .desc{font-size:12.5px; color:var(--text-faint);}
   .head-flex{display:flex; gap:12px; align-items:flex-start;}
@@ -179,9 +194,11 @@
     background:var(--card); border:1px solid var(--border-soft);
     border-radius:10px; padding:15px 16px;
     box-shadow:0 1px 2px rgba(30,60,40,0.04);
+    transition:transform .18s ease, box-shadow .18s ease;
   }
+  .kpi-sm:hover{transform:translateY(-2px); box-shadow:0 6px 16px rgba(30,60,40,0.09);}
   .kpi-sm .label{font-size:10.5px; letter-spacing:.05em; color:var(--text-faint); font-weight:700; text-transform:uppercase;}
-  .kpi-sm .value{font-size:22px; font-weight:800; margin-top:8px; color:var(--text);}
+  .kpi-sm .value{font-family:var(--font-display); font-size:22px; font-weight:800; margin-top:8px; color:var(--text);}
   .kpi-sm .value.green{color:var(--green);}
   .kpi-sm .value.red{color:var(--red);}
   .kpi-sm .value.gold{color:var(--accent-dark);}
@@ -191,9 +208,13 @@
     background:var(--card); border:1px solid var(--border-soft);
     border-radius:12px; padding:20px; margin-bottom:20px;
     box-shadow:0 1px 3px rgba(30,60,40,0.05);
+    transition:box-shadow .2s ease;
   }
-  .panel-title{font-size:14.5px; font-weight:800; margin-bottom:14px; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; color:var(--text);}
-  .panel-title .tag{font-size:11px; color:var(--text-faint); font-weight:500;}
+  .panel:hover{box-shadow:0 6px 20px rgba(30,60,40,0.08);}
+  .panel-title{font-family:var(--font-display); font-size:15px; font-weight:800; margin-bottom:14px; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; color:var(--text);}
+  .panel-title .tag{font-family:var(--font); font-size:11px; color:var(--text-faint); font-weight:500;}
+
+  main.content .tab.active{animation:tabFadeIn .35s ease both;}
 
   table{width:100%; border-collapse:collapse; font-size:13px;}
   thead th{
@@ -420,6 +441,10 @@
       </div>
       <div class="panel">
         <div class="panel-title">Skor Komposit Risiko per Anak Perusahaan <span class="tag">Skala 0–100</span></div>
+        <canvas id="rankChart" height="90"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Rincian Peringkat <span class="tag">10 Anak Perusahaan</span></div>
         <div id="rankList"></div>
       </div>
     </section>
@@ -445,6 +470,10 @@
           <h2>Pasar &amp; Kondisi Global</h2>
           <div class="desc">Indikator harga komoditas, nilai tukar, dan suku bunga yang relevan bagi eksposur PI Group.</div>
         </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Tren Harga Urea &amp; Kurs USD/IDR <span class="tag">6 bulan terakhir</span></div>
+        <canvas id="marketChart" height="90"></canvas>
       </div>
       <div class="panel">
         <div class="panel-title">Indikator Pasar Terkini</div>
@@ -511,6 +540,7 @@ document.querySelectorAll('nav.side button').forEach(btn=>{
 function refreshDashboard(){
   document.getElementById('periodLabel').textContent = 'Agustus 2026';
   buildRTM(); buildRank(); buildHeatmap(); buildMarket();
+  buildRankChart(); buildMarketChart(); initKpiCountUp();
 }
 
 /* ============ SAMPLE DATA — GANTI DENGAN DATA RIIL ============ */
@@ -540,16 +570,97 @@ const RANK_DATA = [
   {name:"PT Pupuk Indonesia Energi", score:27},
 ];
 
-const MARKET_DATA = [
-  {label:"Harga Urea (FOB, USD/ton)", value:"USD 372", change:"+3,4% MoM", dir:"up"},
-  {label:"Harga NPK (avg, USD/ton)", value:"USD 415", change:"+1,1% MoM", dir:"up"},
-  {label:"Harga Amoniak (USD/ton)", value:"USD 398", change:"−2,6% MoM", dir:"down"},
-  {label:"Nilai Tukar USD/IDR", value:"Rp 16.240", change:"+0,8% MoM", dir:"up"},
-  {label:"Harga Gas Alam (USD/MMBtu)", value:"USD 6,15", change:"−1,2% MoM", dir:"down"},
-  {label:"BI 7-Day Reverse Repo", value:"5,75%", change:"tetap", dir:"flat"},
-  {label:"Inflasi YoY Indonesia", value:"2,9%", change:"+0,1 ppt", dir:"up"},
-  {label:"Indeks Harga Komoditas Pangan (FAO)", value:"121,4", change:"−0,4% MoM", dir:"down"},
-];
+const TREND_LABELS = ["Mar","Apr","Mei","Jun","Jul","Ags"];
+const UREA_TREND = [341, 349, 355, 360, 368, 372];
+const FX_TREND = [15920, 16010, 16080, 16150, 16190, 16240];
+
+/* ============ CHART.JS: RANKING BAR CHART ============ */
+let rankChartInstance = null;
+function buildRankChart(){
+  const ctx = document.getElementById('rankChart');
+  if(!ctx || typeof Chart === 'undefined') return;
+  if(rankChartInstance) rankChartInstance.destroy();
+  rankChartInstance = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: RANK_DATA.map(d=>d.name),
+      datasets:[{
+        data: RANK_DATA.map(d=>d.score),
+        backgroundColor: RANK_DATA.map(d=> d.score>=60?'#c94a3f' : d.score>=40?'#e0c23c' : '#2f8f4e'),
+        borderRadius:6,
+        maxBarThickness:34
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:(c)=>' Skor: '+c.raw}} },
+      scales:{
+        x:{ ticks:{ font:{family:"'Plus Jakarta Sans'", size:11}, color:'#5c6f61' }, grid:{ display:false } },
+        y:{ beginAtZero:true, max:100, ticks:{ font:{family:"'Plus Jakarta Sans'", size:11}, color:'#5c6f61' }, grid:{ color:'#e7eee7' } }
+      }
+    }
+  });
+}
+
+/* ============ CHART.JS: MARKET TREND LINE CHART ============ */
+let marketChartInstance = null;
+function buildMarketChart(){
+  const ctx = document.getElementById('marketChart');
+  if(!ctx || typeof Chart === 'undefined') return;
+  if(marketChartInstance) marketChartInstance.destroy();
+  marketChartInstance = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels: TREND_LABELS,
+      datasets:[
+        {
+          label:'Harga Urea (USD/ton)',
+          data: UREA_TREND,
+          borderColor:'#2f8f4e',
+          backgroundColor:'rgba(47,143,78,0.10)',
+          tension:.35, fill:true, yAxisID:'y', pointRadius:3, pointBackgroundColor:'#2f8f4e'
+        },
+        {
+          label:'Kurs USD/IDR',
+          data: FX_TREND,
+          borderColor:'#c98a2b',
+          backgroundColor:'rgba(201,138,43,0.08)',
+          tension:.35, fill:true, yAxisID:'y1', pointRadius:3, pointBackgroundColor:'#c98a2b'
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ position:'bottom', labels:{ font:{family:"'Plus Jakarta Sans'", size:11.5}, color:'#5c6f61', usePointStyle:true } } },
+      scales:{
+        x:{ ticks:{ font:{family:"'Plus Jakarta Sans'", size:11}, color:'#5c6f61' }, grid:{ display:false } },
+        y:{ position:'left', ticks:{ font:{size:10.5}, color:'#5c6f61' }, grid:{ color:'#e7eee7' }, title:{display:true, text:'USD/ton', font:{size:10.5}, color:'#93a397'} },
+        y1:{ position:'right', ticks:{ font:{size:10.5}, color:'#5c6f61' }, grid:{ display:false }, title:{display:true, text:'IDR', font:{size:10.5}, color:'#93a397'} }
+      }
+    }
+  });
+}
+
+/* ============ KPI COUNT-UP ANIMATION ============ */
+function animateCountUp(el, endValue, prefix, suffix, decimals){
+  const duration = 900;
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min(1, (now-start)/duration);
+    const eased = 1 - Math.pow(1-p, 3);
+    const val = endValue * eased;
+    el.textContent = prefix + val.toFixed(decimals).replace('.', ',') + suffix;
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+function initKpiCountUp(){
+  animateCountUp(document.getElementById('kpiVar'), 25.24, 'Rp ', ' T', 2);
+  animateCountUp(document.getElementById('kpiEL'), 8.04, 'Rp ', ' T', 2);
+  animateCountUp(document.getElementById('kpiNP'), 0.76, 'Rp ', ' T', 2);
+  animateCountUp(document.getElementById('kpiProb'), 34.9, '', '%', 1);
+}
 
 /* ============ RENDER RTM TABLE ============ */
 /* Skala 5 tingkat (matriks 5x5, skor 1-25): merah-oranye-kuning-hijau muda-hijau */
@@ -770,7 +881,18 @@ buildRTM();
 buildRank();
 buildHeatmap();
 buildMarket();
+initKpiCountUp();
 setTimeout(runMonteCarlo, 300);
+setTimeout(buildRankChart, 50);
+setTimeout(buildMarketChart, 50);
+
+/* Rebuild charts when their tab becomes visible (canvas needs layout width) */
+document.querySelectorAll('nav.side button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if(btn.dataset.tab === 'peringkat') setTimeout(buildRankChart, 60);
+    if(btn.dataset.tab === 'pasar') setTimeout(buildMarketChart, 60);
+  });
+});
 </script>
 </body>
 </html>
