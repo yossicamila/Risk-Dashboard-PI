@@ -7,26 +7,37 @@
 <title>Risk Intelligence Dashboard — PT Pupuk Indonesia</title>
 
 <style>
+
 :root{
-  --navy:#071827;
-  --navy2:#0b2032;
-  --panel:#102a40;
-  --panel2:#0d2437;
+  --bg:#f3f6f8;
+  --panel:#ffffff;
+  --panel-soft:#f8fafb;
 
-  --line:rgba(255,255,255,.09);
+  --navy:#123047;
+  --navy-dark:#0c2437;
 
-  --text:#eef5f8;
-  --muted:#91a7b5;
+  --text:#263b4a;
+  --muted:#738593;
 
-  --orange:#f4a340;
-  --orange-dark:#d87e20;
+  --line:#e2e8ec;
 
-  --green:#42c88a;
-  --amber:#f2bf54;
-  --red:#ee6b68;
-  --cyan:#5bc0eb;
+  --orange:#e8952f;
+  --orange-soft:#fff3e2;
 
-  --shadow:0 18px 45px rgba(0,0,0,.18);
+  --green:#2eaa70;
+  --green-soft:#e9f7f0;
+
+  --amber:#d99d22;
+  --amber-soft:#fff7df;
+
+  --red:#d9534f;
+  --red-soft:#fcebea;
+
+  --blue:#3f9fc5;
+  --blue-soft:#eaf6fa;
+
+  --shadow:
+    0 8px 28px rgba(35,59,74,.07);
 }
 
 *{
@@ -39,18 +50,14 @@ html{
 
 body{
   margin:0;
+
   background:
     radial-gradient(
-      circle at 85% 0%,
-      rgba(244,163,64,.10),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 0% 35%,
-      rgba(91,192,235,.07),
+      circle at 90% 0%,
+      rgba(232,149,47,.10),
       transparent 25%
     ),
-    var(--navy);
+    #f3f6f8;
 
   color:var(--text);
 
@@ -64,44 +71,46 @@ body{
     sans-serif;
 }
 
-button,
-input,
-select{
-  font:inherit;
-}
 
-button{
-  cursor:pointer;
-}
-
-/* =========================
+/* =========================================
    CONTAINER
-========================= */
+========================================= */
 
 .container{
   max-width:1480px;
+
   margin:auto;
-  padding:26px;
+
+  padding:25px;
 }
 
-/* =========================
-   TOP BAR
-========================= */
+
+/* =========================================
+   HEADER
+========================================= */
 
 .topbar{
   display:flex;
-  align-items:center;
+
   justify-content:space-between;
-  gap:24px;
+  align-items:center;
 
-  padding:18px 0 26px;
+  gap:25px;
 
-  border-bottom:1px solid var(--line);
+  padding:
+    8px 0
+    22px;
+
+  border-bottom:
+    1px solid
+    var(--line);
 }
 
 .brand{
   display:flex;
+
   align-items:center;
+
   gap:14px;
 }
 
@@ -111,66 +120,91 @@ button{
 
   border-radius:13px;
 
+  display:grid;
+
+  place-items:center;
+
   background:
     linear-gradient(
       145deg,
-      var(--orange),
-      var(--orange-dark)
+      #f2aa4b,
+      #dc8522
     );
 
-  display:grid;
-  place-items:center;
+  color:white;
 
-  color:#081522;
   font-weight:900;
-  font-size:21px;
+
+  font-size:20px;
 
   box-shadow:
-    0 8px 25px rgba(244,163,64,.22);
+    0 7px 20px
+    rgba(232,149,47,.20);
 }
 
 .eyebrow{
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
   color:var(--orange);
-  font-weight:800;
+
+  font-size:10px;
+
+  font-weight:850;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
 }
 
 .brand h1{
+  margin:
+    3px 0 0;
+
+  color:var(--navy);
+
   font-size:20px;
-  margin:3px 0 0;
+
+  letter-spacing:-.025em;
 }
 
 .brand p{
-  font-size:12px;
+  margin:
+    4px 0 0;
+
   color:var(--muted);
-  margin:3px 0 0;
+
+  font-size:11px;
 }
 
 .top-actions{
   display:flex;
+
   align-items:center;
-  gap:10px;
+
+  gap:9px;
 }
 
 .status{
   display:flex;
+
   align-items:center;
+
   gap:7px;
 
-  padding:9px 12px;
-
-  border:
-    1px solid
-    rgba(66,200,138,.25);
-
-  background:
-    rgba(66,200,138,.07);
+  padding:
+    8px 11px;
 
   border-radius:999px;
 
-  font-size:12px;
+  background:var(--green-soft);
+
+  border:
+    1px solid
+    #d5eddf;
+
+  color:#287e56;
+
+  font-size:11px;
+
+  font-weight:700;
 }
 
 .dot{
@@ -182,48 +216,62 @@ button{
   background:var(--green);
 
   box-shadow:
-    0 0 12px var(--green);
+    0 0 8px
+    rgba(46,170,112,.45);
 }
 
 .btn{
-  border:1px solid var(--line);
+  border:
+    1px solid
+    var(--line);
 
-  background:
-    rgba(255,255,255,.045);
+  background:white;
 
-  color:var(--text);
+  color:var(--navy);
 
-  border-radius:10px;
+  border-radius:9px;
 
-  padding:10px 14px;
+  padding:
+    9px 13px;
+
+  font-size:12px;
+
+  font-weight:650;
 
   transition:.2s;
 }
 
 .btn:hover{
-  background:
-    rgba(255,255,255,.09);
-
   transform:
     translateY(-1px);
+
+  box-shadow:
+    0 5px 15px
+    rgba(35,59,74,.08);
 }
 
 .btn.primary{
   background:var(--orange);
 
-  color:#101a21;
+  color:white;
 
-  border-color:transparent;
+  border-color:
+    var(--orange);
 
   font-weight:800;
 }
 
-/* =========================
-   HERO / RISK PULSE
-========================= */
+
+/* =========================================
+   HERO
+========================================= */
 
 .hero{
-  margin-top:26px;
+  position:relative;
+
+  overflow:hidden;
+
+  margin-top:24px;
 
   padding:26px;
 
@@ -231,20 +279,16 @@ button{
     1px solid
     var(--line);
 
-  border-radius:20px;
+  border-radius:18px;
 
   background:
     linear-gradient(
       120deg,
-      rgba(16,42,64,.95),
-      rgba(11,30,47,.82)
+      #ffffff,
+      #f9fbfc
     );
 
   box-shadow:var(--shadow);
-
-  position:relative;
-
-  overflow:hidden;
 }
 
 .hero:after{
@@ -252,16 +296,16 @@ button{
 
   position:absolute;
 
-  width:340px;
-  height:340px;
-
-  border-radius:50%;
+  width:320px;
+  height:320px;
 
   right:-140px;
   top:-190px;
 
+  border-radius:50%;
+
   background:
-    rgba(244,163,64,.09);
+    rgba(232,149,47,.08);
 }
 
 .hero-top{
@@ -269,44 +313,61 @@ button{
 
   justify-content:space-between;
 
-  gap:30px;
-
   align-items:flex-end;
+
+  gap:30px;
 }
 
 .hero h2{
-  font-size:28px;
+  color:var(--navy);
 
-  letter-spacing:-.03em;
+  font-size:27px;
 
-  margin-top:5px;
+  letter-spacing:-.035em;
+
+  margin:
+    5px 0 0;
 }
 
 .hero-desc{
-  max-width:690px;
+  max-width:720px;
 
   color:var(--muted);
 
-  font-size:13px;
+  font-size:12px;
 
   line-height:1.7;
 
-  margin-top:8px;
+  margin:
+    8px 0 0;
 }
 
 .period{
-  font-size:12px;
-
   color:var(--muted);
 
   text-align:right;
+
+  font-size:10px;
+
+  letter-spacing:.07em;
 }
 
 .period strong{
-  color:var(--text);
+  display:block;
 
-  font-size:15px;
+  margin-top:3px;
+
+  color:var(--navy);
+
+  font-size:14px;
+
+  letter-spacing:0;
 }
+
+
+/* =========================================
+   RISK PULSE
+========================================= */
 
 .pulse{
   display:grid;
@@ -315,25 +376,24 @@ button{
     1.35fr
     repeat(3,1fr);
 
-  gap:12px;
+  gap:11px;
 
   margin-top:22px;
 }
 
 .pulse-main,
 .metric{
-  min-height:116px;
+  min-height:112px;
+
+  padding:17px;
 
   border:
     1px solid
     var(--line);
 
-  border-radius:15px;
+  border-radius:13px;
 
-  background:
-    rgba(255,255,255,.035);
-
-  padding:18px;
+  background:#f8fafb;
 }
 
 .pulse-main{
@@ -345,52 +405,65 @@ button{
 }
 
 .pulse-label{
-  font-size:11px;
+  color:var(--muted);
 
-  text-transform:uppercase;
+  font-size:9px;
+
+  font-weight:850;
 
   letter-spacing:.12em;
 
-  color:var(--muted);
-
-  font-weight:800;
+  text-transform:uppercase;
 }
 
 .pulse-status{
-  font-size:25px;
+  margin-top:7px;
+
+  color:var(--green);
+
+  font-size:23px;
 
   font-weight:850;
-
-  margin-top:8px;
-}
-
-.pulse-status span{
-  color:var(--green);
 }
 
 .metric .num{
-  font-size:30px;
+  margin-top:8px;
+
+  color:var(--navy);
+
+  font-size:29px;
 
   font-weight:850;
 
-  margin-top:9px;
-
-  letter-spacing:-.03em;
+  letter-spacing:-.04em;
 }
 
 .metric small{
   display:block;
 
+  margin-top:3px;
+
   color:var(--muted);
 
-  margin-top:4px;
-
-  font-size:11px;
+  font-size:10px;
 }
 
-/* =========================
+.good{
+  color:var(--green)!important;
+}
+
+.warn{
+  color:var(--amber)!important;
+}
+
+.bad{
+  color:var(--red)!important;
+}
+
+
+/* =========================================
    SECTION
-========================= */
+========================================= */
 
 .section{
   margin-top:26px;
@@ -403,21 +476,23 @@ button{
 
   align-items:flex-end;
 
-  margin-bottom:13px;
+  margin-bottom:12px;
 }
 
 .section-title{
-  font-size:17px;
+  color:var(--navy);
 
-  font-weight:800;
+  font-size:16px;
+
+  font-weight:850;
 }
 
 .section-sub{
+  margin-top:3px;
+
   color:var(--muted);
 
-  font-size:11px;
-
-  margin-top:4px;
+  font-size:10px;
 }
 
 .grid2{
@@ -427,7 +502,7 @@ button{
     1.35fr
     .65fr;
 
-  gap:16px;
+  gap:15px;
 }
 
 .grid-even{
@@ -437,33 +512,36 @@ button{
     1fr
     1fr;
 
-  gap:16px;
+  gap:15px;
 }
 
+
+/* =========================================
+   PANEL
+========================================= */
+
 .panel{
-  background:
-    rgba(16,42,64,.78);
+  overflow:hidden;
 
   border:
     1px solid
     var(--line);
 
-  border-radius:17px;
+  border-radius:16px;
 
-  box-shadow:
-    0 12px 35px
-    rgba(0,0,0,.12);
+  background:var(--panel);
 
-  overflow:hidden;
+  box-shadow:var(--shadow);
 }
 
 .panel-pad{
   padding:18px;
 }
 
-/* =========================
+
+/* =========================================
    MINI KPI
-========================= */
+========================================= */
 
 .rtm-summary{
   display:grid;
@@ -471,47 +549,37 @@ button{
   grid-template-columns:
     repeat(4,1fr);
 
-  gap:10px;
+  gap:9px;
 
-  margin-bottom:16px;
+  margin-bottom:15px;
 }
 
 .mini{
-  padding:13px;
-
-  border-radius:12px;
-
-  background:
-    rgba(255,255,255,.035);
+  padding:12px;
 
   border:
     1px solid
     var(--line);
+
+  border-radius:11px;
+
+  background:var(--panel-soft);
 }
 
 .mini .big{
-  font-size:23px;
+  margin-top:4px;
+
+  color:var(--navy);
+
+  font-size:22px;
 
   font-weight:850;
-
-  margin-top:5px;
 }
 
-.good{
-  color:var(--green);
-}
 
-.warn{
-  color:var(--amber);
-}
-
-.bad{
-  color:var(--red);
-}
-
-/* =========================
+/* =========================================
    TABLE
-========================= */
+========================================= */
 
 .table-wrap{
   overflow:auto;
@@ -522,23 +590,24 @@ table{
 
   border-collapse:collapse;
 
-  font-size:12px;
+  font-size:11px;
 }
 
 th{
-  text-align:left;
+  padding:
+    10px 12px;
 
   color:var(--muted);
 
-  font-weight:700;
+  font-size:9px;
 
-  font-size:10px;
-
-  text-transform:uppercase;
+  font-weight:800;
 
   letter-spacing:.08em;
 
-  padding:11px 13px;
+  text-align:left;
+
+  text-transform:uppercase;
 
   border-bottom:
     1px solid
@@ -548,11 +617,12 @@ th{
 }
 
 td{
-  padding:13px;
+  padding:
+    12px;
 
   border-bottom:
     1px solid
-    rgba(255,255,255,.055);
+    #edf1f3;
 }
 
 tr:last-child td{
@@ -560,56 +630,59 @@ tr:last-child td{
 }
 
 tr:hover{
-  background:
-    rgba(255,255,255,.025);
+  background:#fafcfd;
 }
 
 .risk-name{
-  font-weight:750;
+  min-width:250px;
 
-  min-width:260px;
+  color:var(--navy);
+
+  font-weight:750;
 }
 
-/* =========================
-   BADGE
-========================= */
+
+/* =========================================
+   BADGES
+========================================= */
 
 .badge{
   display:inline-flex;
 
-  padding:5px 8px;
+  padding:
+    5px 8px;
 
   border-radius:999px;
 
-  font-size:10px;
+  font-size:9px;
 
-  font-weight:800;
+  font-weight:850;
+
+  letter-spacing:.03em;
 }
 
 .badge.green{
-  background:
-    rgba(66,200,138,.11);
+  color:#258053;
 
-  color:var(--green);
+  background:var(--green-soft);
 }
 
 .badge.amber{
-  background:
-    rgba(242,191,84,.11);
+  color:#9b7114;
 
-  color:var(--amber);
+  background:var(--amber-soft);
 }
 
 .badge.red{
-  background:
-    rgba(238,107,104,.11);
+  color:#b9403d;
 
-  color:var(--red);
+  background:var(--red-soft);
 }
 
-/* =========================
+
+/* =========================================
    SEARCH
-========================= */
+========================================= */
 
 .toolbar{
   display:flex;
@@ -623,34 +696,42 @@ tr:hover{
 .select{
   width:100%;
 
+  padding:
+    9px 10px;
+
+  outline:none;
+
   border:
     1px solid
     var(--line);
 
-  background:#0a2032;
+  border-radius:8px;
+
+  background:white;
 
   color:var(--text);
 
-  border-radius:9px;
-
-  padding:9px 11px;
-
-  outline:none;
+  font-size:11px;
 }
 
 .input:focus,
 .select:focus{
   border-color:
-    rgba(244,163,64,.55);
+    rgba(232,149,47,.6);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(232,149,47,.08);
 }
 
 .toolbar .input{
   max-width:340px;
 }
 
-/* =========================
+
+/* =========================================
    MOVEMENT
-========================= */
+========================================= */
 
 .movement{
   display:flex;
@@ -667,29 +748,29 @@ tr:hover{
     1fr
     90px;
 
-  gap:12px;
-
   align-items:center;
+
+  gap:10px;
 }
 
 .move-name{
-  font-size:12px;
+  margin-bottom:6px;
 
-  font-weight:700;
+  color:var(--navy);
 
-  margin-bottom:7px;
+  font-size:11px;
+
+  font-weight:750;
 }
 
 .bar{
-  height:8px;
-
-  border-radius:99px;
-
-  background:#17364d;
+  height:7px;
 
   overflow:hidden;
 
-  position:relative;
+  border-radius:99px;
+
+  background:#e7edf0;
 }
 
 .bar i{
@@ -702,28 +783,29 @@ tr:hover{
   background:
     linear-gradient(
       90deg,
-      var(--cyan),
+      #67b8d6,
       var(--orange)
     );
 }
 
 .move-meta{
-  font-size:11px;
+  color:var(--muted);
+
+  font-size:10px;
 
   text-align:right;
-
-  color:var(--muted);
 }
 
 .delta{
-  font-weight:800;
+  margin-left:4px;
 
-  margin-left:5px;
+  font-weight:850;
 }
 
-/* =========================
+
+/* =========================================
    HEATMAP
-========================= */
+========================================= */
 
 .heatmap-wrap{
   display:grid;
@@ -748,29 +830,7 @@ tr:hover{
 
   gap:5px;
 
-  min-height:330px;
-}
-
-.heat-cell{
-  border-radius:8px;
-
-  position:relative;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:3px;
-
-  transition:.2s;
-}
-
-.heat-cell:hover{
-  transform:scale(1.03);
-
-  z-index:2;
+  min-height:320px;
 }
 
 .axis{
@@ -780,57 +840,75 @@ tr:hover{
 
   color:var(--muted);
 
-  font-size:10px;
+  font-size:9px;
 
-  font-weight:700;
+  font-weight:750;
+}
+
+.heat-cell{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:3px;
+
+  border-radius:7px;
+
+  transition:.2s;
+}
+
+.heat-cell:hover{
+  transform:scale(1.025);
 }
 
 .level-1{
-  background:
-    rgba(66,200,138,.12);
+  background:#edf8f2;
 }
 
 .level-2{
-  background:
-    rgba(66,200,138,.23);
+  background:#dff2e8;
 }
 
 .level-3{
-  background:
-    rgba(242,191,84,.27);
+  background:#fff5d9;
 }
 
 .level-4{
-  background:
-    rgba(244,163,64,.38);
+  background:#fff0dc;
 }
 
 .level-5{
-  background:
-    rgba(238,107,104,.45);
+  background:#fbe4e3;
 }
 
 .risk-dot{
-  width:25px;
-
-  height:25px;
-
-  border-radius:50%;
-
   display:grid;
 
   place-items:center;
 
-  font-size:9px;
-
-  font-weight:850;
-
-  background:
-    rgba(5,16,25,.82);
+  width:24px;
+  height:24px;
 
   border:
     1px solid
-    rgba(255,255,255,.22);
+    rgba(36,59,74,.18);
+
+  border-radius:50%;
+
+  background:
+    rgba(255,255,255,.92);
+
+  color:var(--navy);
+
+  font-size:8px;
+
+  font-weight:850;
+
+  box-shadow:
+    0 2px 5px
+    rgba(35,59,74,.07);
 
   transition:.2s;
 }
@@ -849,7 +927,7 @@ tr:hover{
 
   justify-content:center;
 
-  gap:12px;
+  gap:11px;
 }
 
 .legend-row{
@@ -857,24 +935,24 @@ tr:hover{
 
   align-items:center;
 
-  gap:9px;
-
-  font-size:11px;
+  gap:8px;
 
   color:var(--muted);
+
+  font-size:10px;
 }
 
 .legend-box{
   width:12px;
-
   height:12px;
 
   border-radius:3px;
 }
 
-/* =========================
+
+/* =========================================
    RANKING
-========================= */
+========================================= */
 
 .rank-list{
   display:flex;
@@ -890,37 +968,39 @@ tr:hover{
   grid-template-columns:
     27px
     1fr
-    45px;
-
-  gap:9px;
+    40px;
 
   align-items:center;
+
+  gap:8px;
 }
 
 .rank-num{
-  font-size:11px;
+  color:#9aa8b0;
 
-  color:var(--muted);
+  font-size:10px;
 
-  font-weight:800;
+  font-weight:850;
 }
 
 .rank-label{
-  font-size:11px;
+  margin-bottom:4px;
+
+  color:var(--navy);
+
+  font-size:10px;
 
   font-weight:750;
-
-  margin-bottom:5px;
 }
 
 .rank-track{
-  height:7px;
+  height:6px;
+
+  overflow:hidden;
 
   border-radius:99px;
 
-  background:#17364d;
-
-  overflow:hidden;
+  background:#e7edf0;
 }
 
 .rank-fill{
@@ -931,22 +1011,25 @@ tr:hover{
   background:
     linear-gradient(
       90deg,
-      var(--cyan),
+      #63b3d2,
       var(--orange)
     );
 }
 
 .rank-score{
-  text-align:right;
+  color:var(--navy);
 
-  font-size:12px;
+  font-size:11px;
 
   font-weight:850;
+
+  text-align:right;
 }
 
-/* =========================
+
+/* =========================================
    MARKET
-========================= */
+========================================= */
 
 .market-grid{
   display:grid;
@@ -954,58 +1037,59 @@ tr:hover{
   grid-template-columns:
     repeat(3,1fr);
 
-  gap:10px;
+  gap:9px;
 }
 
 .market-card{
-  padding:15px;
+  padding:14px;
 
   border:
     1px solid
     var(--line);
 
-  background:
-    rgba(255,255,255,.035);
+  border-radius:11px;
 
-  border-radius:13px;
+  background:var(--panel-soft);
 }
 
 .market-name{
-  font-size:10px;
-
   color:var(--muted);
 
-  text-transform:uppercase;
-
-  letter-spacing:.09em;
-
-  font-weight:800;
-}
-
-.market-val{
-  font-size:22px;
+  font-size:9px;
 
   font-weight:850;
 
-  margin-top:8px;
+  letter-spacing:.09em;
+
+  text-transform:uppercase;
+}
+
+.market-val{
+  margin-top:7px;
+
+  color:var(--navy);
+
+  font-size:21px;
+
+  font-weight:850;
 }
 
 .market-change{
-  font-size:11px;
+  margin-top:3px;
 
-  margin-top:4px;
+  font-size:10px;
 }
 
 .spark{
-  height:65px;
-
-  margin-top:10px;
-
   display:flex;
 
   align-items:flex-end;
 
-  gap:4px;
+  gap:3px;
+
+  height:55px;
+
+  margin-top:8px;
 }
 
 .spark span{
@@ -1015,12 +1099,13 @@ tr:hover{
     3px 3px 0 0;
 
   background:
-    rgba(91,192,235,.35);
+    rgba(63,159,197,.30);
 }
 
-/* =========================
+
+/* =========================================
    MONTE CARLO
-========================= */
+========================================= */
 
 .mc-layout{
   display:grid;
@@ -1045,42 +1130,38 @@ tr:hover{
 
   justify-content:space-between;
 
-  font-size:11px;
+  margin-bottom:6px;
 
   color:var(--muted);
 
-  margin-bottom:6px;
+  font-size:10px;
 }
 
 .control label b{
-  color:var(--text);
+  color:var(--navy);
 }
 
 .chart{
   min-height:280px;
 
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:13px;
-
   padding:12px;
-
-  background:
-    rgba(3,14,24,.32);
 
   display:flex;
 
   align-items:flex-end;
 
-  gap:2px;
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:11px;
+
+  background:#f8fafb;
 }
 
 .hist{
-  height:100%;
-
   width:100%;
+  height:100%;
 
   display:flex;
 
@@ -1104,8 +1185,8 @@ tr:hover{
   background:
     linear-gradient(
       to top,
-      rgba(91,192,235,.25),
-      rgba(244,163,64,.75)
+      rgba(63,159,197,.28),
+      rgba(232,149,47,.72)
     );
 }
 
@@ -1115,68 +1196,86 @@ tr:hover{
   grid-template-columns:
     repeat(4,1fr);
 
-  gap:10px;
+  gap:9px;
 
-  margin-top:15px;
+  margin-top:13px;
 }
 
 .result{
-  padding:13px;
+  padding:12px;
 
   border:
     1px solid
     var(--line);
 
-  background:
-    rgba(255,255,255,.035);
+  border-radius:10px;
 
-  border-radius:12px;
+  background:var(--panel-soft);
 }
 
 .result .label{
-  font-size:10px;
-
   color:var(--muted);
 
-  text-transform:uppercase;
-
-  font-weight:800;
-}
-
-.result .value{
-  font-size:21px;
+  font-size:9px;
 
   font-weight:850;
 
-  margin-top:7px;
+  letter-spacing:.06em;
+
+  text-transform:uppercase;
 }
 
-/* =========================
+.result .value{
+  margin-top:6px;
+
+  color:var(--navy);
+
+  font-size:19px;
+
+  font-weight:850;
+}
+
+
+/* =========================================
    FOOTER
-========================= */
+========================================= */
 
 .footer{
-  padding:28px 0 8px;
-
-  color:var(--muted);
-
-  font-size:10px;
-
   display:flex;
 
   justify-content:space-between;
+
+  gap:15px;
+
+  padding:
+    26px 0 8px;
+
+  color:#8b9aa3;
+
+  font-size:9px;
 }
 
-/* =========================
+
+/* =========================================
+   RANGE INPUT
+========================================= */
+
+input[type="range"]{
+  width:100%;
+
+  accent-color:var(--orange);
+}
+
+
+/* =========================================
    RESPONSIVE
-========================= */
+========================================= */
 
 @media(max-width:1050px){
 
   .pulse{
     grid-template-columns:
-      1fr
-      1fr;
+      1fr 1fr;
   }
 
   .pulse-main{
@@ -1188,12 +1287,13 @@ tr:hover{
   .mc-layout{
     grid-template-columns:1fr;
   }
+
 }
 
 @media(max-width:720px){
 
   .container{
-    padding:15px;
+    padding:14px;
   }
 
   .topbar,
@@ -1244,20 +1344,22 @@ tr:hover{
 
   .footer{
     flex-direction:column;
-
-    gap:6px;
   }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-<!-- =========================
+
+<!-- =========================================
      HEADER
-========================= -->
+========================================= -->
 
 <header class="topbar">
 
@@ -1286,17 +1388,23 @@ tr:hover{
 
   </div>
 
+
   <div class="top-actions">
 
     <div class="status">
+
       <span class="dot"></span>
+
       Live · Data Illustrative
+
     </div>
 
     <button
       class="btn"
       onclick="location.reload()">
+
       ↻ Refresh
+
     </button>
 
   </div>
@@ -1304,9 +1412,9 @@ tr:hover{
 </header>
 
 
-<!-- =========================
-     RISK PULSE
-========================= -->
+<!-- =========================================
+     HERO
+========================================= -->
 
 <section class="hero">
 
@@ -1329,17 +1437,14 @@ tr:hover{
         eksposur eksternal, dan potensi
         dampak terhadap laba.
 
-        Gunakan data ilustratif ini sebagai
-        template sebelum dihubungkan
-        ke sumber data riil.
-
       </p>
 
     </div>
 
+
     <div class="period">
 
-      PERIODE<br>
+      PERIODE
 
       <strong>
         Agustus 2026
@@ -1352,6 +1457,7 @@ tr:hover{
 
   <div class="pulse">
 
+
     <div class="pulse-main">
 
       <div class="pulse-label">
@@ -1359,14 +1465,12 @@ tr:hover{
       </div>
 
       <div class="pulse-status">
-        <span>
-          ● Controlled
-        </span>
+        ● Controlled
       </div>
 
       <div
         style="
-        font-size:11px;
+        font-size:10px;
         color:var(--muted)
         ">
 
@@ -1433,11 +1537,11 @@ tr:hover{
 </section>
 
 
-<!-- =========================
+<!-- =========================================
      RTM
-========================= -->
+========================================= -->
 
-<section class="section" id="rtm">
+<section class="section">
 
   <div class="section-head">
 
@@ -1459,13 +1563,14 @@ tr:hover{
 
   <div class="grid2">
 
-    <!-- RTM TABLE -->
 
     <div class="panel">
 
       <div class="panel-pad">
 
+
         <div class="rtm-summary">
+
 
           <div class="mini">
 
@@ -1529,6 +1634,7 @@ tr:hover{
             placeholder="Cari nama risiko..."
             oninput="renderRisks()"
           >
+
 
           <select
             class="select"
@@ -1599,8 +1705,6 @@ tr:hover{
     </div>
 
 
-    <!-- MOVEMENT -->
-
     <div class="panel">
 
       <div class="panel-pad">
@@ -1632,13 +1736,11 @@ tr:hover{
 </section>
 
 
-<!-- =========================
+<!-- =========================================
      HEATMAP
-========================= -->
+========================================= -->
 
-<section
-  class="section"
-  id="heat">
+<section class="section">
 
   <div class="section-head">
 
@@ -1675,9 +1777,8 @@ tr:hover{
           style="
           text-align:center;
           color:var(--muted);
-          font-size:10px;
-          margin-top:5px
-          ">
+          font-size:9px;
+          margin-top:5px">
 
           LIKELIHOOD →
 
@@ -1690,51 +1791,39 @@ tr:hover{
 
         <div class="legend-row">
 
-          <i
-            class="legend-box level-1">
-          </i>
+          <i class="legend-box level-1"></i>
 
           Low
 
         </div>
 
-
         <div class="legend-row">
 
-          <i
-            class="legend-box level-3">
-          </i>
+          <i class="legend-box level-3"></i>
 
           Moderate
 
         </div>
 
-
         <div class="legend-row">
 
-          <i
-            class="legend-box level-4">
-          </i>
+          <i class="legend-box level-4"></i>
 
           High
 
         </div>
 
-
         <div class="legend-row">
 
-          <i
-            class="legend-box level-5">
-          </i>
+          <i class="legend-box level-5"></i>
 
           Critical
 
         </div>
 
-
         <div
           style="
-          font-size:11px;
+          font-size:10px;
           color:var(--muted);
           line-height:1.6">
 
@@ -1753,16 +1842,14 @@ tr:hover{
 </section>
 
 
-<!-- =========================
+<!-- =========================================
      RANKING + MARKET
-========================= -->
+========================================= -->
 
 <section class="section">
 
   <div class="grid-even">
 
-
-    <!-- RANKING -->
 
     <div class="panel panel-pad">
 
@@ -1774,7 +1861,7 @@ tr:hover{
         class="section-sub"
         style="margin-bottom:18px">
 
-        Skor komposit 10 Anak Perusahaan
+        Skor komposit Anak Perusahaan
         · skala 0–100
 
       </div>
@@ -1786,8 +1873,6 @@ tr:hover{
 
     </div>
 
-
-    <!-- MARKET -->
 
     <div class="panel panel-pad">
 
@@ -1816,13 +1901,11 @@ tr:hover{
 </section>
 
 
-<!-- =========================
+<!-- =========================================
      MONTE CARLO
-========================= -->
+========================================= -->
 
-<section
-  class="section"
-  id="mc">
+<section class="section">
 
   <div class="section-head">
 
@@ -1834,9 +1917,8 @@ tr:hover{
 
       <div class="section-sub">
 
-        Monte Carlo simulation ·
-        ilustratif dan dijalankan
-        langsung di browser
+        Monte Carlo Simulation
+        · Illustrative
 
       </div>
 
@@ -1849,8 +1931,6 @@ tr:hover{
 
     <div class="mc-layout">
 
-
-      <!-- CONTROLS -->
 
       <div class="controls">
 
@@ -1875,9 +1955,7 @@ tr:hover{
             value="3000"
             oninput="
             iterLabel.textContent=this.value
-            "
-
-          >
+            ">
 
         </div>
 
@@ -1899,13 +1977,10 @@ tr:hover{
             type="range"
             min="5"
             max="40"
-            step="1"
             value="18"
             oninput="
             volLabel.textContent=this.value+'%'
-            "
-
-          >
+            ">
 
         </div>
 
@@ -1927,8 +2002,7 @@ tr:hover{
             class="input"
             type="number"
             value="8.8"
-            step=".1"
-          >
+            step=".1">
 
         </div>
 
@@ -1944,12 +2018,9 @@ tr:hover{
       </div>
 
 
-      <!-- CHART -->
-
       <div>
 
-        <div
-          class="chart">
+        <div class="chart">
 
           <div
             class="hist"
@@ -2031,9 +2102,9 @@ tr:hover{
 </section>
 
 
-<!-- =========================
+<!-- =========================================
      FOOTER
-========================= -->
+========================================= -->
 
 <div class="footer">
 
@@ -2043,9 +2114,8 @@ tr:hover{
   </span>
 
   <span>
-    Data ilustratif — ganti dengan
-    sumber data riil sebelum digunakan
-    untuk keputusan.
+    Data ilustratif — replace dengan
+    sumber data riil sebelum digunakan.
   </span>
 
 </div>
@@ -2055,916 +2125,829 @@ tr:hover{
 
 <script>
 
-/* ============================================================
+/* =========================================
    DUMMY DATA
-   ============================================================
-
-   Nanti bagian ini yang paling gampang
-   kamu ganti dengan data sebenarnya.
-*/
-
+========================================= */
 
 const risks = [
 
-  {
-    id:"R01",
-    name:"Volatilitas Harga Komoditas",
-    inh:24,
-    res:16,
-    status:"controlled"
-  },
+{
+ id:"R01",
+ name:"Volatilitas Harga Komoditas",
+ inh:24,
+ res:16,
+ status:"controlled"
+},
 
-  {
-    id:"R02",
-    name:"Ketidakpastian Pasokan Bahan Baku",
-    inh:20,
-    res:15,
-    status:"watch"
-  },
+{
+ id:"R02",
+ name:"Ketidakpastian Pasokan Bahan Baku",
+ inh:20,
+ res:15,
+ status:"watch"
+},
 
-  {
-    id:"R03",
-    name:"Risiko Permintaan & Penjualan",
-    inh:18,
-    res:12,
-    status:"controlled"
-  },
+{
+ id:"R03",
+ name:"Risiko Permintaan & Penjualan",
+ inh:18,
+ res:12,
+ status:"controlled"
+},
 
-  {
-    id:"R04",
-    name:"Risiko Proyek Strategis",
-    inh:25,
-    res:22,
-    status:"high"
-  },
+{
+ id:"R04",
+ name:"Risiko Proyek Strategis",
+ inh:25,
+ res:22,
+ status:"high"
+},
 
-  {
-    id:"R05",
-    name:"Risiko Keuangan & Likuiditas",
-    inh:20,
-    res:18,
-    status:"watch"
-  },
+{
+ id:"R05",
+ name:"Risiko Keuangan & Likuiditas",
+ inh:20,
+ res:18,
+ status:"watch"
+},
 
-  {
-    id:"R06",
-    name:"Risiko Operasional & Produksi",
-    inh:16,
-    res:10,
-    status:"controlled"
-  },
+{
+ id:"R06",
+ name:"Risiko Operasional & Produksi",
+ inh:16,
+ res:10,
+ status:"controlled"
+},
 
-  {
-    id:"R07",
-    name:"Risiko Supply Chain",
-    inh:20,
-    res:20,
-    status:"high"
-  },
+{
+ id:"R07",
+ name:"Risiko Supply Chain",
+ inh:20,
+ res:20,
+ status:"high"
+},
 
-  {
-    id:"R08",
-    name:"Risiko Teknologi & Cyber",
-    inh:15,
-    res:9,
-    status:"controlled"
-  },
+{
+ id:"R08",
+ name:"Risiko Teknologi & Cyber",
+ inh:15,
+ res:9,
+ status:"controlled"
+},
 
-  {
-    id:"R09",
-    name:"Risiko Kepatuhan & Tata Kelola",
-    inh:12,
-    res:8,
-    status:"controlled"
-  },
+{
+ id:"R09",
+ name:"Risiko Kepatuhan & Tata Kelola",
+ inh:12,
+ res:8,
+ status:"controlled"
+},
 
-  {
-    id:"R10",
-    name:"Risiko SDM & Organisasi",
-    inh:14,
-    res:10,
-    status:"controlled"
-  }
+{
+ id:"R10",
+ name:"Risiko SDM & Organisasi",
+ inh:14,
+ res:10,
+ status:"controlled"
+}
 
 ];
 
 
 const ranking = [
 
-  ["PKT",82],
-  ["PIM",76],
-  ["PUSRI",71],
-  ["PIHC",67],
-  ["Petrokimia Gresik",63],
-  ["PSP",59],
-  ["Rekayasa Industri",55],
-  ["Pupuk Kujang",51],
-  ["Pupuk Iskandar Muda",47],
-  ["Pupuk Sriwidjaja",43]
+["PKT",82],
+["PIM",76],
+["PUSRI",71],
+["PIHC",67],
+["Petrokimia Gresik",63],
+["PSP",59],
+["Rekayasa Industri",55],
+["Pupuk Kujang",51],
+["Pupuk Iskandar Muda",47],
+["Pupuk Sriwidjaja",43]
 
 ];
 
 
 const market = [
 
-  ["UREA","$386","▲ 8.4%"],
-  ["USD / IDR","16,245","▲ 2.1%"],
-  ["AMMONIA","$428","▼ 3.2%"]
+["UREA","$386","▲ 8.4%"],
+["USD / IDR","16,245","▲ 2.1%"],
+["AMMONIA","$428","▼ 3.2%"]
 
 ];
 
 
-/* ============================================================
-   STATUS BADGE
-============================================================ */
+/* =========================================
+   BADGE
+========================================= */
 
 function statusBadge(status){
 
-  const labels = {
+ const labels={
+  high:"HIGH",
+  watch:"WATCH",
+  controlled:"CONTROLLED"
+ };
 
-    high:"HIGH",
-
-    watch:"WATCH",
-
-    controlled:"CONTROLLED"
-
-  };
-
-  return `
-
-    <span
-      class="
-        badge
-        ${
-          status === "high"
-          ? "red"
-          : status === "watch"
-          ? "amber"
-          : "green"
-        }
-      ">
-
-      ${labels[status]}
-
-    </span>
-
-  `;
+ return `
+ <span class="
+ badge
+ ${
+  status==="high"
+  ?"red"
+  :status==="watch"
+  ?"amber"
+  :"green"
+ }
+ ">
+ ${labels[status]}
+ </span>
+ `;
 
 }
 
 
-/* ============================================================
-   RTM TABLE
-============================================================ */
+/* =========================================
+   TABLE
+========================================= */
 
 function renderRisks(){
 
-  const search =
-    document
-      .getElementById("riskSearch")
-      .value
-      .toLowerCase();
+ const search=
+ document
+ .getElementById("riskSearch")
+ .value
+ .toLowerCase();
 
-  const filter =
-    document
-      .getElementById("riskFilter")
-      .value;
+ const filter=
+ document
+ .getElementById("riskFilter")
+ .value;
 
+ const filtered=
+ risks.filter(r=>{
 
-  const filtered =
-    risks.filter(r => {
+  return(
+   r.name
+   .toLowerCase()
+   .includes(search)
+   &&
+   (
+    filter==="all"
+    ||
+    r.status===filter
+   )
+  );
 
-      const matchesSearch =
-        r.name
-          .toLowerCase()
-          .includes(search);
-
-      const matchesFilter =
-        filter === "all"
-        ||
-        r.status === filter;
-
-      return matchesSearch &&
-             matchesFilter;
-
-    });
+ });
 
 
-  document.getElementById("riskTable")
-    .innerHTML =
+ document
+ .getElementById("riskTable")
+ .innerHTML=
 
-    filtered.map(r => {
+ filtered.map(r=>{
 
-      const delta =
-        r.res - r.inh;
+  const delta=
+  r.res-r.inh;
 
-      return `
+  return `
 
-        <tr>
+  <tr>
 
-          <td class="risk-name">
+   <td class="risk-name">
 
-            ${r.id}
-            ·
-            ${r.name}
+    ${r.id}
+    ·
+    ${r.name}
 
-          </td>
+   </td>
 
-          <td>
-            ${r.inh}
-          </td>
+   <td>
+    ${r.inh}
+   </td>
 
-          <td>
-            <b>
-              ${r.res}
-            </b>
-          </td>
+   <td>
+    <b>${r.res}</b>
+   </td>
 
-          <td
-            class="
-              ${
-                delta > 0
-                ? "bad"
-                : delta < 0
-                ? "good"
-                : ""
-              }
-            ">
+   <td class="
+   ${
+    delta<0
+    ?"good"
+    :delta>0
+    ?"bad"
+    :""
+   }
+   ">
 
-            ${
-              delta > 0
-              ? "+"
-              : ""
-            }
+    ${delta>0?"+":""}
+    ${delta}
 
-            ${delta}
+   </td>
 
-          </td>
+   <td>
+    ${statusBadge(r.status)}
+   </td>
 
-          <td>
+  </tr>
 
-            ${statusBadge(r.status)}
+  `;
 
-          </td>
-
-        </tr>
-
-      `;
-
-    }).join("");
+ }).join("");
 
 }
 
 
-/* ============================================================
-   RISK MOVEMENT
-============================================================ */
+/* =========================================
+   MOVEMENT
+========================================= */
 
 function renderMovement(){
 
-  document.getElementById("movement")
-    .innerHTML =
+ document
+ .getElementById("movement")
+ .innerHTML=
 
-    risks.map(r => {
+ risks.map(r=>{
 
-      const percent =
-        Math.min(
-          100,
-          r.res / 25 * 100
-        );
+  const percent=
+  Math.min(
+   100,
+   r.res/25*100
+  );
 
-      const delta =
-        r.res - r.inh;
+  const delta=
+  r.res-r.inh;
+
+  return `
+
+  <div class="move-row">
+
+   <div>
+
+    <div class="move-name">
+
+     ${r.id}
+     ·
+     ${r.name}
+
+    </div>
+
+    <div class="bar">
+
+     <i
+     style="
+     width:${percent}%
+     ">
+     </i>
+
+    </div>
+
+   </div>
 
 
-      return `
+   <div class="move-meta">
 
-        <div class="move-row">
+    ${r.inh}
+    →
+    ${r.res}
 
-          <div>
+    <span class="
+    delta
+    ${
+     delta<0
+     ?"good"
+     :delta>0
+     ?"bad"
+     :""
+    }
+    ">
 
-            <div class="move-name">
+     ${
+      delta>0
+      ?"↑"
+      :delta<0
+      ?"↓"
+      :"→"
+     }
 
-              ${r.id}
-              ·
-              ${r.name}
+    </span>
 
-            </div>
+   </div>
 
-            <div class="bar">
+  </div>
 
-              <i
-                style="
-                  width:${percent}%
-                ">
-              </i>
+  `;
 
-            </div>
-
-          </div>
-
-
-          <div class="move-meta">
-
-            ${r.inh}
-            →
-            ${r.res}
-
-            <span
-              class="
-                delta
-                ${
-                  delta < 0
-                  ? "good"
-                  : delta > 0
-                  ? "bad"
-                  : ""
-                }
-              ">
-
-              ${
-                delta > 0
-                ? "↑"
-                : delta < 0
-                ? "↓"
-                : "→"
-              }
-
-            </span>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
+ }).join("");
 
 }
 
 
-/* ============================================================
+/* =========================================
    RANKING
-============================================================ */
+========================================= */
 
 function renderRanking(){
 
-  document.getElementById("ranking")
-    .innerHTML =
+ document
+ .getElementById("ranking")
+ .innerHTML=
 
-    ranking.map((item,index) => {
+ ranking.map((item,index)=>{
 
-      return `
+  return `
 
-        <div class="rank-row">
+  <div class="rank-row">
 
-          <div class="rank-num">
+   <div class="rank-num">
 
-            ${
-              String(index + 1)
-                .padStart(2,"0")
-            }
+    ${String(index+1).padStart(2,"0")}
 
-          </div>
+   </div>
 
 
-          <div>
+   <div>
 
-            <div class="rank-label">
+    <div class="rank-label">
+     ${item[0]}
+    </div>
 
-              ${item[0]}
+    <div class="rank-track">
 
-            </div>
+     <div
+     class="rank-fill"
+     style="
+     width:${item[1]}%
+     ">
+     </div>
 
-            <div class="rank-track">
+    </div>
 
-              <div
-                class="rank-fill"
-                style="
-                  width:${item[1]}%
-                ">
-              </div>
-
-            </div>
-
-          </div>
+   </div>
 
 
-          <div class="rank-score">
+   <div class="rank-score">
+    ${item[1]}
+   </div>
 
-            ${item[1]}
+  </div>
 
-          </div>
+  `;
 
-        </div>
-
-      `;
-
-    }).join("");
+ }).join("");
 
 }
 
 
-/* ============================================================
+/* =========================================
    MARKET
-============================================================ */
+========================================= */
 
 function renderMarket(){
 
-  document.getElementById("market")
-    .innerHTML =
+ document
+ .getElementById("market")
+ .innerHTML=
 
-    market.map((item,index) => {
+ market.map((item,index)=>{
 
-      const bars = [
+  const bars=[
+   32,45,38,58,52,65,
+   61,73,68,82,76,88
+  ];
 
-        32,45,38,58,52,65,
-        61,73,68,82,76,88
+  return `
 
-      ]
-      .map((height,j) => {
+  <div class="market-card">
 
-        return `
+   <div class="market-name">
+    ${item[0]}
+   </div>
 
-          <span
-            style="
-              height:
-                ${Math.max(
-                  18,
-                  height
-                  + (index * 5)
-                  + (j % 3) * 4
-                )}%
-            ">
-          </span>
+   <div class="market-val">
+    ${item[1]}
+   </div>
 
-        `;
+   <div class="
+   market-change
+   ${
+    item[2].includes("▼")
+    ?"good"
+    :"bad"
+   }
+   ">
 
-      }).join("");
+    ${item[2]}
 
+   </div>
 
-      return `
+   <div class="spark">
 
-        <div class="market-card">
+    ${
+     bars.map((h,j)=>`
 
-          <div class="market-name">
+      <span
+      style="
+      height:${Math.max(
+       18,
+       h+
+       index*5+
+       (j%3)*4
+      )}%
+      ">
+      </span>
 
-            ${item[0]}
+     `).join("")
+    }
 
-          </div>
+   </div>
 
-          <div class="market-val">
+  </div>
 
-            ${item[1]}
+  `;
 
-          </div>
-
-          <div
-            class="
-              market-change
-              ${
-                item[2].includes("▼")
-                ? "good"
-                : "bad"
-              }
-            ">
-
-            ${item[2]}
-
-          </div>
-
-          <div class="spark">
-
-            ${bars}
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
+ }).join("");
 
 }
 
 
-/* ============================================================
+/* =========================================
    HEATMAP
-============================================================ */
+========================================= */
 
 function renderHeatmap(){
 
-  const grid =
-    document.getElementById("heatmap");
+ const grid=
+ document.getElementById("heatmap");
 
-  grid.innerHTML = "";
+ grid.innerHTML="";
+
+
+ for(
+  let impact=5;
+  impact>=1;
+  impact--
+ ){
+
+  const axis=
+  document.createElement("div");
+
+  axis.className="axis";
+
+  axis.textContent=impact;
+
+  grid.appendChild(axis);
 
 
   for(
-    let impact = 5;
-    impact >= 1;
-    impact--
+   let likelihood=1;
+   likelihood<=5;
+   likelihood++
   ){
 
-    /* Y-axis */
+   const score=
+   impact*likelihood;
 
-    const axis =
-      document.createElement("div");
+   const cell=
+   document.createElement("div");
 
-    axis.className = "axis";
-
-    axis.textContent = impact;
-
-    grid.appendChild(axis);
-
-
-    /* Cells */
-
-    for(
-      let likelihood = 1;
-      likelihood <= 5;
-      likelihood++
-    ){
-
-      const score =
-        impact * likelihood;
+   cell.className=
+   "heat-cell level-"+
+   Math.min(
+    5,
+    Math.ceil(score/5)
+   );
 
 
-      const cell =
-        document.createElement("div");
-
-      cell.className =
-        "heat-cell level-" +
-        Math.min(
-          5,
-          Math.ceil(score / 5)
-        );
-
-
-      const matches =
-        risks.filter(r => {
-
-          return (
-            Math.round(r.res / 5)
-            === likelihood
-
-            &&
-
-            Math.ceil(r.res / 5)
-            === impact
-          );
-
-        });
+   const matches=
+   risks.filter(r=>
+    Math.round(r.res/5)
+    ===likelihood
+    &&
+    Math.ceil(r.res/5)
+    ===impact
+   );
 
 
-      matches.forEach(r => {
+   matches.forEach(r=>{
 
-        const dot =
-          document.createElement("div");
-
-        dot.className =
-          "risk-dot";
-
-        dot.textContent =
-          r.id.replace("R","");
-
-        dot.title =
-          `${r.id} · ${r.name} · Residual ${r.res}`;
-
-        cell.appendChild(dot);
-
-      });
-
-
-      grid.appendChild(cell);
-
-    }
-
-  }
-
-
-  /* X-axis */
-
-  for(
-    let i=1;
-    i<=5;
-    i++
-  ){
-
-    const axis =
-      document.createElement("div");
-
-    axis.className =
-      "axis";
-
-    axis.textContent = i;
-
-    grid.appendChild(axis);
-
-  }
-
-
-  const blank =
+    const dot=
     document.createElement("div");
 
-  blank.className =
-    "axis";
+    dot.className="risk-dot";
 
-  grid.appendChild(blank);
+    dot.textContent=
+    r.id.replace("R","");
+
+    dot.title=
+    `${r.id} · ${r.name} · Residual ${r.res}`;
+
+    cell.appendChild(dot);
+
+   });
+
+
+   grid.appendChild(cell);
+
+  }
+
+ }
+
+
+ for(
+  let i=1;
+  i<=5;
+  i++
+ ){
+
+  const axis=
+  document.createElement("div");
+
+  axis.className="axis";
+
+  axis.textContent=i;
+
+  grid.appendChild(axis);
+
+ }
+
+
+ const blank=
+ document.createElement("div");
+
+ blank.className="axis";
+
+ grid.appendChild(blank);
 
 }
 
 
-/* ============================================================
+/* =========================================
    RANDOM NORMAL
-============================================================ */
+========================================= */
 
 function randn(){
 
-  let u = 0;
-  let v = 0;
+ let u=0;
+ let v=0;
 
-  while(u === 0)
-    u = Math.random();
+ while(u===0)
+  u=Math.random();
 
-  while(v === 0)
-    v = Math.random();
+ while(v===0)
+  v=Math.random();
 
-
-  return Math.sqrt(
-    -2 * Math.log(u)
-  )
-  *
-  Math.cos(
-    2 * Math.PI * v
-  );
+ return Math.sqrt(
+  -2*Math.log(u)
+ )
+ *
+ Math.cos(
+  2*Math.PI*v
+ );
 
 }
 
 
-/* ============================================================
+/* =========================================
    PERCENTILE
-============================================================ */
+========================================= */
 
 function percentile(array,p){
 
-  const index =
-    (array.length - 1) * p;
+ const index=
+ (array.length-1)*p;
 
-  const lower =
-    Math.floor(index);
+ const lower=
+ Math.floor(index);
 
-  const upper =
-    Math.ceil(index);
+ const upper=
+ Math.ceil(index);
 
-
-  return (
-
-    array[lower]
-
-    +
-
-    (
-      array[upper]
-      -
-      array[lower]
-    )
-
-    *
-    (
-      index - lower
-    )
-
-  );
+ return(
+  array[lower]
+  +
+  (
+   array[upper]-
+   array[lower]
+  )
+  *
+  (
+   index-lower
+  )
+ );
 
 }
 
 
-/* ============================================================
-   FORMAT MONEY
-============================================================ */
+/* =========================================
+   MONEY
+========================================= */
 
 function money(value){
 
-  return (
-    "Rp "
-    +
-    value.toFixed(2)
-    +
-    " T"
-  );
+ return(
+  "Rp "
+  +
+  value.toFixed(2)
+  +
+  " T"
+ );
 
 }
 
 
-/* ============================================================
+/* =========================================
    MONTE CARLO
-============================================================ */
+========================================= */
 
 function runMonteCarlo(){
 
-  const iterations =
-    +document
-      .getElementById("iterations")
-      .value;
+ const iterations=
+ +document
+ .getElementById("iterations")
+ .value;
+
+ const volatility=
+ +document
+ .getElementById("volatility")
+ .value
+ /100;
+
+ const baseline=
+ +document
+ .getElementById("baseline")
+ .value;
+
+ const values=[];
 
 
-  const volatility =
-    +document
-      .getElementById("volatility")
-      .value
-      / 100;
+ for(
+  let i=0;
+  i<iterations;
+  i++
+ ){
+
+  const shock=
+  randn()*volatility;
+
+  const profit=
+  baseline*(1+shock);
+
+  values.push(profit);
+
+ }
 
 
-  const baseline =
-    +document
-      .getElementById("baseline")
-      .value;
+ values.sort(
+  (a,b)=>a-b
+ );
 
 
-  const values = [];
+ const average=
+ values.reduce(
+  (a,b)=>a+b,
+  0
+ )
+ /
+ values.length;
 
 
-  for(
-    let i=0;
-    i<iterations;
-    i++
-  ){
-
-    const shock =
-      randn()
-      *
-      volatility;
+ const q05=
+ percentile(
+  values,
+  .05
+ );
 
 
-    const profit =
-      baseline
-      *
-      (1 + shock);
+ const tail=
+ values.slice(
+  0,
+  Math.max(
+   1,
+   Math.floor(
+    values.length*.05
+   )
+  )
+ );
 
 
-    values.push(profit);
+ const cvar=
+ tail.reduce(
+  (a,b)=>a+b,
+  0
+ )
+ /
+ tail.length;
 
-  }
+
+ const probabilityLoss=
+ values.filter(
+  value=>value<0
+ ).length
+ /
+ values.length;
 
 
-  values.sort(
-    (a,b) => a-b
+ document.getElementById("avg")
+ .textContent=
+ money(average);
+
+
+ document.getElementById("var")
+ .textContent=
+ money(
+  Math.max(
+   0,
+   baseline-q05
+  )
+ );
+
+
+ document.getElementById("cvar")
+ .textContent=
+ money(
+  Math.max(
+   0,
+   baseline-cvar
+  )
+ );
+
+
+ document.getElementById("prob")
+ .textContent=
+ (
+  probabilityLoss*100
+ ).toFixed(1)
+ +"%";
+
+
+ const bins=42;
+
+ const min=
+ Math.min(...values);
+
+ const max=
+ Math.max(...values);
+
+ const step=
+ (
+  max-min
+ )
+ /
+ bins
+ ||
+ 1;
+
+ const counts=
+ Array(bins).fill(0);
+
+
+ values.forEach(value=>{
+
+  const index=
+  Math.min(
+   bins-1,
+   Math.floor(
+    (value-min)/step
+   )
   );
 
+  counts[index]++;
 
-  const average =
-    values.reduce(
-      (a,b) => a+b,
-      0
-    )
-    /
-    values.length;
+ });
 
 
-  const q05 =
-    percentile(
-      values,
-      .05
-    );
+ const maxCount=
+ Math.max(...counts);
 
 
-  const tail =
-    values.slice(
-      0,
-      Math.max(
-        1,
-        Math.floor(
-          values.length * .05
-        )
-      )
-    );
+ document
+ .getElementById("histogram")
+ .innerHTML=
 
+ counts.map(count=>`
 
-  const cvar =
-    tail.reduce(
-      (a,b) => a+b,
-      0
-    )
-    /
-    tail.length;
+  <i
+  style="
+  height:${Math.max(
+   4,
+   count/maxCount*92
+  )}%
+  ">
+  </i>
 
-
-  const probabilityLoss =
-    values.filter(
-      value => value < 0
-    ).length
-    /
-    values.length;
-
-
-  document.getElementById("avg")
-    .textContent =
-    money(average);
-
-
-  document.getElementById("var")
-    .textContent =
-    money(
-      Math.max(
-        0,
-        baseline - q05
-      )
-    );
-
-
-  document.getElementById("cvar")
-    .textContent =
-    money(
-      Math.max(
-        0,
-        baseline - cvar
-      )
-    );
-
-
-  document.getElementById("prob")
-    .textContent =
-    (
-      probabilityLoss * 100
-    ).toFixed(1)
-    +
-    "%";
-
-
-  /* =========================
-     HISTOGRAM
-  ========================= */
-
-  const bins = 42;
-
-  const min =
-    Math.min(...values);
-
-  const max =
-    Math.max(...values);
-
-  const step =
-    (max - min)
-    /
-    bins
-    ||
-    1;
-
-
-  const counts =
-    Array(bins).fill(0);
-
-
-  values.forEach(value => {
-
-    const index =
-      Math.min(
-        bins - 1,
-        Math.floor(
-          (value - min)
-          /
-          step
-        )
-      );
-
-
-    counts[index]++;
-
-  });
-
-
-  const maxCount =
-    Math.max(...counts);
-
-
-  document.getElementById("histogram")
-    .innerHTML =
-
-    counts.map(count => {
-
-      return `
-
-        <i
-          style="
-            height:
-              ${Math.max(
-                4,
-                count / maxCount * 92
-              )}%
-          ">
-        </i>
-
-      `;
-
-    }).join("");
+ `).join("");
 
 }
 
 
-/* ============================================================
+/* =========================================
    INITIALIZE
-============================================================ */
+========================================= */
 
 renderRisks();
 
