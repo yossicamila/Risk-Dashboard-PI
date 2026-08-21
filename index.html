@@ -101,8 +101,13 @@ body{
 }
 
 @keyframes floatLogo{
-  0%,100%{transform:translateY(0) rotate(0deg);}
-  50%{transform:translateY(-4px) rotate(2deg);}
+  0%,100%{
+    transform:translateY(0) rotate(0deg);
+  }
+
+  50%{
+    transform:translateY(-4px) rotate(2deg);
+  }
 }
 
 .brand-title{
@@ -141,8 +146,13 @@ body{
 }
 
 @keyframes pulse{
-  0%,100%{box-shadow:0 0 0 4px rgba(143,240,195,.15);}
-  50%{box-shadow:0 0 0 9px rgba(143,240,195,0);}
+  0%,100%{
+    box-shadow:0 0 0 4px rgba(143,240,195,.15);
+  }
+
+  50%{
+    box-shadow:0 0 0 9px rgba(143,240,195,0);
+  }
 }
 
 .period{
@@ -529,95 +539,236 @@ body{
   opacity:.7;
 }
 
-/* ================= HEATMAP ================= */
+
+/* =========================================================
+   RISK THAT MATTERS — LOCKED HEATMAP
+   PER-02 COLOR SCALE — DO NOT CHANGE
+========================================================= */
 
 .heatmap-card{
   background:white;
   border:1px solid var(--border);
   border-top:none;
   border-radius:0 0 15px 15px;
-  padding:23px;
+  padding:25px;
 }
 
-.heatmap-container{
+
+/* HEATMAP WRAPPER */
+
+.heatmap-wrapper{
+  max-width:950px;
+  margin:0 auto;
+}
+
+
+/* MATRIX HEADER */
+
+.heatmap-top{
   display:grid;
-  grid-template-columns:45px 1fr;
-  grid-template-rows:1fr 35px;
-  max-width:850px;
-  margin:auto;
+  grid-template-columns:95px repeat(5,1fr);
+  gap:4px;
+  margin-bottom:4px;
 }
 
-.y-axis{
+.impact-header{
+  height:38px;
+  background:#F4F8F7;
+  border:1px solid #DCE9E7;
+  border-radius:4px;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
   align-items:center;
-  padding:5px 0;
-}
-
-.y-axis span{
+  justify-content:center;
+  color:var(--text);
   font-size:9px;
-  color:var(--muted);
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
+  font-weight:800;
+  line-height:1.1;
 }
 
-.matrix{
+.impact-header span{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:2px;
+}
+
+
+/* MAIN MATRIX */
+
+.heatmap-main{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
-  grid-template-rows:repeat(5,58px);
+  grid-template-columns:95px repeat(5,1fr);
+  grid-template-rows:repeat(5,64px);
   gap:4px;
 }
 
-.cell{
-  position:relative;
+
+/* PROBABILITY LABEL */
+
+.probability-header{
+  background:#F4F8F7;
+  border:1px solid #DCE9E7;
+  border-radius:4px;
   display:flex;
-  align-items:center;
+  flex-direction:column;
   justify-content:center;
-  font-size:9px;
-  font-weight:800;
-  border-radius:5px;
+  align-items:center;
+  text-align:center;
+  color:var(--text);
+  line-height:1.1;
 }
 
-/*
-  KETENTUAN WARNA HEATMAP
-  JANGAN DIUBAH
-*/
-.level-1{background:#00B050;}
-.level-2{background:#92D050;}
-.level-3{background:#FFFF00;}
-.level-4{background:#FFC000;}
-.level-5{background:#FF0000;}
+.probability-header strong{
+  font-size:9px;
+  font-weight:800;
+}
 
-.risk-dot{
-  position:absolute;
-  width:22px;
-  height:22px;
+.probability-header span{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+
+/* =========================================================
+   EXACT PER-02 RISK COLORS
+   THESE COLORS ARE LOCKED
+========================================================= */
+
+.heat-cell{
+  position:relative;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,.65);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:.18s ease;
+}
+
+
+/* SCORE COLOR MAPPING */
+
+.level-1{
+  background:#00B050;
+}
+
+.level-2{
+  background:#92D050;
+}
+
+.level-3{
+  background:#FFFF00;
+}
+
+.level-4{
+  background:#FFC000;
+}
+
+.level-5{
+  background:#FF0000;
+}
+
+
+/* RISK MARKER */
+
+.risk-marker{
+  width:28px;
+  height:28px;
   border-radius:50%;
   background:#173B3A;
   color:white;
+  border:2px solid white;
+  box-shadow:
+    0 3px 10px rgba(0,0,0,.25),
+    0 0 0 1px rgba(23,59,58,.15);
+
   display:flex;
   justify-content:center;
   align-items:center;
+
   font-size:8px;
-  border:2px solid white;
-  box-shadow:0 2px 7px rgba(0,0,0,.25);
+  font-weight:900;
+
+  cursor:pointer;
+
+  position:absolute;
+  z-index:5;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 }
 
-.axis-title{
+.risk-marker:hover{
+  transform:scale(1.16);
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.32),
+    0 0 0 3px rgba(255,255,255,.65);
+}
+
+
+/* MOVEMENT ARROW */
+
+.movement-arrow{
+  position:absolute;
+  width:32px;
+  height:2px;
+  background:#173B3A;
+  transform-origin:left center;
+  opacity:.7;
+  z-index:3;
+}
+
+.movement-arrow::after{
+  content:"";
+  position:absolute;
+  right:-1px;
+  top:-4px;
+  width:0;
+  height:0;
+  border-left:7px solid #173B3A;
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+}
+
+
+/* AXIS */
+
+.impact-axis-title{
   text-align:center;
   color:var(--muted);
   font-size:9px;
   font-weight:800;
-  letter-spacing:.6px;
-  padding-top:12px;
+  letter-spacing:.7px;
+  margin-top:10px;
+  text-transform:uppercase;
 }
+
+.probability-axis-title{
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%) rotate(180deg);
+  writing-mode:vertical-rl;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.7px;
+  text-transform:uppercase;
+}
+
+
+/* LEGEND */
 
 .heatmap-legend{
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:18px;
-  margin-top:20px;
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid var(--border);
   flex-wrap:wrap;
 }
 
@@ -627,27 +778,86 @@ body{
   gap:6px;
   font-size:9px;
   color:var(--muted);
+  font-weight:700;
 }
 
 .legend-color{
-  width:12px;
-  height:12px;
+  width:13px;
+  height:13px;
   border-radius:3px;
 }
+
+
+/* MOVEMENT LEGEND */
 
 .movement-note{
   margin-top:18px;
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:12px;
-  font-size:10px;
   color:var(--muted);
+  font-size:9px;
 }
 
-.arrow{
-  color:var(--teal);
+.movement-dot{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#173B3A;
+  color:white;
+  border:2px solid white;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:7px;
   font-weight:900;
 }
+
+.movement-line{
+  width:30px;
+  height:2px;
+  background:#173B3A;
+  position:relative;
+}
+
+.movement-line::after{
+  content:"";
+  position:absolute;
+  right:-1px;
+  top:-4px;
+  border-left:7px solid #173B3A;
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+}
+
+
+/* RTM SUMMARY */
+
+.rtm-summary{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+
+.rtm-summary-item{
+  padding:7px 11px;
+  background:#F3F8F7;
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:700;
+}
+
+.rtm-summary-item strong{
+  color:var(--text);
+  margin-right:3px;
+}
+
 
 /* ================= KRI ================= */
 
@@ -728,6 +938,7 @@ td:first-child{
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:1100px){
+
   .kpi-grid{
     grid-template-columns:repeat(2,1fr);
   }
@@ -739,9 +950,19 @@ td:first-child{
   .chart-grid{
     grid-template-columns:1fr;
   }
+
+  .heatmap-wrapper{
+    overflow-x:auto;
+  }
+
+  .heatmap-top,
+  .heatmap-main{
+    min-width:720px;
+  }
 }
 
 @media(max-width:700px){
+
   .header{
     padding:20px;
   }
@@ -799,16 +1020,19 @@ td:first-child{
     text-align:left;
   }
 
-  .matrix{
-    grid-template-rows:45px 45px 45px 45px 45px;
+  .heatmap-wrapper{
+    overflow-x:auto;
+    padding-bottom:5px;
   }
 
-  .heatmap-container{
-    grid-template-columns:25px 1fr;
+  .heatmap-top,
+  .heatmap-main{
+    min-width:720px;
   }
 }
 
 @media(max-width:450px){
+
   .kpi-grid,
   .attention-grid{
     grid-template-columns:1fr;
@@ -830,6 +1054,7 @@ td:first-child{
 </style>
 </head>
 
+
 <body>
 
 <!-- ================= HEADER ================= -->
@@ -845,6 +1070,7 @@ td:first-child{
       </div>
 
       <div>
+
         <div class="brand-title">
           ENTERPRISE RISK INTELLIGENCE
         </div>
@@ -852,9 +1078,11 @@ td:first-child{
         <div class="brand-subtitle">
           PT Pupuk Indonesia (Persero) · Integrated Risk Management
         </div>
+
       </div>
 
     </div>
+
 
     <div class="header-right">
 
@@ -863,10 +1091,21 @@ td:first-child{
         LIVE RISK MONITORING
       </div>
 
+
       <select class="period">
-        <option selected>Juli 2026</option>
-        <option disabled>Juni 2026 — Data unavailable</option>
-        <option disabled>Mei 2026 — Data unavailable</option>
+
+        <option selected>
+          Juli 2026
+        </option>
+
+        <option disabled>
+          Juni 2026 — Data unavailable
+        </option>
+
+        <option disabled>
+          Mei 2026 — Data unavailable
+        </option>
+
       </select>
 
     </div>
@@ -878,6 +1117,7 @@ td:first-child{
 
 <main class="container">
 
+
 <!-- ================= EXECUTIVE OVERVIEW ================= -->
 
 <section>
@@ -885,6 +1125,7 @@ td:first-child{
   <div class="section-head">
 
     <div>
+
       <div class="section-label">
         Executive Risk Overview
       </div>
@@ -896,6 +1137,7 @@ td:first-child{
       <div class="section-description">
         Consolidated risk position · Data s.d. Juli 2026
       </div>
+
     </div>
 
   </div>
@@ -904,6 +1146,7 @@ td:first-child{
   <!-- KPI -->
 
   <div class="kpi-grid">
+
 
     <div class="kpi">
 
@@ -1033,6 +1276,7 @@ td:first-child{
 
 <section class="chart-grid">
 
+
   <div class="card">
 
     <div class="card-title">
@@ -1073,6 +1317,7 @@ td:first-child{
 
 <section class="attention">
 
+
   <div class="attention-header">
 
     <div>
@@ -1100,67 +1345,172 @@ td:first-child{
 
   <div class="attention-grid">
 
+
     <div class="risk-card">
-      <div class="risk-name">Gas</div>
-      <div class="risk-number">8.53</div>
-      <div class="risk-limit">Risk Limit ≤ 7.50</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        Gas
+      </div>
+
+      <div class="risk-number">
+        8.53
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 7.50
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card">
-      <div class="risk-name">PIN</div>
-      <div class="risk-number">5.78x</div>
-      <div class="risk-limit">Risk Limit ≤ 4.50x</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        PIN
+      </div>
+
+      <div class="risk-number">
+        5.78x
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 4.50x
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card">
-      <div class="risk-name">Piutang</div>
-      <div class="risk-number">27.71%</div>
-      <div class="risk-limit">Risk Limit ≤ 25%</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        Piutang
+      </div>
+
+      <div class="risk-number">
+        27.71%
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 25%
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card">
-      <div class="risk-name">Urea</div>
-      <div class="risk-number">217%</div>
-      <div class="risk-limit">Risk Limit ≤ 150%</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        Urea
+      </div>
+
+      <div class="risk-number">
+        217%
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 150%
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card">
-      <div class="risk-name">Ammonia</div>
-      <div class="risk-number">168%</div>
-      <div class="risk-limit">Risk Limit ≤ 140%</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        Ammonia
+      </div>
+
+      <div class="risk-number">
+        168%
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 140%
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card">
-      <div class="risk-name">NPK</div>
-      <div class="risk-number">153%</div>
-      <div class="risk-limit">Risk Limit ≤ 130%</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        NPK
+      </div>
+
+      <div class="risk-number">
+        153%
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 130%
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card">
-      <div class="risk-name">Organik</div>
-      <div class="risk-number">142%</div>
-      <div class="risk-limit">Risk Limit ≤ 125%</div>
-      <span class="risk-status">> RISK LIMIT</span>
+
+      <div class="risk-name">
+        Organik
+      </div>
+
+      <div class="risk-number">
+        142%
+      </div>
+
+      <div class="risk-limit">
+        Risk Limit ≤ 125%
+      </div>
+
+      <span class="risk-status">
+        &gt; RISK LIMIT
+      </span>
+
     </div>
 
 
     <div class="risk-card" style="opacity:.45;">
-      <div class="risk-name">PIP</div>
-      <div class="risk-number">—</div>
-      <div class="risk-limit">See critical attention below</div>
-      <span class="risk-status">TRIGGER</span>
+
+      <div class="risk-name">
+        PIP
+      </div>
+
+      <div class="risk-number">
+        —
+      </div>
+
+      <div class="risk-limit">
+        See critical attention below
+      </div>
+
+      <span class="risk-status">
+        TRIGGER
+      </span>
+
     </div>
 
   </div>
@@ -1190,6 +1540,7 @@ td:first-child{
 
     </div>
 
+
     <div class="critical-status">
       ABOVE TRIGGER LEVEL
     </div>
@@ -1202,6 +1553,7 @@ td:first-child{
 <!-- ================= RTM ================= -->
 
 <section class="rtm">
+
 
   <div class="section-head">
 
@@ -1258,160 +1610,308 @@ td:first-child{
   </div>
 
 
-  <!-- HEATMAP -->
+  <!-- =====================================================
+       LOCKED RTM HEATMAP
+  ====================================================== -->
 
   <div class="heatmap-card">
 
-    <div class="heatmap-container">
 
-      <div class="y-axis">
-
-        <span>5 · Very High</span>
-        <span>4 · High</span>
-        <span>3 · Moderate</span>
-        <span>2 · Low</span>
-        <span>1 · Very Low</span>
-
-      </div>
+    <div class="heatmap-wrapper">
 
 
-      <div class="matrix">
+      <!-- IMPACT HEADER -->
 
-        <!-- ROW 5 -->
+      <div class="heatmap-top">
 
-        <div class="cell level-5">
-          <span class="risk-dot">R1</span>
+        <div></div>
+
+
+        <div class="impact-header">
+          Sangat Rendah
+          <span>1</span>
         </div>
 
-        <div class="cell level-5"></div>
-
-        <div class="cell level-5">
-          <span class="risk-dot">R2</span>
+        <div class="impact-header">
+          Rendah
+          <span>2</span>
         </div>
 
-        <div class="cell level-5"></div>
-
-        <div class="cell level-5"></div>
-
-
-        <!-- ROW 4 -->
-
-        <div class="cell level-4"></div>
-
-        <div class="cell level-4">
-          <span class="risk-dot">R3</span>
+        <div class="impact-header">
+          Moderat
+          <span>3</span>
         </div>
 
-        <div class="cell level-4"></div>
-
-        <div class="cell level-4"></div>
-
-        <div class="cell level-4"></div>
-
-
-        <!-- ROW 3 -->
-
-        <div class="cell level-3"></div>
-
-        <div class="cell level-3"></div>
-
-        <div class="cell level-3">
-          <span class="risk-dot">R4</span>
+        <div class="impact-header">
+          Tinggi
+          <span>4</span>
         </div>
 
-        <div class="cell level-3"></div>
-
-        <div class="cell level-3"></div>
-
-
-        <!-- ROW 2 -->
-
-        <div class="cell level-2">
-          <span class="risk-dot">R5</span>
+        <div class="impact-header">
+          Sangat Tinggi
+          <span>5</span>
         </div>
 
-        <div class="cell level-2"></div>
+      </div>
 
-        <div class="cell level-2">
-          <span class="risk-dot">R6</span>
+
+      <!-- MATRIX -->
+
+      <div class="heatmap-main">
+
+
+        <!-- PROBABILITY 5 -->
+
+        <div class="probability-header">
+          <strong>Hampir<br>Pasti</strong>
+          <span>5</span>
         </div>
 
-        <div class="cell level-2"></div>
 
-        <div class="cell level-2"></div>
-
-
-        <!-- ROW 1 -->
-
-        <div class="cell level-1"></div>
-
-        <div class="cell level-1"></div>
-
-        <div class="cell level-1"></div>
-
-        <div class="cell level-1">
-          <span class="risk-dot">R7</span>
+        <div class="heat-cell level-2">
+          <span
+            class="risk-marker"
+            title="R1 — Inherent 5×2 → Residual 4×2">
+            R1
+          </span>
         </div>
 
-        <div class="cell level-1"></div>
+        <div class="heat-cell level-3"></div>
+
+        <div class="heat-cell level-4">
+          <span
+            class="risk-marker"
+            title="R2 — Inherent 5×4 → Residual 4×3">
+            R2
+          </span>
+        </div>
+
+        <div class="heat-cell level-5"></div>
+
+        <div class="heat-cell level-5"></div>
+
+
+        <!-- PROBABILITY 4 -->
+
+        <div class="probability-header">
+          <strong>Sangat<br>Mungkin</strong>
+          <span>4</span>
+        </div>
+
+
+        <div class="heat-cell level-1"></div>
+
+        <div class="heat-cell level-2">
+          <span
+            class="risk-marker"
+            title="R3 — Inherent 4×2 → Residual 3×2">
+            R3
+          </span>
+        </div>
+
+        <div class="heat-cell level-3"></div>
+
+        <div class="heat-cell level-4">
+          <span
+            class="risk-marker"
+            title="R4 — Inherent 4×4 → Residual 3×3">
+            R4
+          </span>
+        </div>
+
+        <div class="heat-cell level-5"></div>
+
+
+        <!-- PROBABILITY 3 -->
+
+        <div class="probability-header">
+          <strong>Bisa<br>Terjadi</strong>
+          <span>3</span>
+        </div>
+
+
+        <div class="heat-cell level-1"></div>
+
+        <div class="heat-cell level-2"></div>
+
+        <div class="heat-cell level-3">
+          <span
+            class="risk-marker"
+            title="R5 — Inherent 3×3 → Residual 2×3">
+            R5
+          </span>
+        </div>
+
+        <div class="heat-cell level-4"></div>
+
+        <div class="heat-cell level-5"></div>
+
+
+        <!-- PROBABILITY 2 -->
+
+        <div class="probability-header">
+          <strong>Jarang<br>Terjadi</strong>
+          <span>2</span>
+        </div>
+
+
+        <div class="heat-cell level-1"></div>
+
+        <div class="heat-cell level-2">
+          <span
+            class="risk-marker"
+            title="R6 — Inherent 2×2 → Residual 1×2">
+            R6
+          </span>
+        </div>
+
+        <div class="heat-cell level-2"></div>
+
+        <div class="heat-cell level-4"></div>
+
+        <div class="heat-cell level-5"></div>
+
+
+        <!-- PROBABILITY 1 -->
+
+        <div class="probability-header">
+          <strong>Sangat<br>Jarang<br>Terjadi</strong>
+          <span>1</span>
+        </div>
+
+
+        <div class="heat-cell level-1"></div>
+
+        <div class="heat-cell level-1"></div>
+
+        <div class="heat-cell level-2"></div>
+
+        <div class="heat-cell level-3">
+          <span
+            class="risk-marker"
+            title="R7 — Inherent 1×4 → Residual 1×3">
+            R7
+          </span>
+        </div>
+
+        <div class="heat-cell level-5"></div>
 
       </div>
 
 
-      <div></div>
-
-      <div class="axis-title">
-        INHERENT RISK → RESIDUAL RISK
+      <div class="impact-axis-title">
+        Dampak / Impact
       </div>
 
-    </div>
+
+      <!-- LEGEND -->
+
+      <div class="heatmap-legend">
+
+        <div class="legend-item">
+          <span
+            class="legend-color"
+            style="background:#00B050">
+          </span>
+          Low
+        </div>
 
 
-    <div class="heatmap-legend">
+        <div class="legend-item">
+          <span
+            class="legend-color"
+            style="background:#92D050">
+          </span>
+          Low–Moderate
+        </div>
 
-      <div class="legend-item">
-        <span class="legend-color level-1"></span>
-        Low
+
+        <div class="legend-item">
+          <span
+            class="legend-color"
+            style="background:#FFFF00">
+          </span>
+          Moderate
+        </div>
+
+
+        <div class="legend-item">
+          <span
+            class="legend-color"
+            style="background:#FFC000">
+          </span>
+          Moderate–High
+        </div>
+
+
+        <div class="legend-item">
+          <span
+            class="legend-color"
+            style="background:#FF0000">
+          </span>
+          High
+        </div>
+
       </div>
 
-      <div class="legend-item">
-        <span class="legend-color level-2"></span>
-        Low–Moderate
+
+      <!-- MOVEMENT -->
+
+      <div class="movement-note">
+
+        <span>
+          Risk Movement
+        </span>
+
+
+        <span class="movement-dot">
+          IH
+        </span>
+
+        <span>
+          Inherent
+        </span>
+
+
+        <span class="movement-line"></span>
+
+
+        <span class="movement-dot">
+          RR
+        </span>
+
+        <span>
+          Residual
+        </span>
+
       </div>
 
-      <div class="legend-item">
-        <span class="legend-color level-3"></span>
-        Moderate
+
+      <!-- SUMMARY -->
+
+      <div class="rtm-summary">
+
+        <div class="rtm-summary-item">
+          <strong>10</strong>
+          Strategic Risks
+        </div>
+
+        <div class="rtm-summary-item">
+          <strong>2</strong>
+          Residual High
+        </div>
+
+        <div class="rtm-summary-item">
+          <strong>8</strong>
+          Controlled
+        </div>
+
+        <div class="rtm-summary-item">
+          <strong>↓</strong>
+          Risk Reduction
+        </div>
+
       </div>
-
-      <div class="legend-item">
-        <span class="legend-color level-4"></span>
-        Moderate–High
-      </div>
-
-      <div class="legend-item">
-        <span class="legend-color level-5"></span>
-        High
-      </div>
-
-    </div>
-
-
-    <div class="movement-note">
-
-      <span>
-        Risk Movement
-      </span>
-
-      <span class="arrow">
-        ● Inherent
-      </span>
-
-      <span>→</span>
-
-      <span class="arrow">
-        ● Residual
-      </span>
 
     </div>
 
@@ -1423,6 +1923,7 @@ td:first-child{
 <!-- ================= KRI ================= -->
 
 <section class="kri">
+
 
   <div class="section-head">
 
@@ -1447,6 +1948,7 @@ td:first-child{
 
   <div class="kri-table-wrap">
 
+
     <table>
 
       <thead>
@@ -1464,69 +1966,141 @@ td:first-child{
 
       <tbody>
 
+
         <tr>
-          <td>Piutang</td>
-          <td>≤ 2 bulan</td>
-          <td>2 bulan</td>
-          <td>→ Stable</td>
+
+          <td>
+            Piutang
+          </td>
+
+          <td>
+            ≤ 2 bulan
+          </td>
+
+          <td>
+            2 bulan
+          </td>
+
+          <td>
+            → Stable
+          </td>
+
           <td>
             <span class="badge badge-safe">
               AMAN
             </span>
           </td>
+
         </tr>
 
 
         <tr>
-          <td>Kurs</td>
-          <td>≤ 50%</td>
-          <td>217%</td>
-          <td>↑ Increasing</td>
+
+          <td>
+            Kurs
+          </td>
+
+          <td>
+            ≤ 50%
+          </td>
+
+          <td>
+            217%
+          </td>
+
+          <td>
+            ↑ Increasing
+          </td>
+
           <td>
             <span class="badge badge-danger">
               BAHAYA
             </span>
           </td>
+
         </tr>
 
 
         <tr>
-          <td>PIN</td>
-          <td>≥ 70%</td>
-          <td>85.91%</td>
-          <td>→ Stable</td>
+
+          <td>
+            PIN
+          </td>
+
+          <td>
+            ≥ 70%
+          </td>
+
+          <td>
+            85.91%
+          </td>
+
+          <td>
+            → Stable
+          </td>
+
           <td>
             <span class="badge badge-safe">
               AMAN
             </span>
           </td>
+
         </tr>
 
 
         <tr>
-          <td>Production Downtime</td>
-          <td>≤ 3%</td>
-          <td>2.1%</td>
-          <td>↓ Improving</td>
+
+          <td>
+            Production Downtime
+          </td>
+
+          <td>
+            ≤ 3%
+          </td>
+
+          <td>
+            2.1%
+          </td>
+
+          <td>
+            ↓ Improving
+          </td>
+
           <td>
             <span class="badge badge-safe">
               AMAN
             </span>
           </td>
+
         </tr>
 
 
         <tr>
-          <td>Fatality</td>
-          <td>0</td>
-          <td>0</td>
-          <td>→ Stable</td>
+
+          <td>
+            Fatality
+          </td>
+
+          <td>
+            0
+          </td>
+
+          <td>
+            0
+          </td>
+
+          <td>
+            → Stable
+          </td>
+
           <td>
             <span class="badge badge-safe">
               AMAN
             </span>
           </td>
+
         </tr>
+
 
       </tbody>
 
@@ -1541,20 +2115,26 @@ td:first-child{
   ENTERPRISE RISK INTELLIGENCE · PT PUPUK INDONESIA (PERSERO) · RISK MANAGEMENT
 </div>
 
+
 </main>
 
 
 <script>
 
-/* ================= DONUT ================= */
+/* =====================================================
+   DONUT
+===================================================== */
 
 const donutCtx =
 document.getElementById('riskDonut');
 
+
 new Chart(donutCtx,{
+
   type:'doughnut',
 
   data:{
+
     labels:[
       'Within Limit',
       'Above Risk Limit',
@@ -1562,7 +2142,12 @@ new Chart(donutCtx,{
     ],
 
     datasets:[{
-      data:[30,7,1],
+
+      data:[
+        30,
+        7,
+        1
+      ],
 
       backgroundColor:[
         '#22A06B',
@@ -1573,36 +2158,56 @@ new Chart(donutCtx,{
       borderWidth:0,
 
       hoverOffset:6
+
     }]
+
   },
 
+
   options:{
+
     responsive:true,
+
     maintainAspectRatio:false,
 
     cutout:'72%',
 
     plugins:{
+
       legend:{
+
         position:'bottom',
+
         labels:{
+
           usePointStyle:true,
+
           pointStyle:'circle',
+
           padding:18,
+
           font:{
             size:10
           }
+
         }
+
       }
+
     }
+
   }
+
 });
 
 
-/* ================= TREND ================= */
+/* =====================================================
+   TREND
+===================================================== */
 
 const trendCtx =
 document.getElementById('riskTrend');
+
 
 new Chart(trendCtx,{
 
@@ -1647,9 +2252,11 @@ new Chart(trendCtx,{
       pointBackgroundColor:'#008C83',
 
       borderWidth:2
+
     }]
 
   },
+
 
   options:{
 
@@ -1658,14 +2265,18 @@ new Chart(trendCtx,{
     maintainAspectRatio:false,
 
     plugins:{
+
       legend:{
         display:false
       }
+
     },
+
 
     scales:{
 
       y:{
+
         beginAtZero:true,
 
         ticks:{
@@ -1678,9 +2289,12 @@ new Chart(trendCtx,{
         grid:{
           color:'#EDF3F2'
         }
+
       },
 
+
       x:{
+
         grid:{
           display:false
         },
@@ -1690,6 +2304,7 @@ new Chart(trendCtx,{
             size:9
           }
         }
+
       }
 
     }
