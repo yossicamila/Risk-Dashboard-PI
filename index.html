@@ -9,41 +9,29 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
-  --bg:#F4F9F8;
-  --card:#FFFFFF;
+  --bg:#F3F8F7;
+  --white:#FFFFFF;
+  --teal:#008C83;
+  --teal-dark:#006F68;
+  --teal-light:#DDF3EF;
+  --green:#16A085;
+  --text:#173B3A;
+  --muted:#718785;
+  --border:#DCE9E7;
 
-  --teal:#087F73;
-  --teal-dark:#075C55;
-  --teal-mid:#15998C;
-  --teal-light:#E3F3F0;
+  --danger:#E53935;
+  --danger-light:#FDE9E8;
 
-  --navy:#123047;
-  --text:#344B58;
-  --muted:#7B8C96;
+  --warning:#F4B400;
+  --warning-light:#FFF5D6;
 
-  --border:#E1ECE9;
-  --shadow:0 10px 30px rgba(18,48,71,.055);
+  --success:#22A06B;
+  --success-light:#E5F6EE;
 
-  --low:#00B050;
-  --lowmod:#92D050;
-  --moderate:#FFFF00;
-  --modhigh:#FFC000;
-  --high:#FF0000;
-
-  --inherent:#1677C8;
-  --residual:#00A86B;
+  --shadow:0 8px 28px rgba(21,72,68,.07);
+  --radius:18px;
 }
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
 
 *{
   box-sizing:border-box;
@@ -52,1689 +40,986 @@
 }
 
 body{
-  font-family:Inter,"Segoe UI",Arial,sans-serif;
-
+  font-family:Inter,Segoe UI,Arial,sans-serif;
   background:
-    radial-gradient(
-      circle at 90% 0%,
-      rgba(8,127,115,.07),
-      transparent 25%
-    ),
+    radial-gradient(circle at 10% 0%,rgba(0,140,131,.08),transparent 28%),
     var(--bg);
-
   color:var(--text);
   min-height:100vh;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
+/* ================= HEADER ================= */
 
 .header{
-  height:78px;
+  background:linear-gradient(120deg,#006F68,#008C83 55%,#13A89E);
+  color:white;
+  padding:24px 38px;
+  position:relative;
+  overflow:hidden;
+}
 
-  background:rgba(255,255,255,.94);
+.header::after{
+  content:"";
+  position:absolute;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.13);
+  right:-100px;
+  top:-220px;
+}
 
-  backdrop-filter:blur(14px);
-
-  border-bottom:1px solid var(--border);
-
+.header-inner{
+  max-width:1500px;
+  margin:auto;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-
-  padding:0 34px;
-
-  position:sticky;
-  top:0;
-
-  z-index:100;
+  align-items:center;
+  position:relative;
+  z-index:2;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:15px;
-}
-
-.logo-wrap{
-  width:45px;
-  height:45px;
-
-  position:relative;
-
-  display:grid;
-  place-items:center;
-}
-
-.logo-ring{
-  position:absolute;
-  inset:2px;
-
-  border-radius:50%;
-
-  border:1px solid rgba(8,127,115,.28);
+  gap:16px;
 }
 
 .logo{
-  width:34px;
-  height:34px;
-
-  border-radius:10px;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--teal-dark),
-      var(--teal-mid)
-    );
-
-  color:white;
-
-  font-size:18px;
+  width:54px;
+  height:54px;
+  border-radius:15px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.28);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   font-weight:800;
+  letter-spacing:-1px;
+  animation:floatLogo 3s ease-in-out infinite;
+  backdrop-filter:blur(10px);
+}
 
-  display:grid;
-  place-items:center;
-
-  box-shadow:
-    0 6px 18px rgba(8,127,115,.25);
+@keyframes floatLogo{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-4px) rotate(2deg);}
 }
 
 .brand-title{
-  font-size:15px;
+  font-size:20px;
   font-weight:800;
-
-  color:var(--navy);
-
-  letter-spacing:.35px;
+  letter-spacing:.2px;
 }
 
 .brand-subtitle{
-  font-size:11px;
-  color:var(--muted);
-
-  margin-top:3px;
+  margin-top:4px;
+  font-size:12px;
+  opacity:.78;
 }
 
-.header-right,
-.filters{
+.header-right{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:20px;
 }
 
 .live{
   display:flex;
   align-items:center;
-  gap:7px;
-
-  font-size:10px;
-  font-weight:800;
-
-  color:var(--low);
-
-  background:#E8F5EE;
-
-  padding:7px 11px;
-
-  border-radius:20px;
+  gap:8px;
+  font-size:12px;
+  opacity:.9;
 }
 
 .live-dot{
-  width:7px;
-  height:7px;
-
-  background:var(--low);
-
+  width:8px;
+  height:8px;
+  background:#8FF0C3;
   border-radius:50%;
+  box-shadow:0 0 0 5px rgba(143,240,195,.12);
+  animation:pulse 1.8s infinite;
 }
 
-.refresh-btn,
-select{
-  border:1px solid var(--border);
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(143,240,195,.15);}
+  50%{box-shadow:0 0 0 9px rgba(143,240,195,0);}
+}
 
+.period{
   background:white;
-
-  border-radius:9px;
-
-  padding:8px 12px;
-
-  color:var(--teal);
-
-  cursor:pointer;
-
+  color:var(--teal-dark);
+  padding:10px 14px;
+  border-radius:11px;
+  border:none;
   font-weight:700;
+  cursor:pointer;
+  outline:none;
 }
 
-
-/* =========================================================
-   DISABLED PERIOD
-========================================================= */
-
-select option:disabled{
-  color:#AEB9BE;
-}
-
-.period-disabled{
-  color:#AEB9BE !important;
-  background:#F4F6F6 !important;
-  cursor:not-allowed !important;
-}
-
-
-/* =========================================================
-   CONTAINER
-========================================================= */
+/* ================= MAIN ================= */
 
 .container{
   max-width:1500px;
-
   margin:auto;
-
-  padding:
-    30px
-    34px
-    60px;
+  padding:28px 38px 45px;
 }
 
-
-/* =========================================================
-   PAGE HEADING
-========================================================= */
-
-.page-heading{
+.section-head{
   display:flex;
-
   justify-content:space-between;
-  align-items:flex-end;
-
-  margin-bottom:25px;
+  align-items:end;
+  margin-bottom:16px;
 }
 
-.page-heading h1{
-  font-size:25px;
-
-  color:var(--navy);
-
-  letter-spacing:-.5px;
+.section-label{
+  color:var(--teal);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
 }
 
-.page-heading p{
+.section-title{
+  font-size:21px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.section-description{
   color:var(--muted);
-
   font-size:12px;
-
-  margin-top:6px;
+  margin-top:5px;
 }
 
-
-/* =========================================================
-   KPI
-========================================================= */
+/* ================= KPI ================= */
 
 .kpi-grid{
   display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:16px;
-
-  margin-bottom:18px;
-}
-
-.kpi,
-.card{
-  background:white;
-
-  border:1px solid var(--border);
-
-  border-radius:15px;
-
-  padding:20px;
-
-  box-shadow:var(--shadow);
-
-  transition:.25s;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
 }
 
 .kpi{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
   position:relative;
-
   overflow:hidden;
+  transition:.25s ease;
 }
 
-.kpi:hover,
-.card:hover{
-  transform:translateY(-2px);
+.kpi:hover{
+  transform:translateY(-3px);
+  box-shadow:0 13px 35px rgba(21,72,68,.11);
 }
 
-.kpi:after{
+.kpi::after{
   content:"";
-
   position:absolute;
-
-  right:-30px;
-  bottom:-35px;
-
-  width:100px;
-  height:100px;
-
+  width:70px;
+  height:70px;
   border-radius:50%;
-
+  right:-25px;
+  bottom:-25px;
   background:var(--teal-light);
-
-  opacity:.7;
 }
 
 .kpi-label{
   color:var(--muted);
-
-  font-size:10px;
-
-  font-weight:800;
-
+  font-size:11px;
+  font-weight:700;
   text-transform:uppercase;
-
-  letter-spacing:.7px;
+  letter-spacing:.6px;
 }
 
 .kpi-value{
-  font-size:29px;
-
-  color:var(--navy);
-
-  font-weight:800;
-
-  margin-top:9px;
+  font-size:34px;
+  font-weight:850;
+  margin:9px 0 3px;
+  letter-spacing:-1px;
 }
 
-.kpi-value small{
+.kpi-note{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.kpi.danger .kpi-value{
+  color:var(--danger);
+}
+
+.kpi.warning .kpi-value{
+  color:var(--warning);
+}
+
+.kpi.success .kpi-value{
+  color:var(--success);
+}
+
+/* ================= POSTURE ================= */
+
+.posture{
+  margin-top:16px;
+  background:linear-gradient(100deg,#FFFFFF,#F5FCFA);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:17px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:var(--shadow);
+}
+
+.posture-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.posture-icon{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:var(--success-light);
+  color:var(--success);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:900;
+}
+
+.posture-title{
+  font-weight:800;
   font-size:13px;
 }
 
-.kpi-meta{
-  margin-top:7px;
-
-  font-size:10px;
-
-  font-weight:700;
+.posture-text{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
 }
 
-.up{
-  color:#D60000;
+.posture-status{
+  color:var(--success);
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:.4px;
 }
 
-.down{
-  color:var(--low);
-}
-
-.neutral{
+.movement{
+  display:flex;
+  gap:18px;
+  font-size:11px;
   color:var(--muted);
 }
 
-
-/* =========================================================
-   GRID
-========================================================= */
-
-.grid-2{
-  display:grid;
-
-  grid-template-columns:
-    1.5fr 1fr;
-
-  gap:18px;
-
-  margin-bottom:18px;
+.movement strong{
+  color:var(--text);
+  font-size:14px;
 }
 
-.grid-equal{
+/* ================= CHARTS ================= */
+
+.chart-grid{
   display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:18px;
-
-  margin-bottom:18px;
+  grid-template-columns:1fr 1.25fr;
+  gap:16px;
+  margin-top:16px;
 }
 
-
-/* =========================================================
-   CARD HEADER
-========================================================= */
-
-.card-header{
-  display:flex;
-
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:16px;
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px;
 }
 
 .card-title{
-  color:var(--navy);
-
-  font-size:13px;
-
+  font-size:14px;
   font-weight:800;
 }
 
 .card-subtitle{
-  font-size:10px;
-
   color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
 
+.chart-wrap{
+  height:245px;
+  margin-top:14px;
+  position:relative;
+}
+
+/* ================= ATTENTION ================= */
+
+.attention{
+  margin-top:16px;
+}
+
+.attention-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:14px;
+}
+
+.attention-count{
+  font-size:11px;
+  color:var(--danger);
+  font-weight:800;
+}
+
+.attention-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.risk-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:16px;
+  position:relative;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.risk-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+}
+
+.risk-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:var(--danger);
+}
+
+.risk-name{
+  font-size:12px;
+  font-weight:800;
+}
+
+.risk-number{
+  font-size:25px;
+  font-weight:850;
+  margin:8px 0 4px;
+}
+
+.risk-limit{
+  font-size:10px;
+  color:var(--muted);
+}
+
+.risk-status{
+  margin-top:11px;
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:7px;
+  background:var(--danger-light);
+  color:var(--danger);
+  font-size:9px;
+  font-weight:900;
+}
+
+.critical{
+  margin-top:12px;
+  background:linear-gradient(100deg,#FFF7F7,#FFFFFF);
+  border:1px solid #F5CCCC;
+  border-radius:15px;
+  padding:15px 17px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.critical-left{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.critical-icon{
+  width:35px;
+  height:35px;
+  border-radius:10px;
+  background:var(--danger-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--danger);
+  font-weight:900;
+}
+
+.critical-title{
+  color:var(--danger);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+
+.critical-name{
+  font-size:12px;
+  font-weight:800;
   margin-top:3px;
 }
 
-.badge{
-  font-size:8px;
-
-  padding:5px 8px;
-
-  border-radius:7px;
-
-  background:var(--teal-light);
-
-  color:var(--teal-dark);
-
-  font-weight:800;
-}
-
-
-/* =========================================================
-   CHART
-========================================================= */
-
-.chart-container{
-  height:250px;
-
-  position:relative;
-}
-
-
-/* =========================================================
-   DONUT
-========================================================= */
-
-.donut-layout{
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  gap:28px;
-
-  height:250px;
-}
-
-.donut-box{
-  width:190px;
-  height:190px;
-
-  position:relative;
-}
-
-.donut-center{
-  position:absolute;
-
-  inset:0;
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  justify-content:center;
-
-  pointer-events:none;
-}
-
-.donut-number{
-  font-size:27px;
-
-  font-weight:800;
-
-  color:var(--navy);
-}
-
-.donut-label{
-  color:var(--muted);
-
+.critical-status{
+  background:var(--danger);
+  color:white;
+  padding:7px 10px;
+  border-radius:8px;
   font-size:9px;
+  font-weight:900;
 }
 
-.legend{
+/* ================= RTM ================= */
+
+.rtm{
+  margin-top:24px;
+}
+
+.rtm-intro{
+  background:var(--teal-dark);
+  color:white;
+  border-radius:15px 15px 0 0;
+  padding:17px 20px;
   display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
+.rtm-intro-title{
+  font-size:14px;
+  font-weight:850;
+}
+
+.rtm-intro-text{
+  font-size:10px;
+  opacity:.72;
+  margin-top:4px;
+  max-width:700px;
+}
+
+.rtm-stats{
+  display:flex;
+  gap:20px;
+}
+
+.rtm-stat{
+  text-align:right;
+}
+
+.rtm-stat strong{
+  display:block;
+  font-size:20px;
+}
+
+.rtm-stat span{
+  font-size:9px;
+  opacity:.7;
+}
+
+/* ================= HEATMAP ================= */
+
+.heatmap-card{
+  background:white;
+  border:1px solid var(--border);
+  border-top:none;
+  border-radius:0 0 15px 15px;
+  padding:23px;
+}
+
+.heatmap-container{
+  display:grid;
+  grid-template-columns:45px 1fr;
+  grid-template-rows:1fr 35px;
+  max-width:850px;
+  margin:auto;
+}
+
+.y-axis{
+  display:flex;
   flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+  padding:5px 0;
+}
 
-  gap:13px;
+.y-axis span{
+  font-size:9px;
+  color:var(--muted);
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+}
+
+.matrix{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  grid-template-rows:repeat(5,58px);
+  gap:4px;
+}
+
+.cell{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+  font-weight:800;
+  border-radius:5px;
+}
+
+/*
+  KETENTUAN WARNA HEATMAP
+  JANGAN DIUBAH
+*/
+.level-1{background:#00B050;}
+.level-2{background:#92D050;}
+.level-3{background:#FFFF00;}
+.level-4{background:#FFC000;}
+.level-5{background:#FF0000;}
+
+.risk-dot{
+  position:absolute;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#173B3A;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:8px;
+  border:2px solid white;
+  box-shadow:0 2px 7px rgba(0,0,0,.25);
+}
+
+.axis-title{
+  text-align:center;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.6px;
+  padding-top:12px;
+}
+
+.heatmap-legend{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-top:20px;
+  flex-wrap:wrap;
 }
 
 .legend-item{
   display:flex;
-
   align-items:center;
-
-  gap:8px;
-
-  font-size:10px;
-}
-
-.legend-dot{
-  width:9px;
-  height:9px;
-
-  border-radius:50%;
-}
-
-.legend-value{
-  margin-left:auto;
-
-  font-weight:800;
-
-  color:var(--navy);
-}
-
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-.risk-table{
-  width:100%;
-
-  border-collapse:collapse;
-}
-
-.risk-table th{
-  text-align:left;
-
-  color:var(--muted);
-
-  font-size:8px;
-
-  text-transform:uppercase;
-
-  letter-spacing:.6px;
-
-  padding:9px 8px;
-
-  border-bottom:1px solid var(--border);
-}
-
-.risk-table td{
-  padding:11px 8px;
-
-  border-bottom:1px solid #EDF2F1;
-
-  font-size:10px;
-}
-
-.risk-name{
-  font-weight:700;
-
-  color:var(--navy);
-}
-
-.risk-score{
-  font-weight:800;
-
-  font-size:13px;
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-.status{
-  display:inline-block;
-
-  padding:4px 7px;
-
-  border-radius:6px;
-
-  font-size:7px;
-
-  font-weight:800;
-}
-
-.status-high{
-  background:#FDEAEA;
-
-  color:#D60000;
-}
-
-.status-watch{
-  background:#FFF5D6;
-
-  color:#967200;
-}
-
-.status-controlled{
-  background:#E7F2DF;
-
-  color:var(--low);
-}
-
-.status-trigger{
-  background:#EEE8FF;
-
-  color:#6741B8;
-}
-
-
-/* =========================================================
-   DRIVER
-========================================================= */
-
-.driver-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:12px;
-}
-
-.driver{
-  background:#F0F8F6;
-
-  border:1px solid #DCEFEB;
-
-  border-radius:11px;
-
-  padding:14px;
-}
-
-.driver-name{
-  font-size:9px;
-
-  font-weight:800;
-
-  color:var(--muted);
-}
-
-.driver-value{
-  margin-top:6px;
-
-  font-size:18px;
-
-  font-weight:800;
-
-  color:var(--navy);
-}
-
-.driver-change{
-  font-size:9px;
-
-  margin-top:5px;
-
-  font-weight:800;
-}
-
-
-/* =========================================================
-   HEATMAP RTM
-========================================================= */
-
-.rtm-card{
-  overflow:visible;
-}
-
-.rtm-heatmap-container{
-  position:relative;
-
-  width:100%;
-}
-
-.matrix-wrap{
-  display:flex;
-
-  align-items:stretch;
-
-  gap:8px;
-}
-
-.vertical-title{
-  writing-mode:vertical-rl;
-
-  transform:rotate(180deg);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  color:var(--muted);
-
-  font-size:9px;
-
-  font-weight:800;
-
-  text-transform:uppercase;
-
-  width:24px;
-}
-
-.matrix-area{
-  flex:1;
-
-  position:relative;
-}
-
-.risk-matrix{
-  display:grid;
-
-  grid-template-columns:
-    82px repeat(5,1fr);
-
-  grid-template-rows:
-    48px repeat(5,47px);
-
-  gap:3px;
-
-  position:relative;
-
-  z-index:1;
-}
-
-.matrix-corner{
-  background:transparent;
-}
-
-.impact-label,
-.probability-label{
-  background:#F7F9F9;
-
-  border:1px solid #E1E8E6;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  flex-direction:column;
-
-  text-align:center;
-
-  border-radius:3px;
-}
-
-.impact-label{
-  font-size:8px;
-
-  line-height:1.15;
-
-  font-weight:600;
-}
-
-.impact-label span,
-.probability-label span{
-  font-weight:800;
-
-  color:var(--muted);
-
-  margin-top:2px;
-}
-
-.probability-label strong{
-  font-size:8px;
-
-  line-height:1.15;
-}
-
-.probability-label span{
-  font-size:10px;
-}
-
-.risk-cell{
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  font-size:10px;
-
-  font-weight:800;
-
-  border-radius:3px;
-
-  border:1px solid rgba(255,255,255,.55);
-
-  position:relative;
-}
-
-.low{
-  background:var(--low);
-
-  color:white;
-}
-
-.lowmod{
-  background:var(--lowmod);
-
-  color:#172A1A;
-}
-
-.moderate{
-  background:var(--moderate);
-
-  color:#332F00;
-}
-
-.modhigh{
-  background:var(--modhigh);
-
-  color:#3E2D00;
-}
-
-.high{
-  background:var(--high);
-
-  color:white;
-}
-
-.impact-title{
-  text-align:center;
-
-  padding:5px;
-
-  color:var(--muted);
-
-  font-size:9px;
-
-  font-weight:800;
-
-  text-transform:uppercase;
-
-  margin-top:5px;
-
-  border:1px solid #E1E8E6;
-
-  border-radius:3px;
-}
-
-
-/* =========================================================
-   RTM MARKERS
-========================================================= */
-
-.rtm-overlay{
-  position:absolute;
-
-  top:51px;
-
-  left:85px;
-
-  right:0;
-
-  height:247px;
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(5,1fr);
-
-  grid-template-rows:
-    repeat(5,1fr);
-
-  gap:3px;
-
-  z-index:5;
-
-  pointer-events:none;
-}
-
-.rtm-point{
-  position:relative;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  pointer-events:none;
-}
-
-.rtm-marker{
-  width:23px;
-  height:23px;
-
-  border-radius:50%;
-
-  border:3px solid white;
-
-  box-shadow:
-    0 2px 7px rgba(18,48,71,.35),
-    0 0 0 1px rgba(18,48,71,.15);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  color:white;
-
-  font-size:7px;
-
-  font-weight:900;
-
-  position:relative;
-
-  z-index:10;
-}
-
-.rtm-marker.inherent{
-  background:var(--inherent);
-}
-
-.rtm-marker.residual{
-  background:var(--residual);
-}
-
-.rtm-label{
-  position:absolute;
-
-  top:-18px;
-
-  left:50%;
-
-  transform:translateX(-50%);
-
-  white-space:nowrap;
-
-  background:rgba(18,48,71,.94);
-
-  color:white;
-
-  padding:3px 5px;
-
-  border-radius:4px;
-
-  font-size:7px;
-
-  font-weight:800;
-
-  box-shadow:
-    0 2px 6px rgba(18,48,71,.18);
-}
-
-.rtm-label.residual-label{
-  top:auto;
-
-  bottom:-18px;
-}
-
-
-/* =========================================================
-   LEGEND
-========================================================= */
-
-.rtm-legend{
-  display:flex;
-
-  justify-content:center;
-  align-items:center;
-
-  gap:20px;
-
-  flex-wrap:wrap;
-
-  margin-top:17px;
-
-  padding-top:13px;
-
-  border-top:1px solid var(--border);
-}
-
-.rtm-legend-item{
-  display:flex;
-
-  align-items:center;
-
   gap:6px;
-
-  font-size:8px;
-
+  font-size:9px;
   color:var(--muted);
-
-  font-weight:700;
 }
 
-.rtm-marker-mini{
+.legend-color{
   width:12px;
   height:12px;
-
-  border-radius:50%;
-
-  border:2px solid white;
-
-  box-shadow:
-    0 1px 4px rgba(0,0,0,.25);
+  border-radius:3px;
 }
 
-.rtm-marker-mini.inherent{
-  background:var(--inherent);
-}
-
-.rtm-marker-mini.residual{
-  background:var(--residual);
-}
-
-.rtm-line-mini{
-  width:22px;
-
-  height:2px;
-
-  background:rgba(18,48,71,.45);
-}
-
-
-/* =========================================================
-   RTM SUMMARY
-========================================================= */
-
-.rtm-summary{
-  margin-top:14px;
-
-  background:#F0F8F6;
-
-  border:1px solid #DCEFEB;
-
-  border-radius:9px;
-
-  padding:10px 13px;
-
-  font-size:9px;
-
-  line-height:1.5;
-
-  color:var(--text);
-}
-
-.rtm-summary b{
-  color:var(--navy);
-}
-
-.rtm-count{
-  color:var(--teal-dark);
-
-  font-weight:800;
-}
-
-
-/* =========================================================
-   RISK STATUS
-========================================================= */
-
-.appetite{
-  min-height:250px;
-
+.movement-note{
+  margin-top:18px;
   display:flex;
-
-  flex-direction:column;
-
   justify-content:center;
-}
-
-.appetite-scale{
-  height:18px;
-
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      to right,
-      var(--low) 0 20%,
-      var(--lowmod) 20% 40%,
-      var(--moderate) 40% 60%,
-      var(--modhigh) 60% 80%,
-      var(--high) 80% 100%
-    );
-
-  position:relative;
-}
-
-.appetite-marker{
-  position:absolute;
-
-  top:-8px;
-
-  left:76%;
-
-  width:4px;
-
-  height:34px;
-
-  background:var(--navy);
-
-  border-radius:5px;
-}
-
-.appetite-marker:after{
-  content:"7 > Tolerance";
-
-  position:absolute;
-
-  top:-30px;
-
-  left:50%;
-
-  transform:translateX(-50%);
-
-  background:var(--navy);
-
-  color:white;
-
-  font-size:9px;
-
-  padding:4px 6px;
-
-  border-radius:5px;
-
-  font-weight:800;
-
-  white-space:nowrap;
-}
-
-.scale-labels{
-  display:flex;
-
-  justify-content:space-between;
-
-  margin-top:9px;
-
-  color:var(--muted);
-
-  font-size:8px;
-}
-
-.appetite-info{
-  display:flex;
-
-  justify-content:space-around;
-
-  margin-top:30px;
-
-  text-align:center;
-}
-
-.appetite-info strong{
-  display:block;
-
-  font-size:20px;
-
-  color:var(--navy);
-}
-
-.appetite-info span{
-  font-size:8px;
-
-  color:var(--muted);
-}
-
-.note{
-  background:#F0F8F6;
-
-  border-left:4px solid var(--teal);
-
-  padding:12px 14px;
-
-  border-radius:8px;
-
+  gap:12px;
   font-size:10px;
-
-  line-height:1.5;
-
-  color:var(--text);
-
-  margin-top:12px;
+  color:var(--muted);
 }
 
+.arrow{
+  color:var(--teal);
+  font-weight:900;
+}
 
-/* =========================================================
-   FOOTER
-========================================================= */
+/* ================= KRI ================= */
+
+.kri{
+  margin-top:24px;
+}
+
+.kri-table-wrap{
+  overflow-x:auto;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  box-shadow:var(--shadow);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+thead{
+  background:#F2F8F7;
+}
+
+th{
+  text-align:left;
+  padding:13px 16px;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+
+td{
+  padding:14px 16px;
+  border-top:1px solid #EDF3F2;
+  font-size:11px;
+}
+
+td:first-child{
+  font-weight:800;
+}
+
+.badge{
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:7px;
+  font-size:9px;
+  font-weight:900;
+}
+
+.badge-safe{
+  background:var(--success-light);
+  color:var(--success);
+}
+
+.badge-danger{
+  background:var(--danger-light);
+  color:var(--danger);
+}
+
+.badge-warning{
+  background:var(--warning-light);
+  color:#A66C00;
+}
+
+/* ================= FOOTER ================= */
 
 .footer{
+  margin-top:28px;
   text-align:center;
-
-  color:#94A3AB;
-
+  color:#91A4A2;
   font-size:9px;
-
-  margin-top:30px;
+  letter-spacing:.4px;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:1100px){
-
   .kpi-grid{
-    grid-template-columns:
-      repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .grid-2,
-  .grid-equal{
+  .attention-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .chart-grid{
     grid-template-columns:1fr;
   }
-
 }
 
 @media(max-width:700px){
-
   .header{
-    padding:0 15px;
+    padding:20px;
   }
 
-  .brand-subtitle,
-  .live{
-    display:none;
-  }
-
-  .container{
-    padding:20px 15px 40px;
-  }
-
-  .page-heading{
+  .header-inner{
     align-items:flex-start;
-
-    flex-direction:column;
-
     gap:15px;
   }
 
+  .header-right{
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+  }
+
+  .container{
+    padding:22px 16px 35px;
+  }
+
   .kpi-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .kpi-value{
+    font-size:27px;
+  }
+
+  .posture{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+  }
+
+  .movement{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .attention-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .rtm-intro{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+  }
+
+  .rtm-stats{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .rtm-stat{
+    text-align:left;
+  }
+
+  .matrix{
+    grid-template-rows:45px 45px 45px 45px 45px;
+  }
+
+  .heatmap-container{
+    grid-template-columns:25px 1fr;
+  }
+}
+
+@media(max-width:450px){
+  .kpi-grid,
+  .attention-grid{
     grid-template-columns:1fr;
   }
 
-  .donut-layout{
-    flex-direction:column;
-
-    height:auto;
+  .brand-title{
+    font-size:15px;
   }
 
-  .risk-matrix{
-    grid-template-columns:
-      65px repeat(5,minmax(55px,1fr));
-
-    grid-template-rows:
-      55px repeat(5,55px);
+  .brand-subtitle{
+    font-size:10px;
   }
 
-  .rtm-overlay{
-    top:58px;
-
-    left:68px;
-
-    height:287px;
+  .logo{
+    width:44px;
+    height:44px;
   }
-
-  .rtm-marker{
-    width:20px;
-    height:20px;
-
-    font-size:6px;
-  }
-
-  .rtm-label{
-    font-size:6px;
-  }
-
 }
-
-
-/* =========================================================
-   EMPTY / DISABLED
-========================================================= */
-
-.no-data{
-  padding:20px;
-
-  text-align:center;
-
-  color:var(--muted);
-
-  font-size:10px;
-
-  background:#F8FAFA;
-
-  border:1px dashed var(--border);
-
-  border-radius:9px;
-}
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
-  <div class="brand">
+  <div class="header-inner">
 
-    <div class="logo-wrap">
-
-      <div class="logo-ring"></div>
+    <div class="brand">
 
       <div class="logo">
-        P
+        PI
+      </div>
+
+      <div>
+        <div class="brand-title">
+          ENTERPRISE RISK INTELLIGENCE
+        </div>
+
+        <div class="brand-subtitle">
+          PT Pupuk Indonesia (Persero) · Integrated Risk Management
+        </div>
       </div>
 
     </div>
 
-    <div>
+    <div class="header-right">
 
-      <div class="brand-title">
-        ENTERPRISE RISK INTELLIGENCE
+      <div class="live">
+        <span class="live-dot"></span>
+        LIVE RISK MONITORING
       </div>
 
-      <div class="brand-subtitle">
-        PT Pupuk Indonesia (Persero) · Risk Profile 2026
-      </div>
+      <select class="period">
+        <option selected>Juli 2026</option>
+        <option disabled>Juni 2026 — Data unavailable</option>
+        <option disabled>Mei 2026 — Data unavailable</option>
+      </select>
 
     </div>
-
-  </div>
-
-
-  <div class="header-right">
-
-    <div class="live">
-
-      <span class="live-dot"></span>
-
-      JULY 2026 DATA
-
-    </div>
-
-
-    <button
-      class="refresh-btn"
-      onclick="refreshDashboard()">
-
-      ↻ Refresh
-
-    </button>
 
   </div>
 
 </header>
 
 
-
 <main class="container">
 
+<!-- ================= EXECUTIVE OVERVIEW ================= -->
 
-<!-- =========================================================
-     PAGE HEADING
-========================================================= -->
+<section>
 
-<section class="page-heading">
+  <div class="section-head">
 
-  <div>
+    <div>
+      <div class="section-label">
+        Executive Risk Overview
+      </div>
 
-    <h1>
-      Executive Risk Overview
-    </h1>
+      <div class="section-title">
+        Enterprise Risk Profile
+      </div>
 
-    <p>
-      Enterprise risk profile, Risk That Matters and key indicators
-      · Data s.d. Juli 2026
-    </p>
-
-  </div>
-
-
-  <div class="filters">
-
-    <select id="periodSelect">
-
-      <option selected value="july">
-        Juli 2026
-      </option>
-
-      <option
-        value="june"
-        disabled>
-        Juni 2026 — Data belum tersedia
-      </option>
-
-      <option
-        value="may"
-        disabled>
-        Mei 2026 — Data belum tersedia
-      </option>
-
-    </select>
-
-
-    <select id="categorySelect">
-
-      <option selected>
-        All Categories
-      </option>
-
-      <option>
-        Strategic Risk
-      </option>
-
-      <option>
-        Market & Macroeconomic Risk
-      </option>
-
-      <option>
-        Financial Risk
-      </option>
-
-      <option>
-        Operational Risk
-      </option>
-
-      <option>
-        Compliance Risk
-      </option>
-
-    </select>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     1. PROFILE RISIKO — KPI
-========================================================= -->
-
-<section class="kpi-grid">
-
-
-  <div class="kpi">
-
-    <div class="kpi-label">
-      Total Risk Parameters
-    </div>
-
-    <div class="kpi-value">
-      43
-    </div>
-
-    <div class="kpi-meta neutral">
-      100% parameter profile
+      <div class="section-description">
+        Consolidated risk position · Data s.d. Juli 2026
+      </div>
     </div>
 
   </div>
 
 
-  <div class="kpi">
+  <!-- KPI -->
 
-    <div class="kpi-label">
-      Within Risk Limit
+  <div class="kpi-grid">
+
+    <div class="kpi">
+
+      <div class="kpi-label">
+        Total Risk Parameters
+      </div>
+
+      <div class="kpi-value">
+        43
+      </div>
+
+      <div class="kpi-note">
+        Enterprise risk indicators monitored
+      </div>
+
     </div>
 
-    <div class="kpi-value">
 
-      30
+    <div class="kpi success">
 
-      <small>
-        70%
-      </small>
+      <div class="kpi-label">
+        Within Risk Limit
+      </div>
+
+      <div class="kpi-value">
+        30
+      </div>
+
+      <div class="kpi-note">
+        69.8% of monitored parameters
+      </div>
 
     </div>
 
-    <div class="kpi-meta down">
-      ↓ 1 parameter vs Juni
+
+    <div class="kpi danger">
+
+      <div class="kpi-label">
+        Above Risk Limit
+      </div>
+
+      <div class="kpi-value">
+        7
+      </div>
+
+      <div class="kpi-note">
+        Requires management attention
+      </div>
+
+    </div>
+
+
+    <div class="kpi warning">
+
+      <div class="kpi-label">
+        Above Trigger
+      </div>
+
+      <div class="kpi-value">
+        1
+      </div>
+
+      <div class="kpi-note">
+        Critical escalation required
+      </div>
+
     </div>
 
   </div>
 
 
-  <div class="kpi">
+  <!-- POSTURE -->
 
-    <div class="kpi-label">
-      &gt; Risk Limit
-    </div>
+  <div class="posture">
 
-    <div class="kpi-value">
+    <div class="posture-left">
 
-      8
-
-      <small>
-        19%
-      </small>
-
-    </div>
-
-    <div class="kpi-meta up">
-      ↑ 1 parameter vs Juni
-    </div>
-
-  </div>
-
-
-  <div class="kpi">
-
-    <div class="kpi-label">
-      &gt; Trigger Level
-    </div>
-
-    <div class="kpi-value">
-
-      1
-
-      <small>
-        2%
-      </small>
-
-    </div>
-
-    <div class="kpi-meta neutral">
-      PIP · dalam perbaikan
-    </div>
-
-  </div>
-
-
-</section>
-
-
-
-<!-- =========================================================
-     2. FINANCIAL TREND + DISTRIBUTION
-========================================================= -->
-
-<section class="grid-2">
-
-
-  <!-- FINANCIAL TREND -->
-
-  <div class="card">
-
-    <div class="card-header">
+      <div class="posture-icon">
+        ✓
+      </div>
 
       <div>
 
-        <div class="card-title">
-          Financial Risk Trend
+        <div class="posture-title">
+          Overall Risk Posture
         </div>
 
-        <div class="card-subtitle">
-          Actual May → June → July 2026
+        <div class="posture-text">
+          Enterprise risk remains controlled with selected areas requiring focused attention.
         </div>
 
-      </div>
-
-      <div class="badge">
-        JULY 2026
       </div>
 
     </div>
 
 
-    <div class="chart-container">
-
-      <canvas id="financialTrend"></canvas>
-
+    <div class="posture-status">
+      CONTROLLED · SELECTED ATTENTION
     </div>
 
-  </div>
 
-
-
-  <!-- DISTRIBUTION -->
-
-  <div class="card">
-
-    <div class="card-header">
+    <div class="movement">
 
       <div>
-
-        <div class="card-title">
-          Risk Parameter Distribution
-        </div>
-
-        <div class="card-subtitle">
-          Current enterprise risk status
-        </div>
-
+        <strong>30</strong><br>
+        Within Limit
       </div>
 
-      <div class="badge">
-        43 PARAMETERS
+      <div>
+        <strong>7</strong><br>
+        Above Limit
       </div>
 
-    </div>
-
-
-    <div class="donut-layout">
-
-
-      <div class="donut-box">
-
-        <canvas id="riskDonut"></canvas>
-
-        <div class="donut-center">
-
-          <div class="donut-number">
-            43
-          </div>
-
-          <div class="donut-label">
-            PARAMETERS
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="legend">
-
-
-        <div class="legend-item">
-
-          <span
-            class="legend-dot"
-            style="background:#00B050">
-          </span>
-
-          Within Limit
-
-          <span class="legend-value">
-            30 · 70%
-          </span>
-
-        </div>
-
-
-        <div class="legend-item">
-
-          <span
-            class="legend-dot"
-            style="background:#92D050">
-          </span>
-
-          Within Appetite
-
-          <span class="legend-value">
-            5 · 12%
-          </span>
-
-        </div>
-
-
-        <div class="legend-item">
-
-          <span
-            class="legend-dot"
-            style="background:#FFFF00">
-          </span>
-
-          Within Tolerance
-
-          <span class="legend-value">
-            0 · 0%
-          </span>
-
-        </div>
-
-
-        <div class="legend-item">
-
-          <span
-            class="legend-dot"
-            style="background:#FFC000">
-          </span>
-
-          &gt; Tolerance
-
-          <span class="legend-value">
-            7 · 16%
-          </span>
-
-        </div>
-
-
-        <div class="legend-item">
-
-          <span
-            class="legend-dot"
-            style="background:#FF0000">
-          </span>
-
-          &gt; Trigger Level
-
-          <span class="legend-value">
-            1 · 2%
-          </span>
-
-        </div>
-
-
+      <div>
+        <strong>1</strong><br>
+        Above Trigger
       </div>
 
     </div>
@@ -1744,1832 +1029,676 @@ select option:disabled{
 </section>
 
 
+<!-- ================= DISTRIBUTION + TREND ================= -->
 
-<!-- =========================================================
-     3. RISK PARAMETERS REQUIRING ATTENTION
-     ONLY > RISK LIMIT
-========================================================= -->
+<section class="chart-grid">
 
-<section class="card">
+  <div class="card">
 
-  <div class="card-header">
+    <div class="card-title">
+      Risk Profile Distribution
+    </div>
+
+    <div class="card-subtitle">
+      Distribution of enterprise risk parameters
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="riskDonut"></canvas>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      Financial Risk Trend
+    </div>
+
+    <div class="card-subtitle">
+      Illustrative monthly risk movement
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="riskTrend"></canvas>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ATTENTION ================= -->
+
+<section class="attention">
+
+  <div class="attention-header">
 
     <div>
 
-      <div class="card-title">
+      <div class="section-label">
+        Management Attention
+      </div>
+
+      <div class="section-title">
         Risk Parameters Requiring Attention
       </div>
 
-      <div class="card-subtitle">
-        Parameter dengan aktual berada di atas Risk Limit
+      <div class="section-description">
+        Only parameters currently exceeding their Risk Limit
       </div>
 
     </div>
 
-    <div class="badge">
-      8 PARAMETERS
-    </div>
-
-  </div>
-
-
-  <div class="table-wrap">
-
-    <table class="risk-table">
-
-      <thead>
-
-        <tr>
-
-          <th>
-            Parameter
-          </th>
-
-          <th>
-            Aktual Juli
-          </th>
-
-          <th>
-            Trend
-          </th>
-
-          <th>
-            Status
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Harga Bahan Baku Gas
-          </td>
-
-          <td class="risk-score">
-            8.53 USD/MMBTU
-          </td>
-
-          <td class="up">
-            ↑
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            PIN · Indikator Kinerja Anper Non Pupuk
-          </td>
-
-          <td class="risk-score">
-            5.78x
-          </td>
-
-          <td class="up">
-            ↑
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Piutang Jatuh Tempo &gt; 12 Bulan
-          </td>
-
-          <td class="risk-score">
-            27.71%
-          </td>
-
-          <td class="neutral">
-            ↓
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Penjualan Non-Subsidi · Urea
-          </td>
-
-          <td class="risk-score">
-            79.9%
-          </td>
-
-          <td class="up">
-            ↑
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Penjualan Non-Subsidi · Ammonia
-          </td>
-
-          <td class="risk-score">
-            86.8%
-          </td>
-
-          <td class="up">
-            ↓
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Penjualan Non-Subsidi · NPK
-          </td>
-
-          <td class="risk-score">
-            57.7%
-          </td>
-
-          <td class="up">
-            ↓
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Penyaluran Pupuk Subsidi · Organik
-          </td>
-
-          <td class="risk-score">
-            48.5%
-          </td>
-
-          <td class="down">
-            ↑
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              &gt; RISK LIMIT
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            PIP · Indikator Kinerja Anper Non Pupuk
-          </td>
-
-          <td class="risk-score">
-            N/A
-          </td>
-
-          <td class="neutral">
-            ↗
-          </td>
-
-          <td>
-
-            <span class="status status-trigger">
-              &gt; TRIGGER
-            </span>
-
-          </td>
-
-        </tr>
-
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     4. KEY FINANCIAL & OPERATIONAL INDICATORS
-========================================================= -->
-
-<section class="card" style="margin-top:18px; margin-bottom:18px;">
-
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title">
-        Key Financial & Operational Indicators
-      </div>
-
-      <div class="card-subtitle">
-        Selected actuals s.d. Juli 2026
-      </div>
-
-    </div>
-
-    <div class="badge">
-      JULY 2026
+    <div class="attention-count">
+      7 PARAMETERS ABOVE RISK LIMIT
     </div>
 
   </div>
 
 
-  <div class="driver-grid">
+  <div class="attention-grid">
 
-
-    <div class="driver">
-
-      <div class="driver-name">
-        CFO
-      </div>
-
-      <div class="driver-value">
-        Rp 2.40 T
-      </div>
-
-      <div class="driver-change up">
-        vs Rp 8.19 T RKAP s.d. Juli
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">Gas</div>
+      <div class="risk-number">8.53</div>
+      <div class="risk-limit">Risk Limit ≤ 7.50</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
 
-    <div class="driver">
-
-      <div class="driver-name">
-        CURRENT RATIO
-      </div>
-
-      <div class="driver-value">
-        1.92x
-      </div>
-
-      <div class="driver-change down">
-        Within Appetite
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">PIN</div>
+      <div class="risk-number">5.78x</div>
+      <div class="risk-limit">Risk Limit ≤ 4.50x</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
 
-    <div class="driver">
-
-      <div class="driver-name">
-        NPM
-      </div>
-
-      <div class="driver-value">
-        14.3%
-      </div>
-
-      <div class="driver-change down">
-        Within Limit
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">Piutang</div>
+      <div class="risk-number">27.71%</div>
+      <div class="risk-limit">Risk Limit ≤ 25%</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
 
-    <div class="driver">
-
-      <div class="driver-name">
-        DSCR
-      </div>
-
-      <div class="driver-value">
-        5.62x
-      </div>
-
-      <div class="driver-change down">
-        Within Limit
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">Urea</div>
+      <div class="risk-number">217%</div>
+      <div class="risk-limit">Risk Limit ≤ 150%</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
 
-    <div class="driver">
-
-      <div class="driver-name">
-        DEBT / EBITDA
-      </div>
-
-      <div class="driver-value">
-        0.90x
-      </div>
-
-      <div class="driver-change down">
-        Within Limit
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">Ammonia</div>
+      <div class="risk-number">168%</div>
+      <div class="risk-limit">Risk Limit ≤ 140%</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
 
-    <div class="driver">
-
-      <div class="driver-name">
-        CORE SYSTEM UPTIME
-      </div>
-
-      <div class="driver-value">
-        99.93%
-      </div>
-
-      <div class="driver-change down">
-        Within Limit
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">NPK</div>
+      <div class="risk-number">153%</div>
+      <div class="risk-limit">Risk Limit ≤ 130%</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
 
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     5. HEATMAP RTM
-     MOVED TO BOTTOM OF PROFILE
-========================================================= -->
-
-<section class="card rtm-card" style="margin-top:18px;">
-
-
-  <div class="card-header">
-
-    <div>
-
-      <div class="card-title">
-        Heatmap Risk That Matters (RTM)
-      </div>
-
-      <div class="card-subtitle">
-        Risk Matrix · Probability × Impact
-      </div>
-
+    <div class="risk-card">
+      <div class="risk-name">Organik</div>
+      <div class="risk-number">142%</div>
+      <div class="risk-limit">Risk Limit ≤ 125%</div>
+      <span class="risk-status">> RISK LIMIT</span>
     </div>
 
-    <div class="badge">
-      RTM / PER-02
+
+    <div class="risk-card" style="opacity:.45;">
+      <div class="risk-name">PIP</div>
+      <div class="risk-number">—</div>
+      <div class="risk-limit">See critical attention below</div>
+      <span class="risk-status">TRIGGER</span>
     </div>
 
   </div>
 
 
-  <div class="rtm-heatmap-container">
+  <!-- CRITICAL -->
 
+  <div class="critical">
 
-    <div class="matrix-wrap">
+    <div class="critical-left">
 
-
-      <div class="vertical-title">
-        Probabilitas
+      <div class="critical-icon">
+        !
       </div>
 
+      <div>
 
-      <div class="matrix-area">
-
-
-        <!-- BASE MATRIX -->
-
-        <div class="risk-matrix">
-
-
-          <div class="matrix-corner"></div>
-
-
-          <div class="impact-label">
-
-            Sangat<br>Rendah
-
-            <span>1</span>
-
-          </div>
-
-
-          <div class="impact-label">
-
-            Rendah
-
-            <span>2</span>
-
-          </div>
-
-
-          <div class="impact-label">
-
-            Moderat
-
-            <span>3</span>
-
-          </div>
-
-
-          <div class="impact-label">
-
-            Tinggi
-
-            <span>4</span>
-
-          </div>
-
-
-          <div class="impact-label">
-
-            Sangat<br>Tinggi
-
-            <span>5</span>
-
-          </div>
-
-
-
-          <!-- PROBABILITY 5 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Hampir<br>Pasti
-            </strong>
-
-            <span>
-              5
-            </span>
-
-          </div>
-
-
-          <div class="risk-cell lowmod">
-            7
-          </div>
-
-          <div class="risk-cell moderate">
-            12
-          </div>
-
-          <div class="risk-cell modhigh">
-            17
-          </div>
-
-          <div class="risk-cell high">
-            22
-          </div>
-
-          <div class="risk-cell high">
-            25
-          </div>
-
-
-
-          <!-- PROBABILITY 4 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Sangat<br>Mungkin
-            </strong>
-
-            <span>
-              4
-            </span>
-
-          </div>
-
-
-          <div class="risk-cell low">
-            4
-          </div>
-
-          <div class="risk-cell lowmod">
-            9
-          </div>
-
-          <div class="risk-cell moderate">
-            14
-          </div>
-
-          <div class="risk-cell modhigh">
-            19
-          </div>
-
-          <div class="risk-cell high">
-            24
-          </div>
-
-
-
-          <!-- PROBABILITY 3 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Bisa<br>Terjadi
-            </strong>
-
-            <span>
-              3
-            </span>
-
-          </div>
-
-
-          <div class="risk-cell low">
-            3
-          </div>
-
-          <div class="risk-cell lowmod">
-            8
-          </div>
-
-          <div class="risk-cell moderate">
-            13
-          </div>
-
-          <div class="risk-cell modhigh">
-            18
-          </div>
-
-          <div class="risk-cell high">
-            23
-          </div>
-
-
-
-          <!-- PROBABILITY 2 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Jarang<br>Terjadi
-            </strong>
-
-            <span>
-              2
-            </span>
-
-          </div>
-
-
-          <div class="risk-cell low">
-            2
-          </div>
-
-          <div class="risk-cell low">
-            6
-          </div>
-
-          <div class="risk-cell lowmod">
-            11
-          </div>
-
-          <div class="risk-cell modhigh">
-            16
-          </div>
-
-          <div class="risk-cell high">
-            21
-          </div>
-
-
-
-          <!-- PROBABILITY 1 -->
-
-          <div class="probability-label">
-
-            <strong>
-              Sangat<br>Jarang<br>Terjadi
-            </strong>
-
-            <span>
-              1
-            </span>
-
-          </div>
-
-
-          <div class="risk-cell low">
-            1
-          </div>
-
-          <div class="risk-cell low">
-            5
-          </div>
-
-          <div class="risk-cell lowmod">
-            10
-          </div>
-
-          <div class="risk-cell moderate">
-            15
-          </div>
-
-          <div class="risk-cell high">
-            20
-          </div>
-
-
+        <div class="critical-title">
+          CRITICAL ATTENTION
         </div>
 
-
-        <!-- RTM MARKERS -->
-
-        <div
-          id="rtmOverlay"
-          class="rtm-overlay">
+        <div class="critical-name">
+          PIP · Indikator Kinerja Anper Non Pupuk
         </div>
 
-
-        <div class="impact-title">
-          Dampak
-        </div>
-
-
       </div>
 
     </div>
 
-
-
-    <!-- LEGEND -->
-
-    <div class="rtm-legend">
-
-
-      <div class="rtm-legend-item">
-
-        <span class="rtm-marker-mini inherent"></span>
-
-        Inherent Risk
-
-      </div>
-
-
-      <div class="rtm-legend-item">
-
-        <span class="rtm-marker-mini residual"></span>
-
-        Residual Risk
-
-      </div>
-
-
-      <div class="rtm-legend-item">
-
-        <span class="rtm-line-mini"></span>
-
-        Risk Movement
-
-      </div>
-
-
+    <div class="critical-status">
+      ABOVE TRIGGER LEVEL
     </div>
-
-
-
-    <!-- SUMMARY -->
-
-    <div class="rtm-summary">
-
-      <b>RTM Focus:</b>
-
-      Menampilkan posisi
-
-      <b>Inherent Risk</b>
-
-      dan
-
-      <b>Residual Risk</b>
-
-      untuk Risk That Matters (RTM) 1–10.
-
-      Heatmap ini merupakan
-
-      <b>risk view</b>
-
-      yang berbeda dari
-
-      <b>43 Risk Parameters</b>
-
-      pada Profil Risiko Enterprise.
-
-
-      <span
-        class="rtm-count"
-        id="rtmCount">
-
-        RTM tersedia: 10
-
-      </span>
-
-    </div>
-
 
   </div>
 
 </section>
 
 
+<!-- ================= RTM ================= -->
 
-<!-- =========================================================
-     6. KRI
-     BELOW HEATMAP
-========================================================= -->
+<section class="rtm">
 
-<section class="card" style="margin-top:18px;">
-
-
-  <div class="card-header">
+  <div class="section-head">
 
     <div>
 
-      <div class="card-title">
-        Selected KRI — July 2026
+      <div class="section-label">
+        Strategic Risk View
       </div>
 
-      <div class="card-subtitle">
-        Key Risk Indicators yang menjadi perhatian manajemen
+      <div class="section-title">
+        Risk That Matters
       </div>
 
-    </div>
-
-    <div class="badge">
-      KRI
     </div>
 
   </div>
 
 
-
-  <div class="table-wrap">
-
-    <table class="risk-table">
-
-
-      <thead>
-
-        <tr>
-
-          <th>
-            KRI
-          </th>
-
-          <th>
-            Threshold Aman
-          </th>
-
-          <th>
-            Aktual
-          </th>
-
-          <th>
-            Status / Catatan
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Keterlambatan pembayaran piutang subsidi
-          </td>
-
-          <td>
-            ≤ 2 bulan
-          </td>
-
-          <td>
-            2 bulan
-          </td>
-
-          <td>
-
-            <span class="status status-controlled">
-              AMAN
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            Rugi selisih kurs berdampak pada pembayaran progres proyek
-          </td>
-
-          <td>
-            ≤ 50% YoY
-          </td>
-
-          <td>
-            217% YoY
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              BAHAYA
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            PIN · Pendapatan penjualan pupuk / total pendapatan RKAP
-          </td>
-
-          <td>
-            ≥ 70%
-          </td>
-
-          <td>
-            85.91%
-          </td>
-
-          <td>
-
-            <span class="status status-controlled">
-              AMAN
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            PIP · Pendapatan Agrosolusi & Agriservices / RKAP berjalan
-          </td>
-
-          <td>
-            ≥ 50%
-          </td>
-
-          <td>
-            0%
-          </td>
-
-          <td>
-
-            <span class="status status-high">
-              BAHAYA
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <tr>
-
-          <td class="risk-name">
-            PILOG · Beban jasa / biaya docking 2 kapal
-          </td>
-
-          <td>
-            ≤ 100%
-          </td>
-
-          <td>
-            98.02%
-          </td>
-
-          <td>
-
-            <span class="status status-controlled">
-              AMAN
-            </span>
-
-          </td>
-
-        </tr>
-
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     7. RISK STATUS
-========================================================= -->
-
-<section class="card" style="margin-top:18px;">
-
-
-  <div class="card-header">
+  <div class="rtm-intro">
 
     <div>
 
-      <div class="card-title">
-        Risk Status
+      <div class="rtm-intro-title">
+        MANAGEMENT FOCUS
       </div>
 
-      <div class="card-subtitle">
-        Current exposure based on parameter thresholds
+      <div class="rtm-intro-text">
+        10 risiko utama yang memiliki materiality dan strategic relevance
+        terhadap pencapaian sasaran perusahaan.
       </div>
 
     </div>
 
-    <div class="badge">
-      JULY 2026
+
+    <div class="rtm-stats">
+
+      <div class="rtm-stat">
+        <strong>10</strong>
+        <span>RTM</span>
+      </div>
+
+      <div class="rtm-stat">
+        <strong>2</strong>
+        <span>Residual High</span>
+      </div>
+
+      <div class="rtm-stat">
+        <strong>8</strong>
+        <span>Controlled</span>
+      </div>
+
     </div>
 
   </div>
 
 
-  <div class="appetite">
+  <!-- HEATMAP -->
+
+  <div class="heatmap-card">
+
+    <div class="heatmap-container">
+
+      <div class="y-axis">
+
+        <span>5 · Very High</span>
+        <span>4 · High</span>
+        <span>3 · Moderate</span>
+        <span>2 · Low</span>
+        <span>1 · Very Low</span>
+
+      </div>
 
 
-    <div class="appetite-scale">
+      <div class="matrix">
 
-      <div class="appetite-marker"></div>
+        <!-- ROW 5 -->
+
+        <div class="cell level-5">
+          <span class="risk-dot">R1</span>
+        </div>
+
+        <div class="cell level-5"></div>
+
+        <div class="cell level-5">
+          <span class="risk-dot">R2</span>
+        </div>
+
+        <div class="cell level-5"></div>
+
+        <div class="cell level-5"></div>
+
+
+        <!-- ROW 4 -->
+
+        <div class="cell level-4"></div>
+
+        <div class="cell level-4">
+          <span class="risk-dot">R3</span>
+        </div>
+
+        <div class="cell level-4"></div>
+
+        <div class="cell level-4"></div>
+
+        <div class="cell level-4"></div>
+
+
+        <!-- ROW 3 -->
+
+        <div class="cell level-3"></div>
+
+        <div class="cell level-3"></div>
+
+        <div class="cell level-3">
+          <span class="risk-dot">R4</span>
+        </div>
+
+        <div class="cell level-3"></div>
+
+        <div class="cell level-3"></div>
+
+
+        <!-- ROW 2 -->
+
+        <div class="cell level-2">
+          <span class="risk-dot">R5</span>
+        </div>
+
+        <div class="cell level-2"></div>
+
+        <div class="cell level-2">
+          <span class="risk-dot">R6</span>
+        </div>
+
+        <div class="cell level-2"></div>
+
+        <div class="cell level-2"></div>
+
+
+        <!-- ROW 1 -->
+
+        <div class="cell level-1"></div>
+
+        <div class="cell level-1"></div>
+
+        <div class="cell level-1"></div>
+
+        <div class="cell level-1">
+          <span class="risk-dot">R7</span>
+        </div>
+
+        <div class="cell level-1"></div>
+
+      </div>
+
+
+      <div></div>
+
+      <div class="axis-title">
+        INHERENT RISK → RESIDUAL RISK
+      </div>
 
     </div>
 
 
-    <div class="scale-labels">
+    <div class="heatmap-legend">
 
-      <span>
+      <div class="legend-item">
+        <span class="legend-color level-1"></span>
         Low
-      </span>
+      </div>
 
-      <span>
+      <div class="legend-item">
+        <span class="legend-color level-2"></span>
         Low–Moderate
-      </span>
+      </div>
 
-      <span>
+      <div class="legend-item">
+        <span class="legend-color level-3"></span>
         Moderate
-      </span>
+      </div>
 
-      <span>
+      <div class="legend-item">
+        <span class="legend-color level-4"></span>
         Moderate–High
-      </span>
+      </div>
+
+      <div class="legend-item">
+        <span class="legend-color level-5"></span>
+        High
+      </div>
+
+    </div>
+
+
+    <div class="movement-note">
 
       <span>
-        High
+        Risk Movement
+      </span>
+
+      <span class="arrow">
+        ● Inherent
+      </span>
+
+      <span>→</span>
+
+      <span class="arrow">
+        ● Residual
       </span>
 
     </div>
-
-
-    <div class="appetite-info">
-
-
-      <div>
-
-        <strong>
-          30
-        </strong>
-
-        <span>
-          Within Limit
-        </span>
-
-      </div>
-
-
-      <div>
-
-        <strong>
-          5
-        </strong>
-
-        <span>
-          Within Appetite
-        </span>
-
-      </div>
-
-
-      <div>
-
-        <strong>
-          7
-        </strong>
-
-        <span>
-          &gt; Tolerance
-        </span>
-
-      </div>
-
-
-    </div>
-
-
-    <div class="note">
-
-      <b>Attention:</b>
-
-      8 parameter conditions require follow-up:
-
-      7 berada di atas tolerance dan
-
-      1 berada di atas trigger level.
-
-      Dibanding Juni 2026,
-
-      parameter &gt; tolerance bertambah 1.
-
-    </div>
-
 
   </div>
 
 </section>
 
 
+<!-- ================= KRI ================= -->
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
+<section class="kri">
+
+  <div class="section-head">
+
+    <div>
+
+      <div class="section-label">
+        Forward Looking Monitoring
+      </div>
+
+      <div class="section-title">
+        Selected KRI
+      </div>
+
+      <div class="section-description">
+        Key Risk Indicators requiring continuous monitoring
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="kri-table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>KRI</th>
+          <th>Threshold</th>
+          <th>Actual</th>
+          <th>Trend</th>
+          <th>Status</th>
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr>
+          <td>Piutang</td>
+          <td>≤ 2 bulan</td>
+          <td>2 bulan</td>
+          <td>→ Stable</td>
+          <td>
+            <span class="badge badge-safe">
+              AMAN
+            </span>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>Kurs</td>
+          <td>≤ 50%</td>
+          <td>217%</td>
+          <td>↑ Increasing</td>
+          <td>
+            <span class="badge badge-danger">
+              BAHAYA
+            </span>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>PIN</td>
+          <td>≥ 70%</td>
+          <td>85.91%</td>
+          <td>→ Stable</td>
+          <td>
+            <span class="badge badge-safe">
+              AMAN
+            </span>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>Production Downtime</td>
+          <td>≤ 3%</td>
+          <td>2.1%</td>
+          <td>↓ Improving</td>
+          <td>
+            <span class="badge badge-safe">
+              AMAN
+            </span>
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>Fatality</td>
+          <td>0</td>
+          <td>0</td>
+          <td>→ Stable</td>
+          <td>
+            <span class="badge badge-safe">
+              AMAN
+            </span>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
 
 <div class="footer">
-
-  Enterprise Risk Intelligence Dashboard ·
-  PT Pupuk Indonesia (Persero) ·
-  Data source: Monitoring Profil Risiko 2026 s.d. Juli 2026
-
+  ENTERPRISE RISK INTELLIGENCE · PT PUPUK INDONESIA (PERSERO) · RISK MANAGEMENT
 </div>
-
 
 </main>
 
 
-
 <script>
 
-
-/* =========================================================
-   RTM DATA
-========================================================= */
-
-const RTM_DATA = [
-
-  {
-    id:"RTM 1",
-    name:"RTM 1",
-
-    inherent:{
-      score:24,
-      probability:4,
-      impact:5
-    },
-
-    residual:{
-      score:14,
-      probability:4,
-      impact:3
-    }
-  },
-
-
-  {
-    id:"RTM 2",
-    name:"RTM 2",
-
-    inherent:{
-      score:24,
-      probability:4,
-      impact:5
-    },
-
-    residual:{
-      score:24,
-      probability:4,
-      impact:5
-    }
-  },
-
-
-  {
-    id:"RTM 3",
-    name:"RTM 3",
-
-    inherent:{
-      score:11,
-      probability:2,
-      impact:3
-    },
-
-    residual:{
-      score:11,
-      probability:2,
-      impact:3
-    }
-  },
-
-
-  {
-    id:"RTM 4",
-    name:"RTM 4",
-
-    inherent:{
-      score:19,
-      probability:4,
-      impact:4
-    },
-
-    residual:{
-      score:11,
-      probability:2,
-      impact:3
-    }
-  },
-
-
-  {
-    id:"RTM 5",
-    name:"RTM 5",
-
-    inherent:{
-      score:24,
-      probability:4,
-      impact:5
-    },
-
-    residual:{
-      score:14,
-      probability:4,
-      impact:3
-    }
-  },
-
-
-  {
-    id:"RTM 6",
-    name:"RTM 6",
-
-    inherent:{
-      score:23,
-      probability:3,
-      impact:5
-    },
-
-    residual:{
-      score:15,
-      probability:1,
-      impact:4
-    }
-  },
-
-
-  {
-    id:"RTM 7",
-    name:"RTM 7",
-
-    inherent:{
-      score:18,
-      probability:3,
-      impact:4
-    },
-
-    residual:{
-      score:16,
-      probability:2,
-      impact:4
-    }
-  },
-
-
-  {
-    id:"RTM 8",
-    name:"RTM 8",
-
-    inherent:{
-      score:20,
-      probability:1,
-      impact:5
-    },
-
-    residual:{
-      score:15,
-      probability:1,
-      impact:4
-    }
-  },
-
-
-  {
-    id:"RTM 9",
-    name:"RTM 9",
-
-    inherent:{
-      score:25,
-      probability:5,
-      impact:5
-    },
-
-    residual:{
-      score:13,
-      probability:3,
-      impact:3
-    }
-  },
-
-
-  {
-    id:"RTM 10",
-    name:"RTM 10",
-
-    inherent:{
-      score:24,
-      probability:4,
-      impact:5
-    },
-
-    residual:{
-      score:24,
-      probability:4,
-      impact:5
-    }
-  }
-
-];
-
-
-/* =========================================================
-   VALIDATE RTM
-========================================================= */
-
-function validRTMPoint(point){
-
-  return (
-    point &&
-    point.probability >= 1 &&
-    point.probability <= 5 &&
-    point.impact >= 1 &&
-    point.impact <= 5
-  );
-
-}
-
-
-/* =========================================================
-   RENDER RTM
-========================================================= */
-
-function renderRTM(){
-
-  const overlay =
-    document.getElementById("rtmOverlay");
-
-  const countLabel =
-    document.getElementById("rtmCount");
-
-
-  if(!overlay){
-    return;
-  }
-
-
-  overlay.innerHTML = "";
-
-
-  let validCount = 0;
-
-
-  function createMarker(point,type,rtm){
-
-    if(!validRTMPoint(point)){
-      return;
-    }
-
-
-    const cell =
-      document.createElement("div");
-
-
-    cell.className =
-      "rtm-point";
-
-
-    /*
-      Column:
-      Impact 1 → column 1
-      Impact 5 → column 5
-
-      Row:
-      Probability 5 → row 1
-      Probability 1 → row 5
-    */
-
-    cell.style.gridColumn =
-      point.impact;
-
-    cell.style.gridRow =
-      6 - point.probability;
-
-
-    const marker =
-      document.createElement("div");
-
-
-    marker.className =
-      "rtm-marker " + type;
-
-
-    marker.innerHTML =
-      point.score;
-
-
-    const label =
-      document.createElement("div");
-
-
-    label.className =
-      "rtm-label " +
-      (
-        type === "residual"
-        ? "residual-label"
-        : ""
-      );
-
-
-    label.innerHTML =
-      rtm.id +
-      " · " +
-      point.score;
-
-
-    marker.appendChild(label);
-
-
-    cell.appendChild(marker);
-
-
-    overlay.appendChild(cell);
-
-  }
-
-
-  RTM_DATA.forEach(rtm => {
-
-    const hasInherent =
-      validRTMPoint(rtm.inherent);
-
-    const hasResidual =
-      validRTMPoint(rtm.residual);
-
-
-    if(hasInherent || hasResidual){
-
-      validCount++;
-
-    }
-
-
-    createMarker(
-      rtm.inherent,
-      "inherent",
-      rtm
-    );
-
-
-    createMarker(
-      rtm.residual,
-      "residual",
-      rtm
-    );
-
-  });
-
-
-  countLabel.innerHTML =
-    "RTM tersedia: " +
-    validCount;
-
-}
-
-
-/* =========================================================
-   CHART DEFAULT
-========================================================= */
-
-Chart.defaults.font.family =
-  'Inter, Segoe UI, Arial';
-
-Chart.defaults.font.size =
-  10;
-
-Chart.defaults.color =
-  '#7B8C96';
-
-
-/* =========================================================
-   FINANCIAL TREND
-========================================================= */
-
-new Chart(
-
-  document.getElementById(
-    "financialTrend"
-  ),
-
-  {
-
-    type:"line",
-
-
-    data:{
-
-      labels:[
-        "Mei 2026",
-        "Juni 2026",
-        "Juli 2026"
+/* ================= DONUT ================= */
+
+const donutCtx =
+document.getElementById('riskDonut');
+
+new Chart(donutCtx,{
+  type:'doughnut',
+
+  data:{
+    labels:[
+      'Within Limit',
+      'Above Risk Limit',
+      'Above Trigger'
+    ],
+
+    datasets:[{
+      data:[30,7,1],
+
+      backgroundColor:[
+        '#22A06B',
+        '#F4B400',
+        '#E53935'
       ],
 
+      borderWidth:0,
 
-      datasets:[
+      hoverOffset:6
+    }]
+  },
 
-        {
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
 
-          label:"CFO (Rp T)",
+    cutout:'72%',
 
-          data:[
-            9.70,
-            5.03,
-            2.40
-          ],
-
-          borderColor:"#087F73",
-
-          backgroundColor:
-            "rgba(8,127,115,.10)",
-
-          fill:true,
-
-          tension:.35,
-
-          borderWidth:3,
-
-          pointRadius:4
-
-        },
-
-
-        {
-
-          label:"Current Ratio (x)",
-
-          data:[
-            1.77,
-            1.79,
-            1.92
-          ],
-
-          borderColor:"#FFC000",
-
-          backgroundColor:"transparent",
-
-          fill:false,
-
-          tension:.35,
-
-          borderWidth:2,
-
-          pointRadius:4,
-
-          yAxisID:"y1"
-
-        }
-
-      ]
-
-    },
-
-
-    options:{
-
-      responsive:true,
-
-      maintainAspectRatio:false,
-
-
-      plugins:{
-
-        legend:{
-          position:"bottom",
-
-          labels:{
-            boxWidth:10
+    plugins:{
+      legend:{
+        position:'bottom',
+        labels:{
+          usePointStyle:true,
+          pointStyle:'circle',
+          padding:18,
+          font:{
+            size:10
           }
         }
+      }
+    }
+  }
+});
 
+
+/* ================= TREND ================= */
+
+const trendCtx =
+document.getElementById('riskTrend');
+
+new Chart(trendCtx,{
+
+  type:'line',
+
+  data:{
+
+    labels:[
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul'
+    ],
+
+    datasets:[{
+
+      label:'Risk Parameters Above Limit',
+
+      data:[
+        4,
+        5,
+        5,
+        6,
+        5,
+        6,
+        7
+      ],
+
+      borderColor:'#008C83',
+
+      backgroundColor:'rgba(0,140,131,.08)',
+
+      fill:true,
+
+      tension:.35,
+
+      pointRadius:4,
+
+      pointBackgroundColor:'#008C83',
+
+      borderWidth:2
+    }]
+
+  },
+
+  options:{
+
+    responsive:true,
+
+    maintainAspectRatio:false,
+
+    plugins:{
+      legend:{
+        display:false
+      }
+    },
+
+    scales:{
+
+      y:{
+        beginAtZero:true,
+
+        ticks:{
+          stepSize:1,
+          font:{
+            size:9
+          }
+        },
+
+        grid:{
+          color:'#EDF3F2'
+        }
       },
 
-
-      scales:{
-
-        y:{
-
-          title:{
-            display:true,
-
-            text:"CFO (Rp Trillion)"
-          },
-
-          grid:{
-            color:"#EDF2F1"
-          }
-
+      x:{
+        grid:{
+          display:false
         },
 
-
-        y1:{
-
-          position:"right",
-
-          title:{
-            display:true,
-
-            text:"Current Ratio (x)"
-          },
-
-          grid:{
-            drawOnChartArea:false
+        ticks:{
+          font:{
+            size:9
           }
-
         }
-
       }
 
     }
 
   }
 
-);
-
-
-/* =========================================================
-   RISK DONUT
-========================================================= */
-
-new Chart(
-
-  document.getElementById(
-    "riskDonut"
-  ),
-
-  {
-
-    type:"doughnut",
-
-
-    data:{
-
-      labels:[
-
-        "Within Limit",
-
-        "Within Appetite",
-
-        "Within Tolerance",
-
-        "> Tolerance",
-
-        "> Trigger Level"
-
-      ],
-
-
-      datasets:[{
-
-        data:[
-
-          30,
-
-          5,
-
-          0,
-
-          7,
-
-          1
-
-        ],
-
-
-        backgroundColor:[
-
-          "#00B050",
-
-          "#92D050",
-
-          "#FFFF00",
-
-          "#FFC000",
-
-          "#FF0000"
-
-        ],
-
-
-        borderWidth:0,
-
-        hoverOffset:5
-
-      }]
-
-    },
-
-
-    options:{
-
-      responsive:true,
-
-      maintainAspectRatio:false,
-
-      cutout:"74%",
-
-
-      plugins:{
-
-        legend:{
-          display:false
-        }
-
-      }
-
-    }
-
-  }
-
-);
-
-
-/* =========================================================
-   REFRESH
-========================================================= */
-
-function refreshDashboard(){
-
-  const button =
-    document.querySelector(
-      ".refresh-btn"
-    );
-
-
-  button.innerHTML =
-    "↻ Updating...";
-
-
-  setTimeout(() => {
-
-    button.innerHTML =
-      "✓ Updated";
-
-
-    setTimeout(() => {
-
-      button.innerHTML =
-        "↻ Refresh";
-
-    },1200);
-
-  },700);
-
-}
-
-
-/* =========================================================
-   PERIOD FILTER
-========================================================= */
-
-document
-  .getElementById("periodSelect")
-  .addEventListener("change",function(){
-
-    /*
-      Saat ini hanya Juli yang tersedia.
-      Juni dan Mei disabled.
-    */
-
-    if(this.value !== "july"){
-
-      alert(
-        "Data untuk periode tersebut belum tersedia."
-      );
-
-      this.value =
-        "july";
-
-    }
-
-  });
-
-
-/* =========================================================
-   CATEGORY FILTER
-========================================================= */
-
-document
-  .getElementById("categorySelect")
-  .addEventListener("change",function(){
-
-    alert(
-      "Filter kategori: " +
-      this.value +
-      ". KPI utama tetap menampilkan total profil risiko Juli 2026."
-    );
-
-  });
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-renderRTM();
+});
 
 </script>
-
 
 </body>
 </html>
