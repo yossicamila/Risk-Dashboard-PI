@@ -1,1793 +1,921 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Enterprise Risk Intelligence Dashboard</title>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+:root{
+    --bg:#F4F9F8;
+    --card:#FFFFFF;
 
-/* =========================================================
-   GLOBAL
-========================================================= */
+    --teal:#087F73;
+    --teal-dark:#075C55;
+    --teal-mid:#15998C;
+    --teal-light:#E3F3F0;
 
-:root {
+    /* PER-02 RISK COLORS */
+    --low:#00B050;
+    --low-moderate:#92D050;
+    --moderate:#FFFF00;
+    --moderate-high:#FFC000;
+    --high:#FF0000;
 
-    --bg: #F4F9F8;
-    --card: #FFFFFF;
+    --navy:#123047;
+    --text:#344B58;
+    --muted:#7B8C96;
+    --border:#E1ECE9;
 
-    /* Corporate Teal */
-    --teal: #087F73;
-    --teal-dark: #075C55;
-    --teal-mid: #15998C;
-    --teal-light: #E3F3F0;
-    --teal-soft: #F0F8F6;
-
-    /* PER-02 Risk Classification */
-    --risk-low: #548235;
-    --risk-low-moderate: #A9D18E;
-    --risk-moderate: #FFD966;
-    --risk-moderate-high: #ED7D31;
-    --risk-high: #C00000;
-
-    /* Supporting colors */
-    --navy: #123047;
-    --text: #344B58;
-    --muted: #7B8C96;
-
-    --border: #E1ECE9;
-
-    --shadow:
-        0 10px 30px rgba(18, 48, 71, 0.055);
+    --shadow:0 10px 30px rgba(18,48,71,.055);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-
-    font-family:
-        Inter,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
+body{
+    font-family:Inter,"Segoe UI",Arial,sans-serif;
     background:
-
-        radial-gradient(
-            circle at 90% 0%,
-            rgba(8,127,115,.07),
-            transparent 25%
-        ),
-
+        radial-gradient(circle at 90% 0%,rgba(8,127,115,.07),transparent 25%),
         var(--bg);
-
-    color: var(--text);
-
-    min-height: 100vh;
+    color:var(--text);
+    min-height:100vh;
 }
 
+/* ================= HEADER ================= */
+
+.header{
+    height:78px;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 34px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-wrap{
+    width:45px;
+    height:45px;
+    position:relative;
+    display:grid;
+    place-items:center;
+}
+
+.logo-ring{
+    position:absolute;
+    inset:2px;
+    border-radius:50%;
+    border:1px solid rgba(8,127,115,.28);
+    animation:pulseRing 4s ease-in-out infinite;
+}
+
+.logo-ring:after{
+    content:"";
+    position:absolute;
+    inset:-5px;
+    border-radius:50%;
+    border:1px dashed rgba(8,127,115,.18);
+    animation:spin 12s linear infinite;
+}
+
+.logo{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--teal-dark),var(--teal-mid));
+    color:white;
+    font-size:18px;
+    font-weight:800;
+    display:grid;
+    place-items:center;
+    position:relative;
+    z-index:2;
+    box-shadow:0 6px 18px rgba(8,127,115,.25);
+    animation:logoBreath 4s ease-in-out infinite;
+}
+
+.brand-title{
+    font-size:15px;
+    font-weight:800;
+    color:var(--navy);
+    letter-spacing:.35px;
+}
+
+.brand-subtitle{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.live{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:10px;
+    font-weight:800;
+    color:var(--low);
+    background:#E8F5EE;
+    padding:7px 11px;
+    border-radius:20px;
+}
+
+.live-dot{
+    width:7px;
+    height:7px;
+    background:var(--low);
+    border-radius:50%;
+    animation:livePulse 1.8s infinite;
+}
+
+.refresh-btn{
+    border:1px solid var(--border);
+    background:white;
+    border-radius:9px;
+    padding:8px 12px;
+    color:var(--teal);
+    cursor:pointer;
+    font-weight:700;
+    transition:.2s;
+}
+
+.refresh-btn:hover{
+    background:var(--teal-light);
+    transform:translateY(-1px);
+}
+
+/* ================= MAIN ================= */
+
+.container{
+    max-width:1500px;
+    margin:auto;
+    padding:30px 34px 60px;
+}
+
+.page-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:25px;
+}
+
+.page-heading h1{
+    font-size:25px;
+    color:var(--navy);
+    letter-spacing:-.5px;
+}
+
+.page-heading p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:6px;
+}
+
+.filters{
+    display:flex;
+    gap:9px;
+}
+
+select{
+    border:1px solid var(--border);
+    background:white;
+    padding:9px 13px;
+    border-radius:9px;
+    color:var(--text);
+    font-size:12px;
+    outline:none;
+    cursor:pointer;
+}
+
+/* ================= KPI ================= */
+
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:18px;
+}
+
+.kpi{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+    transition:.25s;
+}
+
+.kpi:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 35px rgba(18,48,71,.10);
+}
+
+.kpi:after{
+    content:"";
+    position:absolute;
+    right:-30px;
+    bottom:-35px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:var(--teal-light);
+    opacity:.7;
+}
+
+.kpi-label{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+}
+
+.kpi-value{
+    font-size:29px;
+    color:var(--navy);
+    font-weight:800;
+    margin-top:9px;
+}
+
+.kpi-meta{
+    margin-top:7px;
+    font-size:10px;
+    font-weight:700;
+}
+
+.up{color:#D60000}
+.down{color:var(--low)}
+.neutral{color:var(--muted)}
+
+/* ================= CARDS ================= */
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+}
+
+.grid-2-equal{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    transition:.25s;
+    animation:fadeUp .5s ease both;
+}
+
+.card:hover{
+    box-shadow:0 14px 35px rgba(18,48,71,.075);
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+}
+
+.card-title{
+    color:var(--navy);
+    font-size:13px;
+    font-weight:800;
+}
+
+.card-subtitle{
+    font-size:10px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.badge{
+    font-size:8px;
+    padding:5px 8px;
+    border-radius:7px;
+    background:var(--teal-light);
+    color:var(--teal-dark);
+    font-weight:800;
+}
+
+.chart-container{
+    height:250px;
+    position:relative;
+}
+
+/* ================= DONUT ================= */
+
+.donut-layout{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:28px;
+    height:250px;
+}
+
+.donut-box{
+    width:190px;
+    height:190px;
+    position:relative;
+}
+
+.donut-center{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+}
+
+.donut-number{
+    font-size:27px;
+    font-weight:800;
+    color:var(--navy);
+}
+
+.donut-label{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.legend{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:10px;
+}
+
+.legend-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+}
+
+.legend-value{
+    margin-left:auto;
+    font-weight:800;
+    color:var(--navy);
+}
 
 /* =========================================================
-   HEADER
+   PER-02 RISK MATRIX
 ========================================================= */
 
-.header {
-
-    height: 78px;
-
-    background:
-        rgba(255,255,255,.94);
-
-    backdrop-filter:
-        blur(14px);
-
-    border-bottom:
-        1px solid var(--border);
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding:
-        0 34px;
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 100;
-}
-
-
-.brand {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-}
-
-
-.logo-wrap {
-
-    width: 45px;
-    height: 45px;
-
-    position: relative;
-
-    display: grid;
-
-    place-items: center;
-}
-
-
-.logo-ring {
-
-    position: absolute;
-
-    inset: 2px;
-
-    border-radius: 50%;
-
-    border:
-        1px solid
-        rgba(8,127,115,.28);
-
-    animation:
-        pulseRing 4s ease-in-out infinite;
-}
-
-
-.logo-ring::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: -5px;
-
-    border-radius: 50%;
-
-    border:
-        1px dashed
-        rgba(8,127,115,.18);
-
-    animation:
-        spin 12s linear infinite;
-}
-
-
-.logo {
-
-    width: 34px;
-    height: 34px;
-
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--teal-dark),
-            var(--teal-mid)
-        );
-
-    color: white;
-
-    font-size: 18px;
-
-    font-weight: 800;
-
-    display: grid;
-
-    place-items: center;
-
-    box-shadow:
-        0 6px 18px
-        rgba(8,127,115,.25);
-
-    position: relative;
-
-    z-index: 2;
-
-    animation:
-        logoBreath 4s ease-in-out infinite;
-}
-
-
-.brand-title {
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    color: var(--navy);
-
-    letter-spacing:
-        .35px;
-}
-
-
-.brand-subtitle {
-
-    font-size: 11px;
-
-    color: var(--muted);
-
-    margin-top: 3px;
-}
-
-
-.header-right {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-
-.live {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    color:
-        var(--risk-low);
-
-    background:
-        #E8F5EE;
-
-    padding:
-        7px 11px;
-
-    border-radius: 20px;
-}
-
-
-.live-dot {
-
-    width: 7px;
-    height: 7px;
-
-    background:
-        var(--risk-low);
-
-    border-radius: 50%;
-
-    animation:
-        livePulse 1.8s infinite;
-}
-
-
-.refresh-btn {
-
-    border:
-        1px solid var(--border);
-
-    background:
-        white;
-
-    border-radius: 9px;
-
-    padding:
-        8px 12px;
-
-    color:
-        var(--teal);
-
-    cursor: pointer;
-
-    font-weight: 700;
-
-    transition:
-        .2s;
-}
-
-
-.refresh-btn:hover {
-
-    background:
-        var(--teal-light);
-
-    transform:
-        translateY(-1px);
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.container {
-
-    max-width:
-        1500px;
-
-    margin:
-        auto;
-
-    padding:
-        30px 34px 60px;
-}
-
-
-.page-heading {
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        flex-end;
-
-    margin-bottom:
-        25px;
-}
-
-
-.page-heading h1 {
-
-    font-size:
-        25px;
-
-    color:
-        var(--navy);
-
-    letter-spacing:
-        -.5px;
-}
-
-
-.page-heading p {
-
-    color:
-        var(--muted);
-
-    font-size:
-        12px;
-
-    margin-top:
-        6px;
-}
-
-
-.filters {
-
-    display: flex;
-
-    gap:
-        9px;
-}
-
-
-select {
-
-    border:
-        1px solid var(--border);
-
-    background:
-        white;
-
-    padding:
-        9px 13px;
-
-    border-radius:
-        9px;
-
-    color:
-        var(--text);
-
-    font-size:
-        12px;
-
-    outline:
-        none;
-
-    cursor:
-        pointer;
-}
-
-
-/* =========================================================
-   KPI
-========================================================= */
-
-.kpi-grid {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap:
-        16px;
-
-    margin-bottom:
-        18px;
-}
-
-
-.kpi {
-
-    background:
-        var(--card);
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        15px;
-
-    padding:
-        20px;
-
-    box-shadow:
-        var(--shadow);
-
-    position:
-        relative;
-
-    overflow:
-        hidden;
-
-    transition:
-        .25s;
-}
-
-
-.kpi:hover {
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 15px 35px
-        rgba(18,48,71,.10);
-}
-
-
-.kpi::after {
-
-    content:
-        "";
-
-    position:
-        absolute;
-
-    right:
-        -30px;
-
-    bottom:
-        -35px;
-
-    width:
-        100px;
-
-    height:
-        100px;
-
-    border-radius:
-        50%;
-
-    background:
-        var(--teal-light);
-
-    opacity:
-        .7;
-}
-
-
-.kpi-label {
-
-    color:
-        var(--muted);
-
-    font-size:
-        10px;
-
-    font-weight:
-        800;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        .7px;
-}
-
-
-.kpi-value {
-
-    font-size:
-        29px;
-
-    color:
-        var(--navy);
-
-    font-weight:
-        800;
-
-    margin-top:
-        9px;
-}
-
-
-.kpi-meta {
-
-    margin-top:
-        7px;
-
-    font-size:
-        10px;
-
-    font-weight:
-        700;
-}
-
-
-.up {
-    color:
-        var(--risk-high);
-}
-
-
-.down {
-    color:
-        var(--risk-low);
-}
-
-
-.neutral {
-    color:
-        var(--muted);
-}
-
-
-/* =========================================================
-   LAYOUT
-========================================================= */
-
-.grid-2 {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1.5fr 1fr;
-
-    gap:
-        18px;
-
-    margin-bottom:
-        18px;
-}
-
-
-.grid-2-equal {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:
-        18px;
-
-    margin-bottom:
-        18px;
-}
-
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.card {
-
-    background:
-        white;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        15px;
-
-    padding:
-        20px;
-
-    box-shadow:
-        var(--shadow);
-
-    transition:
-        .25s;
-}
-
-
-.card:hover {
-
-    box-shadow:
-        0 14px 35px
-        rgba(18,48,71,.075);
-}
-
-
-.card-header {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-    margin-bottom:
-        16px;
-}
-
-
-.card-title {
-
-    color:
-        var(--navy);
-
-    font-size:
-        13px;
-
-    font-weight:
-        800;
-}
-
-
-.card-subtitle {
-
-    font-size:
-        10px;
-
-    color:
-        var(--muted);
-
-    margin-top:
-        3px;
-}
-
-
-.badge {
-
-    font-size:
-        8px;
-
-    padding:
-        5px 8px;
-
-    border-radius:
-        7px;
-
-    background:
-        var(--teal-light);
-
-    color:
-        var(--teal-dark);
-
-    font-weight:
-        800;
-
-    letter-spacing:
-        .3px;
-}
-
-
-.chart-container {
-
-    height:
-        250px;
-
-    position:
-        relative;
-}
-
-
-/* =========================================================
-   DONUT
-========================================================= */
-
-.donut-layout {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-        28px;
-
-    height:
-        250px;
-}
-
-
-.donut-box {
-
-    width:
-        190px;
-
-    height:
-        190px;
-
-    position:
-        relative;
-}
-
-
-.donut-center {
-
-    position:
-        absolute;
-
-    inset:
-        0;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    pointer-events:
-        none;
-}
-
-
-.donut-number {
-
-    font-size:
-        27px;
-
-    font-weight:
-        800;
-
-    color:
-        var(--navy);
-}
-
-
-.donut-label {
-
-    color:
-        var(--muted);
-
-    font-size:
-        9px;
-}
-
-
-/* =========================================================
-   LEGEND
-========================================================= */
-
-.legend {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        13px;
-}
-
-
-.legend-item {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        8px;
-
-    font-size:
-        10px;
-}
-
-
-.legend-dot {
-
-    width:
-        9px;
-
-    height:
-        9px;
-
-    border-radius:
-        50%;
-}
-
-
-.legend-value {
-
-    margin-left:
-        auto;
-
-    font-weight:
-        800;
-
-    color:
-        var(--navy);
-}
-
-
-/* =========================================================
-   PER-02 HEATMAP
-========================================================= */
-
-.heatmap-wrap {
-
-    overflow-x:
-        auto;
-}
-
-
-.heatmap {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        45px repeat(5, 1fr);
-
-    grid-template-rows:
-        repeat(6, 45px);
-
-    gap:
-        4px;
-
-    max-width:
-        500px;
-
-    margin:
-        auto;
-}
-
-
-.heat-cell {
-
-    display:
-        grid;
-
-    place-items:
-        center;
-
-    border-radius:
-        4px;
-
-    font-size:
-        10px;
-
-    font-weight:
-        800;
-
-    cursor:
-        pointer;
-
-    transition:
-        all .2s ease;
-
-    border:
-        1px solid
-        rgba(255,255,255,.5);
-}
-
-
-.heat-cell:hover {
-
-    transform:
-        scale(1.08);
-
-    z-index:
-        5;
-
-    box-shadow:
-        0 6px 16px
-        rgba(18,48,71,.18);
-}
-
-
-/* PER-02 RISK COLORS */
-
-.heat-low {
-
-    background:
-        #548235;
-
-    color:
-        white;
-}
-
-
-.heat-low-moderate {
-
-    background:
-        #A9D18E;
-
-    color:
-        #31542A;
-}
-
-
-.heat-moderate {
-
-    background:
-        #FFD966;
-
-    color:
-        #665000;
+.risk-matrix-container{
+    display:flex;
+    align-items:stretch;
+    gap:8px;
+    margin-top:8px;
+}
+
+.vertical-title{
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-size:9px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    width:24px;
+}
+
+.risk-matrix-area{
+    flex:1;
+    min-width:0;
 }
-
-
-.heat-moderate-high {
-
-    background:
-        #ED7D31;
-
-    color:
-        white;
-}
-
-
-.heat-high {
-
-    background:
-        #C00000;
-
-    color:
-        white;
-}
-
-
-.axis-label {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    font-size:
-        9px;
-
-    color:
-        var(--muted);
-
-    font-weight:
-        800;
-}
-
-
-.heatmap-axis-title {
-
-    text-align:
-        center;
-
-    color:
-        var(--muted);
-
-    font-size:
-        9px;
-
-    font-weight:
-        800;
-
-    margin-top:
-        9px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        .6px;
+
+.risk-matrix{
+    display:grid;
+    grid-template-columns:82px repeat(5,1fr);
+    grid-template-rows:48px repeat(5,47px);
+    gap:3px;
+    width:100%;
 }
-
-
-.heatmap-legend {
-
-    display:
-        flex;
-
-    justify-content:
-        center;
 
-    flex-wrap:
-        wrap;
-
-    gap:
-        12px;
-
-    margin-top:
-        18px;
+.matrix-corner{
+    background:transparent;
 }
-
-
-.heatmap-legend-item {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        6px;
-
-    font-size:
-        8px;
 
-    color:
-        var(--muted);
-
-    font-weight:
-        700;
+.impact-label{
+    background:#F7F9F9;
+    border:1px solid #E1E8E6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    font-size:8px;
+    line-height:1.15;
+    color:var(--text);
+    font-weight:600;
+    border-radius:3px;
+}
+
+.impact-label span{
+    font-weight:800;
+    color:var(--muted);
+    margin-top:2px;
+    font-size:8px;
+}
+
+.probability-label{
+    background:#F7F9F9;
+    border:1px solid #E1E8E6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    color:var(--text);
+    border-radius:3px;
+    line-height:1.15;
+    padding:3px;
+}
+
+.probability-label strong{
+    font-size:8px;
+    font-weight:700;
+}
+
+.probability-label span{
+    font-size:10px;
+    font-weight:800;
+    color:var(--muted);
+    margin-top:2px;
+}
+
+.risk-cell{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:800;
+    border-radius:3px;
+    border:1px solid rgba(255,255,255,.55);
+    cursor:pointer;
+    position:relative;
+    transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.risk-cell:hover{
+    transform:scale(1.06);
+    z-index:10;
+    box-shadow:0 5px 15px rgba(18,48,71,.20);
+}
+
+/* EXACT PER-02 COLORS */
+
+.risk-cell.low{
+    background:#00B050;
+    color:white;
+}
+
+.risk-cell.low-moderate{
+    background:#92D050;
+    color:#172A1A;
+}
+
+.risk-cell.moderate{
+    background:#FFFF00;
+    color:#332F00;
+}
+
+.risk-cell.moderate-high{
+    background:#FFC000;
+    color:#3E2D00;
+}
+
+.risk-cell.high{
+    background:#FF0000;
+    color:white;
+}
+
+.impact-title{
+    margin-top:5px;
+    background:#F7F9F9;
+    border:1px solid #E1E8E6;
+    text-align:center;
+    padding:5px;
+    color:var(--muted);
+    font-size:9px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    border-radius:3px;
+}
+
+.risk-legend{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:18px;
+    padding-top:13px;
+    border-top:1px solid var(--border);
+}
+
+.risk-legend-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:8px;
+    color:var(--muted);
+    font-weight:700;
 }
-
-
-.legend-square {
-
-    width:
-        11px;
 
-    height:
-        11px;
+.legend-box{
+    width:13px;
+    height:13px;
+    border-radius:2px;
+    display:inline-block;
+}
+
+.risk-low-color{background:#00B050}
+.risk-low-moderate-color{background:#92D050}
+.risk-moderate-color{background:#FFFF00}
+.risk-moderate-high-color{background:#FFC000}
+.risk-high-color{background:#FF0000}
+
+/* ================= APPETITE ================= */
 
-    border-radius:
-        2px;
-
-    display:
-        inline-block;
+.appetite{
+    min-height:250px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
-
-
-/* =========================================================
-   RISK APPETITE
-========================================================= */
-
-.appetite {
 
-    min-height:
-        250px;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
+.appetite-scale{
+    height:18px;
+    border-radius:20px;
+    background:linear-gradient(
+        to right,
+        #00B050 0%,
+        #00B050 20%,
+        #92D050 20%,
+        #92D050 40%,
+        #FFFF00 40%,
+        #FFFF00 60%,
+        #FFC000 60%,
+        #FFC000 80%,
+        #FF0000 80%,
+        #FF0000 100%
+    );
+    position:relative;
 }
-
-
-.appetite-scale {
-
-    height:
-        18px;
-
-    border-radius:
-        20px;
-
-    background:
-        linear-gradient(
-            to right,
 
-            #548235 0%,
-            #548235 20%,
-
-            #A9D18E 20%,
-            #A9D18E 40%,
-
-            #FFD966 40%,
-            #FFD966 60%,
-
-            #ED7D31 60%,
-            #ED7D31 80%,
-
-            #C00000 80%,
-            #C00000 100%
-        );
-
-    position:
-        relative;
+.appetite-marker{
+    position:absolute;
+    top:-8px;
+    left:64%;
+    width:4px;
+    height:34px;
+    background:var(--navy);
+    border-radius:5px;
+    box-shadow:0 2px 8px rgba(0,0,0,.18);
 }
-
-
-.appetite-marker {
-
-    position:
-        absolute;
 
-    top:
-        -8px;
-
-    left:
-        64%;
-
-    width:
-        4px;
-
-    height:
-        34px;
-
-    background:
-        var(--navy);
-
-    border-radius:
-        5px;
-
-    box-shadow:
-        0 2px 8px
-        rgba(0,0,0,.18);
+.appetite-marker:after{
+    content:"16.2";
+    position:absolute;
+    top:-28px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--navy);
+    color:white;
+    font-size:9px;
+    padding:4px 6px;
+    border-radius:5px;
+    font-weight:800;
 }
-
-
-.appetite-marker::after {
-
-    content:
-        "16.2";
-
-    position:
-        absolute;
-
-    top:
-        -28px;
-
-    left:
-        50%;
-
-    transform:
-        translateX(-50%);
-
-    background:
-        var(--navy);
-
-    color:
-        white;
-
-    font-size:
-        9px;
 
-    padding:
-        4px 6px;
-
-    border-radius:
-        5px;
-
-    font-weight:
-        800;
-
-    white-space:
-        nowrap;
+.scale-labels{
+    display:flex;
+    justify-content:space-between;
+    margin-top:9px;
+    color:var(--muted);
+    font-size:8px;
 }
-
-
-.scale-labels {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    margin-top:
-        9px;
 
-    color:
-        var(--muted);
-
-    font-size:
-        8px;
+.appetite-info{
+    display:flex;
+    justify-content:space-around;
+    margin-top:30px;
+    text-align:center;
 }
-
-
-.appetite-info {
-
-    display:
-        flex;
 
-    justify-content:
-        space-around;
-
-    margin-top:
-        30px;
-
-    text-align:
-        center;
+.appetite-info strong{
+    display:block;
+    font-size:20px;
+    color:var(--navy);
 }
-
-
-.appetite-info strong {
 
-    display:
-        block;
-
-    font-size:
-        20px;
-
-    color:
-        var(--navy);
+.appetite-info span{
+    font-size:8px;
+    color:var(--muted);
 }
-
-
-.appetite-info span {
 
-    font-size:
-        8px;
+/* ================= TABLE ================= */
 
-    color:
-        var(--muted);
+.risk-table{
+    width:100%;
+    border-collapse:collapse;
 }
-
-
-/* =========================================================
-   RISK TABLE
-========================================================= */
-
-.risk-table {
-
-    width:
-        100%;
 
-    border-collapse:
-        collapse;
+.risk-table th{
+    text-align:left;
+    color:var(--muted);
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    padding:9px 8px;
+    border-bottom:1px solid var(--border);
 }
-
-
-.risk-table th {
-
-    text-align:
-        left;
-
-    color:
-        var(--muted);
-
-    font-size:
-        8px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        .6px;
-
-    padding:
-        9px 8px;
 
-    border-bottom:
-        1px solid var(--border);
+.risk-table td{
+    padding:11px 8px;
+    border-bottom:1px solid #EDF2F1;
+    font-size:10px;
 }
 
-
-.risk-table td {
-
-    padding:
-        11px 8px;
-
-    border-bottom:
-        1px solid #EDF2F1;
-
-    font-size:
-        10px;
+.risk-table tr{
+    transition:.2s;
+    cursor:pointer;
 }
 
-
-.risk-table tr {
-
-    transition:
-        .2s;
-
-    cursor:
-        pointer;
+.risk-table tbody tr:hover{
+    background:var(--teal-light);
 }
-
 
-.risk-table tbody tr:hover {
-
-    background:
-        var(--teal-soft);
+.risk-name{
+    font-weight:700;
+    color:var(--navy);
 }
-
-
-.risk-name {
-
-    font-weight:
-        700;
 
-    color:
-        var(--navy);
+.risk-score{
+    font-weight:800;
+    font-size:13px;
 }
 
-
-.risk-score {
-
-    font-weight:
-        800;
-
-    font-size:
-        13px;
+.status{
+    display:inline-block;
+    padding:4px 7px;
+    border-radius:6px;
+    font-size:7px;
+    font-weight:800;
 }
-
 
-.status {
-
-    display:
-        inline-block;
-
-    padding:
-        4px 7px;
-
-    border-radius:
-        6px;
-
-    font-size:
-        7px;
-
-    font-weight:
-        800;
+.status-high{
+    background:#FDEAEA;
+    color:#D60000;
 }
-
-
-.status-high {
-
-    background:
-        #FDEAEA;
 
-    color:
-        var(--risk-high);
+.status-watch{
+    background:#FFF5D6;
+    color:#967200;
 }
 
-
-.status-watch {
-
-    background:
-        #FFF5D6;
-
-    color:
-        #967200;
+.status-controlled{
+    background:#E7F2DF;
+    color:var(--low);
 }
-
 
-.status-controlled {
+/* ================= EXTERNAL DRIVERS ================= */
 
-    background:
-        #E7F2DF;
-
-    color:
-        var(--risk-low);
+.driver-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
-
-
-/* =========================================================
-   EXTERNAL DRIVERS
-========================================================= */
-
-.driver-grid {
 
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap:
-        12px;
+.driver{
+    background:#F0F8F6;
+    border:1px solid #DCEFEB;
+    border-radius:11px;
+    padding:14px;
+    transition:.2s;
 }
-
-
-.driver {
-
-    background:
-        var(--teal-soft);
-
-    border:
-        1px solid #DCEFEB;
-
-    border-radius:
-        11px;
-
-    padding:
-        14px;
 
-    transition:
-        .2s;
+.driver:hover{
+    transform:translateY(-2px);
+    border-color:#B8DED7;
 }
 
-
-.driver:hover {
-
-    transform:
-        translateY(-2px);
-
-    border-color:
-        #B8DED7;
+.driver-name{
+    font-size:9px;
+    font-weight:800;
+    color:var(--muted);
 }
-
 
-.driver-name {
-
-    font-size:
-        9px;
-
-    font-weight:
-        800;
-
-    color:
-        var(--muted);
+.driver-value{
+    margin-top:6px;
+    font-size:18px;
+    font-weight:800;
+    color:var(--navy);
 }
-
 
-.driver-value {
-
-    margin-top:
-        6px;
-
-    font-size:
-        18px;
-
-    font-weight:
-        800;
-
-    color:
-        var(--navy);
+.driver-change{
+    font-size:9px;
+    margin-top:5px;
+    font-weight:800;
 }
 
+/* ================= MONTE CARLO ================= */
 
-.driver-change {
-
-    font-size:
-        9px;
-
-    margin-top:
-        5px;
-
-    font-weight:
-        800;
+.monte-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:10px;
 }
-
 
-/* =========================================================
-   MONTE CARLO
-========================================================= */
-
-.monte-info {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:
-        10px;
-
-    margin-top:
-        10px;
+.monte-stat{
+    background:#F0F8F6;
+    padding:12px;
+    border-radius:9px;
+    text-align:center;
 }
-
-
-.monte-stat {
-
-    background:
-        var(--teal-soft);
 
-    padding:
-        12px;
-
-    border-radius:
-        9px;
-
-    text-align:
-        center;
+.monte-stat strong{
+    display:block;
+    color:var(--navy);
+    font-size:17px;
 }
-
-
-.monte-stat strong {
 
-    display:
-        block;
-
-    color:
-        var(--navy);
-
-    font-size:
-        17px;
+.monte-stat span{
+    color:var(--muted);
+    font-size:8px;
 }
-
-
-.monte-stat span {
 
-    color:
-        var(--muted);
-
-    font-size:
-        8px;
+.footer{
+    text-align:center;
+    color:#94A3AB;
+    font-size:9px;
+    margin-top:30px;
 }
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer {
 
-    text-align:
-        center;
+/* ================= ANIMATION ================= */
 
-    color:
-        #94A3AB;
-
-    font-size:
-        9px;
-
-    margin-top:
-        30px;
+@keyframes spin{
+    to{transform:rotate(360deg)}
 }
-
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-@keyframes spin {
 
-    to {
-        transform:
-            rotate(360deg);
+@keyframes pulseRing{
+    0%,100%{
+        transform:scale(1);
+        opacity:.65;
+    }
+    50%{
+        transform:scale(1.08);
+        opacity:1;
     }
 }
 
-
-@keyframes pulseRing {
-
-    0%,100% {
-
-        transform:
-            scale(1);
-
-        opacity:
-            .65;
+@keyframes logoBreath{
+    0%,100%{
+        box-shadow:0 6px 18px rgba(8,127,115,.25);
     }
-
-    50% {
-
-        transform:
-            scale(1.08);
-
-        opacity:
-            1;
+    50%{
+        box-shadow:0 7px 25px rgba(8,127,115,.42);
     }
 }
 
-
-@keyframes logoBreath {
-
-    0%,100% {
-
-        box-shadow:
-            0 6px 18px
-            rgba(8,127,115,.25);
+@keyframes livePulse{
+    0%{
+        box-shadow:0 0 0 0 rgba(0,176,80,.45);
     }
-
-    50% {
-
-        box-shadow:
-            0 7px 25px
-            rgba(8,127,115,.42);
+    70%{
+        box-shadow:0 0 0 7px rgba(0,176,80,0);
+    }
+    100%{
+        box-shadow:0 0 0 0 rgba(0,176,80,0);
     }
 }
 
-
-@keyframes livePulse {
-
-    0% {
-
-        box-shadow:
-            0 0 0 0
-            rgba(84,130,53,.45);
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(8px);
     }
-
-    70% {
-
-        box-shadow:
-            0 0 0 7px
-            rgba(84,130,53,0);
-    }
-
-    100% {
-
-        box-shadow:
-            0 0 0 0
-            rgba(84,130,53,0);
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 }
 
+/* ================= RESPONSIVE ================= */
 
-@keyframes fadeUp {
+@media(max-width:1100px){
 
-    from {
-
-        opacity:
-            0;
-
-        transform:
-            translateY(8px);
-    }
-
-    to {
-
-        opacity:
-            1;
-
-        transform:
-            translateY(0);
-    }
-}
-
-
-.card,
-.kpi {
-
-    animation:
-        fadeUp .5s ease both;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width:1100px) {
-
-    .kpi-grid {
-
-        grid-template-columns:
-            repeat(2,1fr);
+    .kpi-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
     .grid-2,
-    .grid-2-equal {
-
-        grid-template-columns:
-            1fr;
+    .grid-2-equal{
+        grid-template-columns:1fr;
     }
 }
 
+@media(max-width:700px){
 
-@media (max-width:700px) {
-
-    .header {
-
-        padding:
-            0 15px;
+    .header{
+        padding:0 15px;
     }
 
-    .brand-subtitle {
-
-        display:
-            none;
+    .brand-subtitle{
+        display:none;
     }
 
-    .container {
-
-        padding:
-            20px 15px 40px;
+    .container{
+        padding:20px 15px 40px;
     }
 
-    .page-heading {
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-
-        gap:
-            15px;
+    .page-heading{
+        align-items:flex-start;
+        flex-direction:column;
+        gap:15px;
     }
 
-    .kpi-grid {
-
-        grid-template-columns:
-            1fr;
+    .kpi-grid{
+        grid-template-columns:1fr;
     }
 
-    .donut-layout {
-
-        flex-direction:
-            column;
-
-        height:
-            auto;
+    .donut-layout{
+        flex-direction:column;
+        height:auto;
     }
 
-    .driver-grid {
-
-        grid-template-columns:
-            repeat(2,1fr);
+    .risk-matrix{
+        grid-template-columns:65px repeat(5,minmax(55px,1fr));
+        grid-template-rows:55px repeat(5,55px);
     }
 
-    .monte-info {
-
-        grid-template-columns:
-            1fr;
+    .impact-label,
+    .probability-label{
+        font-size:7px;
     }
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
     <div class="brand">
 
         <div class="logo-wrap">
-
             <div class="logo-ring"></div>
-
-            <div class="logo">
-                P
-            </div>
-
+            <div class="logo">P</div>
         </div>
 
-
         <div>
-
             <div class="brand-title">
                 ENTERPRISE RISK INTELLIGENCE
             </div>
@@ -1795,29 +923,21 @@ select {
             <div class="brand-subtitle">
                 Integrated Risk Management Dashboard
             </div>
-
         </div>
 
     </div>
 
-
     <div class="header-right">
 
         <div class="live">
-
             <span class="live-dot"></span>
-
             LIVE DATA
-
         </div>
-
 
         <button
             class="refresh-btn"
             onclick="refreshDashboard()">
-
             ↻ Refresh
-
         </button>
 
     </div>
@@ -1825,16 +945,9 @@ select {
 </header>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
 <main class="container">
 
-
-<!-- =====================================================
-     PAGE HEADING
-===================================================== -->
+<!-- ================= TITLE ================= -->
 
 <section class="page-heading">
 
@@ -1846,57 +959,25 @@ select {
 
         <p>
             Enterprise risk profile and key risk indicators
-            · Last updated 21 Aug 2026, 10:58
+            · Last updated 21 Aug 2026
         </p>
 
     </div>
 
-
     <div class="filters">
 
-        <select
-            id="periodSelect"
-            onchange="updatePeriod()">
-
-            <option>
-                Q3 2026
-            </option>
-
-            <option>
-                Semester I 2026
-            </option>
-
-            <option>
-                FY 2026
-            </option>
-
+        <select id="periodSelect">
+            <option>Q3 2026</option>
+            <option>Semester I 2026</option>
+            <option>FY 2026</option>
         </select>
 
-
-        <select
-            id="categorySelect"
-            onchange="updateCategory()">
-
-            <option>
-                All Categories
-            </option>
-
-            <option>
-                Strategic
-            </option>
-
-            <option>
-                Financial
-            </option>
-
-            <option>
-                Operational
-            </option>
-
-            <option>
-                Compliance
-            </option>
-
+        <select id="categorySelect">
+            <option>All Categories</option>
+            <option>Strategic</option>
+            <option>Financial</option>
+            <option>Operational</option>
+            <option>Compliance</option>
         </select>
 
     </div>
@@ -1904,231 +985,205 @@ select {
 </section>
 
 
-<!-- =====================================================
-     KPI
-===================================================== -->
+<!-- ================= KPI ================= -->
 
 <section class="kpi-grid">
 
+    <div class="kpi">
 
-<div class="kpi">
+        <div class="kpi-label">
+            Overall Risk Score
+        </div>
 
-    <div class="kpi-label">
-        Overall Risk Score
+        <div class="kpi-value">
+            16.2
+        </div>
+
+        <div class="kpi-meta down">
+            ↓ 4.8% vs previous period
+        </div>
+
     </div>
 
-    <div class="kpi-value">
-        16.2
+
+    <div class="kpi">
+
+        <div class="kpi-label">
+            High Risk
+        </div>
+
+        <div class="kpi-value">
+            02
+        </div>
+
+        <div class="kpi-meta up">
+            ↑ Requires attention
+        </div>
+
     </div>
 
-    <div class="kpi-meta down">
-        ↓ 4.8% vs previous period
+
+    <div class="kpi">
+
+        <div class="kpi-label">
+            Risks Under Monitoring
+        </div>
+
+        <div class="kpi-value">
+            07
+        </div>
+
+        <div class="kpi-meta neutral">
+            → Stable
+        </div>
+
     </div>
 
-</div>
 
+    <div class="kpi">
 
-<div class="kpi">
+        <div class="kpi-label">
+            Mitigation Progress
+        </div>
 
-    <div class="kpi-label">
-        High Risk
+        <div class="kpi-value">
+            78%
+        </div>
+
+        <div class="kpi-meta down">
+            ↑ 6.2% improvement
+        </div>
+
     </div>
-
-    <div class="kpi-value">
-        02
-    </div>
-
-    <div class="kpi-meta up">
-        ↑ 1 risk requires attention
-    </div>
-
-</div>
-
-
-<div class="kpi">
-
-    <div class="kpi-label">
-        Risks Under Monitoring
-    </div>
-
-    <div class="kpi-value">
-        07
-    </div>
-
-    <div class="kpi-meta neutral">
-        → Stable
-    </div>
-
-</div>
-
-
-<div class="kpi">
-
-    <div class="kpi-label">
-        Mitigation Progress
-    </div>
-
-    <div class="kpi-value">
-        78%
-    </div>
-
-    <div class="kpi-meta down">
-        ↑ 6.2% improvement
-    </div>
-
-</div>
-
 
 </section>
 
 
-<!-- =====================================================
-     RISK TREND + DISTRIBUTION
-===================================================== -->
+<!-- ================= CHARTS ================= -->
 
 <section class="grid-2">
 
+    <div class="card">
 
-<div class="card">
+        <div class="card-header">
 
-    <div class="card-header">
-
-        <div>
-
-            <div class="card-title">
-                Risk Trend
-            </div>
-
-            <div class="card-subtitle">
-                Overall risk score movement
-            </div>
-
-        </div>
-
-
-        <div class="badge">
-            2026
-        </div>
-
-    </div>
-
-
-    <div class="chart-container">
-
-        <canvas id="riskTrendChart"></canvas>
-
-    </div>
-
-</div>
-
-
-
-<div class="card">
-
-    <div class="card-header">
-
-        <div>
-
-            <div class="card-title">
-                Risk Distribution
-            </div>
-
-            <div class="card-subtitle">
-                Current enterprise risk status
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="donut-layout">
-
-        <div class="donut-box">
-
-            <canvas id="riskDonut"></canvas>
-
-            <div class="donut-center">
-
-                <div class="donut-number">
-                    16
+            <div>
+                <div class="card-title">
+                    Risk Trend
                 </div>
 
-                <div class="donut-label">
-                    TOTAL RISKS
+                <div class="card-subtitle">
+                    Overall risk score movement
+                </div>
+            </div>
+
+            <div class="badge">
+                2026
+            </div>
+
+        </div>
+
+        <div class="chart-container">
+            <canvas id="riskTrendChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+                <div class="card-title">
+                    Risk Distribution
+                </div>
+
+                <div class="card-subtitle">
+                    Current enterprise risk status
+                </div>
+            </div>
+
+        </div>
+
+        <div class="donut-layout">
+
+            <div class="donut-box">
+
+                <canvas id="riskDonut"></canvas>
+
+                <div class="donut-center">
+
+                    <div class="donut-number">
+                        16
+                    </div>
+
+                    <div class="donut-label">
+                        TOTAL RISKS
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+
+            <div class="legend">
+
+                <div class="legend-item">
+                    <span
+                        class="legend-dot"
+                        style="background:#00B050">
+                    </span>
+
+                    Low / Controlled
+
+                    <span class="legend-value">
+                        70%
+                    </span>
+                </div>
 
 
-        <div class="legend">
+                <div class="legend-item">
+                    <span
+                        class="legend-dot"
+                        style="background:#FFFF00">
+                    </span>
 
-            <div class="legend-item">
+                    Moderate / Watch
 
-                <span
-                    class="legend-dot"
-                    style="background:#548235">
-                </span>
-
-                Low / Controlled
-
-                <span class="legend-value">
-                    70%
-                </span>
-
-            </div>
+                    <span class="legend-value">
+                        20%
+                    </span>
+                </div>
 
 
-            <div class="legend-item">
+                <div class="legend-item">
+                    <span
+                        class="legend-dot"
+                        style="background:#FF0000">
+                    </span>
 
-                <span
-                    class="legend-dot"
-                    style="background:#FFD966">
-                </span>
+                    High
 
-                Moderate / Watch
-
-                <span class="legend-value">
-                    20%
-                </span>
-
-            </div>
-
-
-            <div class="legend-item">
-
-                <span
-                    class="legend-dot"
-                    style="background:#C00000">
-                </span>
-
-                High
-
-                <span class="legend-value">
-                    10%
-                </span>
+                    <span class="legend-value">
+                        10%
+                    </span>
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-</div>
 
 </section>
 
 
 <!-- =====================================================
-     HEATMAP + APPETITE
-===================================================== -->
+     HEATMAP
+====================================================== -->
 
 <section class="grid-2-equal">
-
-
-<!-- HEATMAP -->
 
 <div class="card">
 
@@ -2141,11 +1196,10 @@ select {
             </div>
 
             <div class="card-subtitle">
-                Risk Matrix · Likelihood × Impact
+                Risk Matrix · Probability × Impact
             </div>
 
         </div>
-
 
         <div class="badge">
             PER-02
@@ -2154,167 +1208,226 @@ select {
     </div>
 
 
-    <div class="heatmap-wrap">
+    <div class="risk-matrix-container">
 
-        <div class="heatmap">
+        <div class="vertical-title">
+            Probabilitas
+        </div>
 
-            <!-- Header -->
 
-            <div></div>
+        <div class="risk-matrix-area">
 
-            <div class="axis-label">
-                1
+            <div class="risk-matrix">
+
+                <!-- HEADER -->
+
+                <div class="matrix-corner"></div>
+
+                <div class="impact-label">
+                    Sangat<br>Rendah
+                    <span>1</span>
+                </div>
+
+                <div class="impact-label">
+                    Rendah
+                    <span>2</span>
+                </div>
+
+                <div class="impact-label">
+                    Moderat
+                    <span>3</span>
+                </div>
+
+                <div class="impact-label">
+                    Tinggi
+                    <span>4</span>
+                </div>
+
+                <div class="impact-label">
+                    Sangat<br>Tinggi
+                    <span>5</span>
+                </div>
+
+
+                <!-- PROBABILITY 5 -->
+
+                <div class="probability-label">
+                    <strong>
+                        Hampir<br>Pasti
+                    </strong>
+                    <span>5</span>
+                </div>
+
+                <div class="risk-cell low-moderate"
+                     onclick="showRiskScore(7)">
+                    7
+                </div>
+
+                <div class="risk-cell moderate"
+                     onclick="showRiskScore(12)">
+                    12
+                </div>
+
+                <div class="risk-cell moderate-high"
+                     onclick="showRiskScore(17)">
+                    17
+                </div>
+
+                <div class="risk-cell high"
+                     onclick="showRiskScore(22)">
+                    22
+                </div>
+
+                <div class="risk-cell high"
+                     onclick="showRiskScore(25)">
+                    25
+                </div>
+
+
+                <!-- PROBABILITY 4 -->
+
+                <div class="probability-label">
+                    <strong>
+                        Sangat<br>Mungkin
+                    </strong>
+                    <span>4</span>
+                </div>
+
+                <div class="risk-cell low"
+                     onclick="showRiskScore(4)">
+                    4
+                </div>
+
+                <div class="risk-cell low-moderate"
+                     onclick="showRiskScore(9)">
+                    9
+                </div>
+
+                <div class="risk-cell moderate"
+                     onclick="showRiskScore(14)">
+                    14
+                </div>
+
+                <div class="risk-cell moderate-high"
+                     onclick="showRiskScore(19)">
+                    19
+                </div>
+
+                <div class="risk-cell high"
+                     onclick="showRiskScore(24)">
+                    24
+                </div>
+
+
+                <!-- PROBABILITY 3 -->
+
+                <div class="probability-label">
+                    <strong>
+                        Bisa<br>Terjadi
+                    </strong>
+                    <span>3</span>
+                </div>
+
+                <div class="risk-cell low"
+                     onclick="showRiskScore(3)">
+                    3
+                </div>
+
+                <div class="risk-cell low-moderate"
+                     onclick="showRiskScore(8)">
+                    8
+                </div>
+
+                <div class="risk-cell moderate"
+                     onclick="showRiskScore(13)">
+                    13
+                </div>
+
+                <div class="risk-cell moderate-high"
+                     onclick="showRiskScore(18)">
+                    18
+                </div>
+
+                <div class="risk-cell high"
+                     onclick="showRiskScore(23)">
+                    23
+                </div>
+
+
+                <!-- PROBABILITY 2 -->
+
+                <div class="probability-label">
+                    <strong>
+                        Jarang<br>Terjadi
+                    </strong>
+                    <span>2</span>
+                </div>
+
+                <div class="risk-cell low"
+                     onclick="showRiskScore(2)">
+                    2
+                </div>
+
+                <div class="risk-cell low"
+                     onclick="showRiskScore(6)">
+                    6
+                </div>
+
+                <div class="risk-cell low-moderate"
+                     onclick="showRiskScore(11)">
+                    11
+                </div>
+
+                <div class="risk-cell moderate-high"
+                     onclick="showRiskScore(16)">
+                    16
+                </div>
+
+                <div class="risk-cell high"
+                     onclick="showRiskScore(21)">
+                    21
+                </div>
+
+
+                <!-- PROBABILITY 1 -->
+
+                <div class="probability-label">
+                    <strong>
+                        Sangat<br>Jarang<br>Terjadi
+                    </strong>
+                    <span>1</span>
+                </div>
+
+                <div class="risk-cell low"
+                     onclick="showRiskScore(1)">
+                    1
+                </div>
+
+                <div class="risk-cell low"
+                     onclick="showRiskScore(5)">
+                    5
+                </div>
+
+                <div class="risk-cell low-moderate"
+                     onclick="showRiskScore(10)">
+                    10
+                </div>
+
+                <div class="risk-cell moderate"
+                     onclick="showRiskScore(15)">
+                    15
+                </div>
+
+                <div class="risk-cell high"
+                     onclick="showRiskScore(20)">
+                    20
+                </div>
+
             </div>
 
-            <div class="axis-label">
-                2
-            </div>
 
-            <div class="axis-label">
-                3
-            </div>
-
-            <div class="axis-label">
-                4
-            </div>
-
-            <div class="axis-label">
-                5
-            </div>
-
-
-            <!-- Impact 5 -->
-
-            <div class="axis-label">
-                5
-            </div>
-
-            <div class="heat-cell heat-moderate">
-                3
-            </div>
-
-            <div class="heat-cell heat-moderate-high">
-                4
-            </div>
-
-            <div class="heat-cell heat-high">
-                5
-            </div>
-
-            <div class="heat-cell heat-high">
-                6
-            </div>
-
-            <div class="heat-cell heat-high">
-                7
-            </div>
-
-
-            <!-- Impact 4 -->
-
-            <div class="axis-label">
-                4
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-moderate">
-                3
-            </div>
-
-            <div class="heat-cell heat-moderate-high">
-                4
-            </div>
-
-            <div class="heat-cell heat-high">
-                5
-            </div>
-
-            <div class="heat-cell heat-high">
-                6
-            </div>
-
-
-            <!-- Impact 3 -->
-
-            <div class="axis-label">
-                3
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-moderate">
-                3
-            </div>
-
-            <div class="heat-cell heat-moderate-high">
-                4
-            </div>
-
-            <div class="heat-cell heat-high">
-                5
-            </div>
-
-
-            <!-- Impact 2 -->
-
-            <div class="axis-label">
-                2
-            </div>
-
-            <div class="heat-cell heat-low">
-                1
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-moderate">
-                3
-            </div>
-
-            <div class="heat-cell heat-moderate-high">
-                4
-            </div>
-
-
-            <!-- Impact 1 -->
-
-            <div class="axis-label">
-                1
-            </div>
-
-            <div class="heat-cell heat-low">
-                1
-            </div>
-
-            <div class="heat-cell heat-low">
-                1
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-low-moderate">
-                2
-            </div>
-
-            <div class="heat-cell heat-moderate">
-                3
+            <div class="impact-title">
+                Dampak
             </div>
 
         </div>
@@ -2322,65 +1435,33 @@ select {
     </div>
 
 
-    <div class="heatmap-axis-title">
-        Likelihood
-    </div>
+    <!-- PER-02 LEGEND -->
 
+    <div class="risk-legend">
 
-    <div class="heatmap-legend">
-
-        <div class="heatmap-legend-item">
-
-            <span
-                class="legend-square heat-low">
-            </span>
-
+        <div class="risk-legend-item">
+            <span class="legend-box risk-low-color"></span>
             Low
-
         </div>
 
-
-        <div class="heatmap-legend-item">
-
-            <span
-                class="legend-square heat-low-moderate">
-            </span>
-
+        <div class="risk-legend-item">
+            <span class="legend-box risk-low-moderate-color"></span>
             Low to Moderate
-
         </div>
 
-
-        <div class="heatmap-legend-item">
-
-            <span
-                class="legend-square heat-moderate">
-            </span>
-
+        <div class="risk-legend-item">
+            <span class="legend-box risk-moderate-color"></span>
             Moderate
-
         </div>
 
-
-        <div class="heatmap-legend-item">
-
-            <span
-                class="legend-square heat-moderate-high">
-            </span>
-
+        <div class="risk-legend-item">
+            <span class="legend-box risk-moderate-high-color"></span>
             Moderate to High
-
         </div>
 
-
-        <div class="heatmap-legend-item">
-
-            <span
-                class="legend-square heat-high">
-            </span>
-
+        <div class="risk-legend-item">
+            <span class="legend-box risk-high-color"></span>
             High
-
         </div>
 
     </div>
@@ -2388,8 +1469,7 @@ select {
 </div>
 
 
-
-<!-- RISK APPETITE -->
+<!-- ================= RISK APPETITE ================= -->
 
 <div class="card">
 
@@ -2407,7 +1487,6 @@ select {
 
         </div>
 
-
         <div class="badge">
             WITHIN APPETITE
         </div>
@@ -2418,75 +1497,34 @@ select {
     <div class="appetite">
 
         <div class="appetite-scale">
-
             <div class="appetite-marker"></div>
-
         </div>
 
 
         <div class="scale-labels">
-
-            <span>
-                Low
-            </span>
-
-            <span>
-                Low to Moderate
-            </span>
-
-            <span>
-                Moderate
-            </span>
-
-            <span>
-                Moderate to High
-            </span>
-
-            <span>
-                High
-            </span>
-
+            <span>Low</span>
+            <span>Low–Moderate</span>
+            <span>Moderate</span>
+            <span>Moderate–High</span>
+            <span>High</span>
         </div>
 
 
         <div class="appetite-info">
 
             <div>
-
-                <strong>
-                    16.2
-                </strong>
-
-                <span>
-                    Current Exposure
-                </span>
-
+                <strong>16.2</strong>
+                <span>Current Exposure</span>
             </div>
 
-
             <div>
-
-                <strong>
-                    18
-                </strong>
-
-                <span>
-                    Risk Appetite
-                </span>
-
+                <strong>18</strong>
+                <span>Risk Appetite</span>
             </div>
 
-
             <div>
-
-                <strong>
-                    20
-                </strong>
-
-                <span>
-                    Risk Tolerance
-                </span>
-
+                <strong>20</strong>
+                <span>Risk Tolerance</span>
             </div>
 
         </div>
@@ -2498,14 +1536,9 @@ select {
 </section>
 
 
-<!-- =====================================================
-     TOP RISKS + EXTERNAL DRIVERS
-===================================================== -->
+<!-- ================= TOP RISKS ================= -->
 
 <section class="grid-2-equal">
-
-
-<!-- TOP RISKS -->
 
 <div class="card">
 
@@ -2523,7 +1556,6 @@ select {
 
         </div>
 
-
         <div class="badge">
             TOP 5
         </div>
@@ -2534,162 +1566,80 @@ select {
     <table class="risk-table">
 
         <thead>
-
             <tr>
-
-                <th>
-                    Risk
-                </th>
-
-                <th>
-                    Score
-                </th>
-
-                <th>
-                    Trend
-                </th>
-
-                <th>
-                    Level
-                </th>
-
+                <th>Risk</th>
+                <th>Score</th>
+                <th>Trend</th>
+                <th>Level</th>
             </tr>
-
         </thead>
-
 
         <tbody>
 
-
-            <tr
-                onclick="openRisk('Strategic Project')">
-
+            <tr onclick="openRisk('Strategic Project')">
                 <td class="risk-name">
                     Strategic Project
                 </td>
-
-                <td class="risk-score">
-                    22
-                </td>
-
-                <td class="up">
-                    ↑
-                </td>
-
+                <td class="risk-score">22</td>
+                <td class="up">↑</td>
                 <td>
-
                     <span class="status status-high">
                         HIGH
                     </span>
-
                 </td>
-
             </tr>
 
-
-            <tr
-                onclick="openRisk('Supply Chain')">
-
+            <tr onclick="openRisk('Supply Chain')">
                 <td class="risk-name">
                     Supply Chain
                 </td>
-
-                <td class="risk-score">
-                    20
-                </td>
-
+                <td class="risk-score">20</td>
+                <td>→</td>
                 <td>
-                    →
-                </td>
-
-                <td>
-
                     <span class="status status-high">
                         HIGH
                     </span>
-
                 </td>
-
             </tr>
 
-
-            <tr
-                onclick="openRisk('Financial')">
-
+            <tr onclick="openRisk('Financial')">
                 <td class="risk-name">
                     Financial
                 </td>
-
-                <td class="risk-score">
-                    18
-                </td>
-
-                <td class="up">
-                    ↑
-                </td>
-
+                <td class="risk-score">18</td>
+                <td class="up">↑</td>
                 <td>
-
                     <span class="status status-watch">
                         MODERATE-HIGH
                     </span>
-
                 </td>
-
             </tr>
 
-
-            <tr
-                onclick="openRisk('Commodity Price')">
-
+            <tr onclick="openRisk('Commodity Price')">
                 <td class="risk-name">
                     Commodity Price
                 </td>
-
-                <td class="risk-score">
-                    16
-                </td>
-
-                <td class="down">
-                    ↓
-                </td>
-
+                <td class="risk-score">16</td>
+                <td class="down">↓</td>
                 <td>
-
                     <span class="status status-watch">
-                        MODERATE
+                        MODERATE-HIGH
                     </span>
-
                 </td>
-
             </tr>
 
-
-            <tr
-                onclick="openRisk('Raw Material')">
-
+            <tr onclick="openRisk('Raw Material')">
                 <td class="risk-name">
                     Raw Material
                 </td>
-
-                <td class="risk-score">
-                    15
-                </td>
-
+                <td class="risk-score">15</td>
+                <td>→</td>
                 <td>
-                    →
-                </td>
-
-                <td>
-
-                    <span class="status status-controlled">
-                        LOW-MODERATE
+                    <span class="status status-watch">
+                        MODERATE
                     </span>
-
                 </td>
-
             </tr>
-
 
         </tbody>
 
@@ -2698,8 +1648,7 @@ select {
 </div>
 
 
-
-<!-- EXTERNAL DRIVERS -->
+<!-- ================= EXTERNAL ================= -->
 
 <div class="card">
 
@@ -2722,74 +1671,29 @@ select {
 
     <div class="driver-grid">
 
-
         <div class="driver">
-
-            <div class="driver-name">
-                UREA
-            </div>
-
-            <div class="driver-value">
-                $386
-            </div>
-
-            <div class="driver-change up">
-                ↑ 8.4%
-            </div>
-
+            <div class="driver-name">UREA</div>
+            <div class="driver-value">$386</div>
+            <div class="driver-change up">↑ 8.4%</div>
         </div>
 
-
         <div class="driver">
-
-            <div class="driver-name">
-                USD / IDR
-            </div>
-
-            <div class="driver-value">
-                16,245
-            </div>
-
-            <div class="driver-change up">
-                ↑ 2.1%
-            </div>
-
+            <div class="driver-name">USD / IDR</div>
+            <div class="driver-value">16,245</div>
+            <div class="driver-change up">↑ 2.1%</div>
         </div>
 
-
         <div class="driver">
-
-            <div class="driver-name">
-                AMMONIA
-            </div>
-
-            <div class="driver-value">
-                $428
-            </div>
-
-            <div class="driver-change down">
-                ↓ 3.2%
-            </div>
-
+            <div class="driver-name">AMMONIA</div>
+            <div class="driver-value">$428</div>
+            <div class="driver-change down">↓ 3.2%</div>
         </div>
 
-
         <div class="driver">
-
-            <div class="driver-name">
-                ENERGY
-            </div>
-
-            <div class="driver-value">
-                $78
-            </div>
-
-            <div class="driver-change up">
-                ↑ 4.1%
-            </div>
-
+            <div class="driver-name">ENERGY</div>
+            <div class="driver-value">$78</div>
+            <div class="driver-change up">↑ 4.1%</div>
         </div>
-
 
     </div>
 
@@ -2798,9 +1702,7 @@ select {
 </section>
 
 
-<!-- =====================================================
-     PROFIT AT RISK
-===================================================== -->
+<!-- ================= PROFIT AT RISK ================= -->
 
 <section class="card">
 
@@ -2813,11 +1715,11 @@ select {
             </div>
 
             <div class="card-subtitle">
-                Illustrative Monte Carlo simulation · 10,000 scenarios
+                Illustrative Monte Carlo simulation ·
+                10,000 scenarios
             </div>
 
         </div>
-
 
         <div class="badge">
             SIMULATION
@@ -2827,53 +1729,26 @@ select {
 
 
     <div class="chart-container">
-
         <canvas id="monteChart"></canvas>
-
     </div>
 
 
     <div class="monte-info">
 
-
         <div class="monte-stat">
-
-            <strong>
-                Rp 2.84T
-            </strong>
-
-            <span>
-                Expected Profit
-            </span>
-
+            <strong>Rp 2.84T</strong>
+            <span>Expected Profit</span>
         </div>
 
-
         <div class="monte-stat">
-
-            <strong>
-                Rp 2.17T
-            </strong>
-
-            <span>
-                95% VaR
-            </span>
-
+            <strong>Rp 2.17T</strong>
+            <span>95% VaR</span>
         </div>
 
-
         <div class="monte-stat">
-
-            <strong>
-                Rp 670B
-            </strong>
-
-            <span>
-                Potential Downside
-            </span>
-
+            <strong>Rp 670B</strong>
+            <span>Potential Downside</span>
         </div>
-
 
     </div>
 
@@ -2881,549 +1756,304 @@ select {
 
 
 <div class="footer">
-
-    Enterprise Risk Intelligence Dashboard
-    · Prototype
-
+    Enterprise Risk Intelligence Dashboard · Prototype
 </div>
-
 
 </main>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
 <script>
 
-
-/* =====================================================
-   CHART DEFAULTS
-===================================================== */
+/* ================= CHART DEFAULT ================= */
 
 Chart.defaults.font.family =
     'Inter, Segoe UI, Arial';
 
-Chart.defaults.font.size =
-    10;
-
-Chart.defaults.color =
-    '#7B8C96';
+Chart.defaults.font.size = 10;
+Chart.defaults.color = '#7B8C96';
 
 
-
-/* =====================================================
-   RISK TREND
-===================================================== */
-
-const riskTrendCtx =
-    document.getElementById(
-        'riskTrendChart'
-    );
-
+/* ================= RISK TREND ================= */
 
 new Chart(
-    riskTrendCtx,
+    document.getElementById('riskTrendChart'),
     {
+        type:'line',
 
-        type:
-            'line',
+        data:{
+            labels:['Q1','Q2','Q3','Q4'],
 
-        data:
-        {
+            datasets:[{
+                label:'Overall Risk Score',
 
-            labels:
-            [
-                'Q1',
-                'Q2',
-                'Q3',
-                'Q4'
-            ],
-
-            datasets:
-            [{
-
-                label:
-                    'Overall Risk Score',
-
-                data:
-                [
+                data:[
                     19.4,
                     18.1,
                     16.2,
                     15.7
                 ],
 
-                borderColor:
-                    '#087F73',
+                borderColor:'#087F73',
 
                 backgroundColor:
                     'rgba(8,127,115,.10)',
 
-                fill:
-                    true,
+                fill:true,
 
-                tension:
-                    .4,
+                tension:.4,
 
-                borderWidth:
-                    3,
+                borderWidth:3,
 
-                pointRadius:
-                    4,
+                pointRadius:4,
 
-                pointBackgroundColor:
-                    '#FFFFFF',
+                pointBackgroundColor:'#FFFFFF',
 
-                pointBorderColor:
-                    '#087F73',
+                pointBorderColor:'#087F73',
 
-                pointBorderWidth:
-                    2
-
+                pointBorderWidth:2
             }]
-
         },
 
-        options:
-        {
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
 
-            responsive:
-                true,
-
-            maintainAspectRatio:
-                false,
-
-            plugins:
-            {
-
-                legend:
-                {
-                    display:
-                        false
-                },
-
-                tooltip:
-                {
-
-                    backgroundColor:
-                        '#123047',
-
-                    padding:
-                        10,
-
-                    displayColors:
-                        false
-
+            plugins:{
+                legend:{
+                    display:false
                 }
-
             },
 
-            scales:
-            {
+            scales:{
+                y:{
+                    beginAtZero:false,
 
-                y:
-                {
-
-                    beginAtZero:
-                        false,
-
-                    grid:
-                    {
-                        color:
-                            '#EDF2F1'
-                    },
-
-                    ticks:
-                    {
-                        padding:
-                            7
+                    grid:{
+                        color:'#EDF2F1'
                     }
-
                 },
 
-                x:
-                {
-
-                    grid:
-                    {
-                        display:
-                            false
+                x:{
+                    grid:{
+                        display:false
                     }
-
                 }
-
             }
-
         }
-
     }
 );
 
 
-
-/* =====================================================
-   RISK DISTRIBUTION
-===================================================== */
-
-const donutCtx =
-    document.getElementById(
-        'riskDonut'
-    );
-
+/* ================= DONUT ================= */
 
 new Chart(
-    donutCtx,
+    document.getElementById('riskDonut'),
     {
+        type:'doughnut',
 
-        type:
-            'doughnut',
-
-        data:
-        {
-
-            labels:
-            [
+        data:{
+            labels:[
                 'Low',
                 'Moderate',
                 'High'
             ],
 
-            datasets:
-            [{
-
-                data:
-                [
+            datasets:[{
+                data:[
                     70,
                     20,
                     10
                 ],
 
-                backgroundColor:
-                [
-                    '#548235',
-                    '#FFD966',
-                    '#C00000'
+                backgroundColor:[
+                    '#00B050',
+                    '#FFFF00',
+                    '#FF0000'
                 ],
 
-                borderWidth:
-                    0,
+                borderWidth:0,
 
-                hoverOffset:
-                    5
-
+                hoverOffset:5
             }]
-
         },
 
-        options:
-        {
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
 
-            responsive:
-                true,
+            cutout:'74%',
 
-            maintainAspectRatio:
-                false,
-
-            cutout:
-                '74%',
-
-            plugins:
-            {
-
-                legend:
-                {
-                    display:
-                        false
-                },
-
-                tooltip:
-                {
-
-                    backgroundColor:
-                        '#123047',
-
-                    padding:
-                        10
-
+            plugins:{
+                legend:{
+                    display:false
                 }
-
             }
-
         }
-
     }
 );
 
 
+/* ================= MONTE CARLO ================= */
 
-/* =====================================================
-   MONTE CARLO
-===================================================== */
+const monteLabels=[];
+const monteData=[];
 
-const monteCtx =
-    document.getElementById(
-        'monteChart'
-    );
-
-
-const monteLabels = [];
-const monteData = [];
-
-
-for (
-    let i = 0;
-    i < 70;
-    i++
-) {
+for(let i=0;i<70;i++){
 
     monteLabels.push(
-        (
-            1.6 +
-            i * .025
-        ).toFixed(2)
+        (1.6+i*.025).toFixed(2)
     );
 
+    const x=i-28;
 
-    const x =
-        i - 28;
-
-
-    const y =
-        20 *
-        Math.exp(
-            -(x * x) /
-            230
-        ) +
-        Math.random() * 4;
-
+    const y=
+        20*Math.exp(
+            -(x*x)/230
+        )+
+        Math.random()*4;
 
     monteData.push(
-        Number(
-            y.toFixed(2)
-        )
+        Number(y.toFixed(2))
     );
-
 }
 
 
 new Chart(
-    monteCtx,
+    document.getElementById('monteChart'),
     {
+        type:'line',
 
-        type:
-            'line',
+        data:{
+            labels:monteLabels,
 
-        data:
-        {
+            datasets:[{
+                label:'Probability',
 
-            labels:
-                monteLabels,
+                data:monteData,
 
-            datasets:
-            [{
-
-                label:
-                    'Probability',
-
-                data:
-                    monteData,
-
-                borderColor:
-                    '#15998C',
+                borderColor:'#15998C',
 
                 backgroundColor:
                     'rgba(21,153,140,.12)',
 
-                fill:
-                    true,
+                fill:true,
 
-                tension:
-                    .35,
+                tension:.35,
 
-                borderWidth:
-                    2,
+                borderWidth:2,
 
-                pointRadius:
-                    0
-
+                pointRadius:0
             }]
-
         },
 
-        options:
-        {
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
 
-            responsive:
-                true,
-
-            maintainAspectRatio:
-                false,
-
-            plugins:
-            {
-
-                legend:
-                {
-                    display:
-                        false
+            plugins:{
+                legend:{
+                    display:false
                 }
-
             },
 
-            scales:
-            {
-
-                x:
-                {
-
-                    title:
-                    {
-
-                        display:
-                            true,
-
-                        text:
-                            'Profit Scenario (Rp Trillion)'
-
+            scales:{
+                x:{
+                    title:{
+                        display:true,
+                        text:'Profit Scenario (Rp Trillion)'
                     },
 
-                    grid:
-                    {
-                        display:
-                            false
+                    grid:{
+                        display:false
                     }
-
                 },
 
-                y:
-                {
-
-                    title:
-                    {
-
-                        display:
-                            true,
-
-                        text:
-                            'Frequency'
-
+                y:{
+                    title:{
+                        display:true,
+                        text:'Frequency'
                     },
 
-                    grid:
-                    {
-                        color:
-                            '#EDF2F1'
+                    grid:{
+                        color:'#EDF2F1'
                     }
-
                 }
-
             }
-
         }
-
     }
 );
 
 
+/* ================= REFRESH ================= */
 
-/* =====================================================
-   INTERACTION
-===================================================== */
-
-function refreshDashboard() {
+function refreshDashboard(){
 
     const button =
-        document.querySelector(
-            '.refresh-btn'
-        );
+        document.querySelector('.refresh-btn');
 
+    button.innerHTML='↻ Updating...';
 
-    button.innerHTML =
-        '↻ Updating...';
+    setTimeout(()=>{
 
+        button.innerHTML='✓ Updated';
 
-    setTimeout(
-        () => {
+        setTimeout(()=>{
 
-            button.innerHTML =
-                '✓ Updated';
+            button.innerHTML='↻ Refresh';
 
+        },1200);
 
-            setTimeout(
-                () => {
-
-                    button.innerHTML =
-                        '↻ Refresh';
-
-                },
-                1200
-            );
-
-        },
-        700
-    );
-
+    },700);
 }
 
 
+/* ================= HEATMAP ================= */
 
-function updatePeriod() {
+function showRiskScore(score){
 
-    const value =
-        document.getElementById(
-            'periodSelect'
-        ).value;
+    let level;
 
+    if(score<=6){
 
-    console.log(
-        'Selected period:',
-        value
-    );
+        level='Low';
 
-}
+    }else if(score<=11){
 
+        level='Low to Moderate';
 
+    }else if(score<=15){
 
-function updateCategory() {
+        level='Moderate';
 
-    const value =
-        document.getElementById(
-            'categorySelect'
-        ).value;
+    }else if(score<=19){
 
+        level='Moderate to High';
 
-    console.log(
-        'Selected category:',
-        value
-    );
+    }else{
 
-}
+        level='High';
 
-
-
-function openRisk(
-    riskName
-) {
+    }
 
     alert(
-
-        'RISK DETAIL\n\n' +
-
-        riskName +
-
-        '\n\n' +
-
-        'Risk detail panel can later ' +
-        'be connected to the risk database.'
-
+        'Risk Score: '+score+
+        '\nRisk Level: '+level
     );
+}
 
+
+/* ================= RISK DETAIL ================= */
+
+function openRisk(name){
+
+    alert(
+        'RISK DETAIL\n\n'+
+        name+
+        '\n\nRisk detail panel can later be connected to the risk database.'
+    );
 }
 
 </script>
-
 
 </body>
 </html>
