@@ -9,7 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 :root{
   --bg:#F3F8F7;
   --white:#FFFFFF;
@@ -43,34 +42,18 @@
 body{
   font-family:Inter,Segoe UI,Arial,sans-serif;
   background:
-    radial-gradient(
-      circle at 10% 0%,
-      rgba(0,140,131,.08),
-      transparent 28%
-    ),
+    radial-gradient(circle at 10% 0%,rgba(0,140,131,.08),transparent 28%),
     var(--bg);
-
   color:var(--text);
   min-height:100vh;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
+/* ================= HEADER ================= */
 
 .header{
-  background:
-    linear-gradient(
-      120deg,
-      #006F68,
-      #008C83 55%,
-      #13A89E
-    );
-
+  background:linear-gradient(120deg,#006F68,#008C83 55%,#13A89E);
   color:white;
   padding:24px 38px;
-
   position:relative;
   overflow:hidden;
 }
@@ -78,13 +61,10 @@ body{
 .header::after{
   content:"";
   position:absolute;
-
   width:380px;
   height:380px;
-
   border-radius:50%;
   border:1px solid rgba(255,255,255,.13);
-
   right:-100px;
   top:-220px;
 }
@@ -92,11 +72,9 @@ body{
 .header-inner{
   max-width:1500px;
   margin:auto;
-
   display:flex;
   justify-content:space-between;
   align-items:center;
-
   position:relative;
   z-index:2;
 }
@@ -110,34 +88,25 @@ body{
 .logo{
   width:54px;
   height:54px;
-
   border-radius:15px;
-
   background:rgba(255,255,255,.16);
   border:1px solid rgba(255,255,255,.28);
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   font-weight:800;
   letter-spacing:-1px;
-
   animation:floatLogo 3s ease-in-out infinite;
-
   backdrop-filter:blur(10px);
 }
 
 @keyframes floatLogo{
-
   0%,100%{
     transform:translateY(0) rotate(0deg);
   }
-
   50%{
     transform:translateY(-4px) rotate(2deg);
   }
-
 }
 
 .brand-title{
@@ -162,7 +131,6 @@ body{
   display:flex;
   align-items:center;
   gap:8px;
-
   font-size:12px;
   opacity:.9;
 }
@@ -170,181 +138,119 @@ body{
 .live-dot{
   width:8px;
   height:8px;
-
   background:#8FF0C3;
-
   border-radius:50%;
-
-  box-shadow:
-    0 0 0 5px rgba(143,240,195,.12);
-
+  box-shadow:0 0 0 5px rgba(143,240,195,.12);
   animation:pulse 1.8s infinite;
 }
 
 @keyframes pulse{
-
   0%,100%{
-    box-shadow:
-      0 0 0 4px rgba(143,240,195,.15);
+    box-shadow:0 0 0 4px rgba(143,240,195,.15);
   }
-
   50%{
-    box-shadow:
-      0 0 0 9px rgba(143,240,195,0);
+    box-shadow:0 0 0 9px rgba(143,240,195,0);
   }
-
 }
 
 .period{
   background:white;
   color:var(--teal-dark);
-
   padding:10px 14px;
-
   border-radius:11px;
-
   border:none;
-
   font-weight:700;
-
   cursor:pointer;
   outline:none;
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
+/* ================= MAIN ================= */
 
 .container{
   max-width:1500px;
   margin:auto;
-
-  padding:
-    28px
-    38px
-    45px;
+  padding:28px 38px 45px;
 }
 
 .section-head{
   display:flex;
   justify-content:space-between;
   align-items:end;
-
   margin-bottom:16px;
 }
 
 .section-label{
   color:var(--teal);
-
   font-size:11px;
-
   font-weight:800;
-
   letter-spacing:1.5px;
-
   text-transform:uppercase;
 }
 
 .section-title{
   font-size:21px;
   font-weight:800;
-
   margin-top:4px;
 }
 
 .section-description{
   color:var(--muted);
-
   font-size:12px;
-
   margin-top:5px;
 }
 
-
-/* =========================================================
-   KPI
-========================================================= */
+/* ================= KPI ================= */
 
 .kpi-grid{
   display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
+  grid-template-columns:repeat(4,1fr);
   gap:15px;
 }
 
 .kpi{
   background:var(--white);
-
   border:1px solid var(--border);
-
   border-radius:var(--radius);
-
   padding:20px;
-
   box-shadow:var(--shadow);
-
   position:relative;
-
   overflow:hidden;
-
   transition:.25s ease;
 }
 
 .kpi:hover{
   transform:translateY(-3px);
-
-  box-shadow:
-    0 13px 35px
-    rgba(21,72,68,.11);
+  box-shadow:0 13px 35px rgba(21,72,68,.11);
 }
 
 .kpi::after{
   content:"";
-
   position:absolute;
-
   width:70px;
   height:70px;
-
   border-radius:50%;
-
   right:-25px;
   bottom:-25px;
-
   background:var(--teal-light);
 }
 
 .kpi-label{
   color:var(--muted);
-
   font-size:11px;
-
   font-weight:700;
-
   text-transform:uppercase;
-
   letter-spacing:.6px;
 }
 
 .kpi-value{
   font-size:34px;
-
   font-weight:850;
-
-  margin:
-    9px
-    0
-    3px;
-
+  margin:9px 0 3px;
   letter-spacing:-1px;
 }
 
 .kpi-note{
   color:var(--muted);
-
   font-size:11px;
 }
 
@@ -360,34 +266,17 @@ body{
   color:var(--success);
 }
 
-
-/* =========================================================
-   POSTURE
-========================================================= */
+/* ================= POSTURE ================= */
 
 .posture{
   margin-top:16px;
-
-  background:
-    linear-gradient(
-      100deg,
-      #FFFFFF,
-      #F5FCFA
-    );
-
+  background:linear-gradient(100deg,#FFFFFF,#F5FCFA);
   border:1px solid var(--border);
-
   border-radius:var(--radius);
-
-  padding:
-    17px
-    20px;
-
+  padding:17px 20px;
   display:flex;
-
   justify-content:space-between;
   align-items:center;
-
   box-shadow:var(--shadow);
 }
 
@@ -400,18 +289,12 @@ body{
 .posture-icon{
   width:38px;
   height:38px;
-
   border-radius:12px;
-
   background:var(--success-light);
-
   color:var(--success);
-
   display:flex;
-
   justify-content:center;
   align-items:center;
-
   font-weight:900;
 }
 
@@ -422,64 +305,43 @@ body{
 
 .posture-text{
   color:var(--muted);
-
   font-size:11px;
-
   margin-top:3px;
 }
 
 .posture-status{
   color:var(--success);
-
   font-weight:900;
-
   font-size:13px;
-
   letter-spacing:.4px;
 }
 
 .movement{
   display:flex;
-
   gap:18px;
-
   font-size:11px;
-
   color:var(--muted);
 }
 
 .movement strong{
   color:var(--text);
-
   font-size:14px;
 }
 
-
-/* =========================================================
-   CHARTS
-========================================================= */
+/* ================= CHARTS ================= */
 
 .chart-grid{
   display:grid;
-
-  grid-template-columns:
-    1fr
-    1.25fr;
-
+  grid-template-columns:1fr 1.25fr;
   gap:16px;
-
   margin-top:16px;
 }
 
 .card{
   background:var(--white);
-
   border:1px solid var(--border);
-
   border-radius:var(--radius);
-
   box-shadow:var(--shadow);
-
   padding:20px;
 }
 
@@ -490,24 +352,17 @@ body{
 
 .card-subtitle{
   color:var(--muted);
-
   font-size:11px;
-
   margin-top:4px;
 }
 
 .chart-wrap{
   height:245px;
-
   margin-top:14px;
-
   position:relative;
 }
 
-
-/* =========================================================
-   MANAGEMENT ATTENTION
-========================================================= */
+/* ================= ATTENTION ================= */
 
 .attention{
   margin-top:16px;
@@ -515,63 +370,45 @@ body{
 
 .attention-header{
   display:flex;
-
   justify-content:space-between;
   align-items:end;
-
   margin-bottom:14px;
 }
 
 .attention-count{
   font-size:11px;
-
   color:var(--danger);
-
   font-weight:800;
 }
 
 .attention-grid{
   display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
+  grid-template-columns:repeat(4,1fr);
   gap:12px;
 }
 
 .risk-card{
   background:white;
-
   border:1px solid var(--border);
-
   border-radius:15px;
-
   padding:16px;
-
   position:relative;
-
   overflow:hidden;
-
   transition:.2s;
 }
 
 .risk-card:hover{
   transform:translateY(-2px);
-
   box-shadow:var(--shadow);
 }
 
 .risk-card::before{
   content:"";
-
   position:absolute;
-
   left:0;
   top:0;
   bottom:0;
-
   width:4px;
-
   background:var(--danger);
 }
 
@@ -582,129 +419,78 @@ body{
 
 .risk-number{
   font-size:25px;
-
   font-weight:850;
-
-  margin:
-    8px
-    0
-    4px;
+  margin:8px 0 4px;
 }
 
 .risk-limit{
   font-size:10px;
-
   color:var(--muted);
 }
 
 .risk-status{
   margin-top:11px;
-
   display:inline-block;
-
-  padding:
-    5px
-    8px;
-
+  padding:5px 8px;
   border-radius:7px;
-
   background:var(--danger-light);
-
   color:var(--danger);
-
   font-size:9px;
-
   font-weight:900;
 }
 
 .critical{
   margin-top:12px;
-
-  background:
-    linear-gradient(
-      100deg,
-      #FFF7F7,
-      #FFFFFF
-    );
-
+  background:linear-gradient(100deg,#FFF7F7,#FFFFFF);
   border:1px solid #F5CCCC;
-
   border-radius:15px;
-
-  padding:
-    15px
-    17px;
-
+  padding:15px 17px;
   display:flex;
-
   justify-content:space-between;
   align-items:center;
 }
 
 .critical-left{
   display:flex;
-
   gap:12px;
-
   align-items:center;
 }
 
 .critical-icon{
   width:35px;
   height:35px;
-
   border-radius:10px;
-
   background:var(--danger-light);
-
   display:flex;
-
   align-items:center;
   justify-content:center;
-
   color:var(--danger);
-
   font-weight:900;
 }
 
 .critical-title{
   color:var(--danger);
-
   font-size:10px;
-
   font-weight:900;
-
   letter-spacing:.8px;
 }
 
 .critical-name{
   font-size:12px;
-
   font-weight:800;
-
   margin-top:3px;
 }
 
 .critical-status{
   background:var(--danger);
-
   color:white;
-
-  padding:
-    7px
-    10px;
-
+  padding:7px 10px;
   border-radius:8px;
-
   font-size:9px;
-
   font-weight:900;
 }
 
-
-/* =========================================================
-   RTM
-========================================================= */
+/* ================= RTM ================= */
 
 .rtm{
   margin-top:24px;
@@ -712,21 +498,10 @@ body{
 
 .rtm-intro{
   background:var(--teal-dark);
-
   color:white;
-
-  border-radius:
-    15px
-    15px
-    0
-    0;
-
-  padding:
-    17px
-    20px;
-
+  border-radius:15px 15px 0 0;
+  padding:17px 20px;
   display:flex;
-
   justify-content:space-between;
   align-items:center;
 }
@@ -738,17 +513,13 @@ body{
 
 .rtm-intro-text{
   font-size:10px;
-
   opacity:.72;
-
   margin-top:4px;
-
   max-width:700px;
 }
 
 .rtm-stats{
   display:flex;
-
   gap:20px;
 }
 
@@ -758,13 +529,11 @@ body{
 
 .rtm-stat strong{
   display:block;
-
   font-size:20px;
 }
 
 .rtm-stat span{
   font-size:9px;
-
   opacity:.7;
 }
 
@@ -775,167 +544,112 @@ body{
 
 .heatmap-card{
   background:white;
-
   border:1px solid var(--border);
-
   border-top:none;
-
-  border-radius:
-    0
-    0
-    15px
-    15px;
-
+  border-radius:0 0 15px 15px;
   padding:25px;
 }
 
 .heatmap-wrapper{
-  max-width:1000px;
-
+  max-width:950px;
   margin:0 auto;
-
-  position:relative;
 }
 
-
-/* =========================================================
-   HEATMAP HEADER
-========================================================= */
+/* Header */
 
 .heatmap-top{
-
   display:grid;
-
-  grid-template-columns:
-    95px
-    repeat(5,1fr);
-
+  grid-template-columns:95px repeat(5,1fr);
   gap:4px;
-
   margin-bottom:4px;
 }
 
 .impact-header{
-  height:38px;
-
+  height:42px;
   background:#F4F8F7;
-
   border:1px solid #DCE9E7;
-
   border-radius:4px;
-
   display:flex;
-
   flex-direction:column;
-
   align-items:center;
-
   justify-content:center;
-
   color:var(--text);
-
   font-size:9px;
-
   font-weight:800;
-
   line-height:1.1;
 }
 
 .impact-header span{
   color:var(--muted);
-
   font-size:9px;
-
   margin-top:2px;
 }
 
 
 /* =========================================================
-   MAIN MATRIX
+   MATRIX
 ========================================================= */
 
 .heatmap-main{
+  position:relative;
 
   display:grid;
-
-  grid-template-columns:
-    95px
-    repeat(5,1fr);
-
-  grid-template-rows:
-    repeat(5,70px);
+  grid-template-columns:95px repeat(5,1fr);
+  grid-template-rows:repeat(5,70px);
 
   gap:4px;
-
-  position:relative;
 }
 
 
-/* =========================================================
-   PROBABILITY LABEL
-========================================================= */
+/* Probability */
 
 .probability-header{
-
   background:#F4F8F7;
-
   border:1px solid #DCE9E7;
-
   border-radius:4px;
 
   display:flex;
-
   flex-direction:column;
-
   justify-content:center;
-
   align-items:center;
 
   text-align:center;
 
   color:var(--text);
-
   line-height:1.1;
+
+  z-index:2;
 }
 
 .probability-header strong{
   font-size:9px;
-
   font-weight:800;
 }
 
 .probability-header span{
   color:var(--muted);
-
   font-size:10px;
-
   font-weight:800;
-
   margin-top:3px;
 }
 
 
-/* =========================================================
-   PER-02 COLORS
-========================================================= */
+/* Heat cells */
 
 .heat-cell{
-
   position:relative;
-
   border-radius:4px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.65);
+  border:1px solid rgba(255,255,255,.65);
 
   display:flex;
-
   justify-content:center;
   align-items:center;
 
   transition:.18s ease;
 }
+
+
+/* PER-02 COLORS */
 
 .level-1{
   background:#00B050;
@@ -959,162 +673,117 @@ body{
 
 
 /* =========================================================
-   MOVEMENT LAYER
+   SVG MOVEMENT LAYER
 ========================================================= */
 
-.movement-layer{
-
+.movement-svg{
   position:absolute;
 
-  left:99px;
-  right:0;
+  /*
+    95px probability column
+    + 5 x 1fr matrix.
+    SVG only covers the 5x5 risk area.
+  */
 
+  left:99px;
   top:0;
 
-  height:350px;
+  width:calc(100% - 99px);
+  height:100%;
 
   pointer-events:none;
+  z-index:3;
 
-  z-index:2;
+  overflow:visible;
+}
+
+.movement-path{
+  fill:none;
+  stroke:#173B3A;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  opacity:.65;
+}
+
+.movement-path.stationary{
+  stroke-dasharray:4 4;
+  opacity:.45;
 }
 
 
 /* =========================================================
-   RISK MARKERS
+   RESIDUAL RISK MARKER
 ========================================================= */
 
 .risk-marker{
+  position:absolute;
 
   width:30px;
   height:30px;
 
   border-radius:50%;
 
-  display:flex;
+  background:#173B3A;
+  color:white;
 
+  border:2px solid white;
+
+  box-shadow:
+    0 3px 10px rgba(0,0,0,.28),
+    0 0 0 1px rgba(23,59,58,.18);
+
+  display:flex;
   justify-content:center;
   align-items:center;
 
   font-size:8px;
-
   font-weight:900;
 
   cursor:pointer;
 
-  position:absolute;
-
-  z-index:5;
+  z-index:8;
 
   transition:
     transform .2s ease,
     box-shadow .2s ease;
 }
 
-
-/* RESIDUAL */
-
-.residual-marker{
-
-  background:#173B3A;
-
-  color:white;
-
-  border:
-    2px solid
-    white;
-
+.risk-marker:hover{
+  transform:scale(1.18);
   box-shadow:
-    0 3px 10px
-    rgba(0,0,0,.28),
-
-    0 0 0 1px
-    rgba(23,59,58,.15);
+    0 5px 15px rgba(0,0,0,.35),
+    0 0 0 3px rgba(255,255,255,.7);
 }
 
 
-/* INHERENT */
+/* =========================================================
+   INHERENT MARKER
+========================================================= */
 
 .inherent-marker{
+  position:absolute;
 
-  width:22px;
-  height:22px;
+  width:17px;
+  height:17px;
+
+  border-radius:50%;
 
   background:white;
 
   color:#173B3A;
 
-  border:
-    2px solid
-    #173B3A;
+  border:2px solid #173B3A;
 
-  font-size:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  opacity:.95;
+  font-size:6px;
+  font-weight:900;
 
-  box-shadow:
-    0 2px 7px
-    rgba(0,0,0,.18);
-}
+  z-index:6;
 
-.risk-marker:hover{
-
-  transform:scale(1.18);
-
-  z-index:20;
-
-  box-shadow:
-    0 5px 15px
-    rgba(0,0,0,.32),
-
-    0 0 0 3px
-    rgba(255,255,255,.65);
-}
-
-
-/* =========================================================
-   ARROW
-========================================================= */
-
-.movement-arrow{
-
-  position:absolute;
-
-  height:2px;
-
-  background:#173B3A;
-
-  transform-origin:left center;
-
-  opacity:.55;
-
-  z-index:3;
-
-  pointer-events:none;
-}
-
-.movement-arrow::after{
-
-  content:"";
-
-  position:absolute;
-
-  right:-1px;
-  top:-4px;
-
-  width:0;
-  height:0;
-
-  border-left:
-    7px solid
-    #173B3A;
-
-  border-top:
-    5px solid
-    transparent;
-
-  border-bottom:
-    5px solid
-    transparent;
+  box-shadow:0 2px 6px rgba(0,0,0,.18);
 }
 
 
@@ -1123,44 +792,12 @@ body{
 ========================================================= */
 
 .impact-axis-title{
-
   text-align:center;
-
   color:var(--muted);
-
   font-size:9px;
-
   font-weight:800;
-
   letter-spacing:.7px;
-
   margin-top:10px;
-
-  text-transform:uppercase;
-}
-
-.probability-axis-title{
-
-  position:absolute;
-
-  left:-28px;
-
-  top:50%;
-
-  transform:
-    translateY(-50%)
-    rotate(180deg);
-
-  writing-mode:vertical-rl;
-
-  color:var(--muted);
-
-  font-size:9px;
-
-  font-weight:800;
-
-  letter-spacing:.7px;
-
   text-transform:uppercase;
 }
 
@@ -1170,116 +807,80 @@ body{
 ========================================================= */
 
 .heatmap-legend{
-
   display:flex;
-
   justify-content:center;
   align-items:center;
-
   gap:18px;
 
   margin-top:22px;
-
   padding-top:16px;
 
-  border-top:
-    1px solid
-    var(--border);
+  border-top:1px solid var(--border);
 
   flex-wrap:wrap;
 }
 
 .legend-item{
-
   display:flex;
-
   align-items:center;
-
   gap:6px;
 
   font-size:9px;
-
   color:var(--muted);
-
   font-weight:700;
 }
 
 .legend-color{
-
   width:13px;
   height:13px;
-
   border-radius:3px;
 }
 
 
-/* =========================================================
-   MOVEMENT LEGEND
-========================================================= */
+/* Movement legend */
 
 .movement-note{
-
   margin-top:18px;
 
   display:flex;
-
   justify-content:center;
-
   align-items:center;
 
   gap:10px;
 
   color:var(--muted);
-
   font-size:9px;
-
-  flex-wrap:wrap;
 }
 
 .movement-dot{
-
   width:22px;
   height:22px;
 
   border-radius:50%;
 
   background:#173B3A;
-
   color:white;
 
-  border:
-    2px solid
-    white;
+  border:2px solid white;
 
-  box-shadow:
-    0 2px 6px
-    rgba(0,0,0,.2);
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
 
   display:flex;
-
   align-items:center;
   justify-content:center;
 
   font-size:7px;
-
   font-weight:900;
 }
 
-.movement-dot.inherent-example{
-
+.movement-dot.inherent{
   background:white;
-
   color:#173B3A;
-
-  border:
-    2px solid
-    #173B3A;
+  border:2px solid #173B3A;
 }
 
 .movement-line{
-
   width:30px;
-
   height:2px;
 
   background:#173B3A;
@@ -1288,39 +889,24 @@ body{
 }
 
 .movement-line::after{
-
   content:"";
 
   position:absolute;
 
   right:-1px;
-
   top:-4px;
 
-  border-left:
-    7px solid
-    #173B3A;
-
-  border-top:
-    5px solid
-    transparent;
-
-  border-bottom:
-    5px solid
-    transparent;
+  border-left:7px solid #173B3A;
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
 }
 
 
-/* =========================================================
-   SUMMARY
-========================================================= */
+/* Summary */
 
 .rtm-summary{
-
   display:flex;
-
   justify-content:center;
-
   gap:10px;
 
   margin-top:20px;
@@ -1329,63 +915,99 @@ body{
 }
 
 .rtm-summary-item{
-
-  padding:
-    7px
-    11px;
+  padding:7px 11px;
 
   background:#F3F8F7;
 
-  border:
-    1px solid
-    var(--border);
+  border:1px solid var(--border);
 
   border-radius:8px;
 
   color:var(--muted);
 
   font-size:9px;
-
   font-weight:700;
 }
 
 .rtm-summary-item strong{
-
   color:var(--text);
-
   margin-right:3px;
 }
 
 
 /* =========================================================
-   KRI
+   RTM DETAIL TABLE
 ========================================================= */
+
+.rtm-detail{
+  margin-top:18px;
+}
+
+.rtm-detail-table{
+  overflow-x:auto;
+
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:12px;
+}
+
+.rtm-detail table{
+  min-width:900px;
+}
+
+.rtm-detail th{
+  background:#F2F8F7;
+}
+
+.rtm-detail td{
+  font-size:10px;
+}
+
+.rtm-code{
+  font-weight:900;
+  color:var(--teal-dark);
+}
+
+.rtm-inherent{
+  color:#A33A32;
+  font-weight:800;
+}
+
+.rtm-residual{
+  color:var(--teal-dark);
+  font-weight:800;
+}
+
+.reduced{
+  color:var(--success);
+  font-weight:900;
+}
+
+.unchanged{
+  color:#A66C00;
+  font-weight:900;
+}
+
+
+/* ================= KRI ================= */
 
 .kri{
   margin-top:24px;
 }
 
 .kri-table-wrap{
-
   overflow-x:auto;
-
   background:white;
-
-  border:
-    1px solid
-    var(--border);
-
+  border:1px solid var(--border);
   border-radius:15px;
-
   box-shadow:var(--shadow);
 }
 
 table{
-
   width:100%;
-
   border-collapse:collapse;
-
   min-width:700px;
 }
 
@@ -1394,32 +1016,17 @@ thead{
 }
 
 th{
-
   text-align:left;
-
-  padding:
-    13px
-    16px;
-
+  padding:13px 16px;
   font-size:10px;
-
   color:var(--muted);
-
   letter-spacing:.5px;
-
   text-transform:uppercase;
 }
 
 td{
-
-  padding:
-    14px
-    16px;
-
-  border-top:
-    1px solid
-    #EDF3F2;
-
+  padding:14px 16px;
+  border-top:1px solid #EDF3F2;
   font-size:11px;
 }
 
@@ -1428,74 +1035,50 @@ td:first-child{
 }
 
 .badge{
-
   display:inline-flex;
-
-  padding:
-    5px
-    9px;
-
+  padding:5px 9px;
   border-radius:7px;
-
   font-size:9px;
-
   font-weight:900;
 }
 
 .badge-safe{
-
   background:var(--success-light);
-
   color:var(--success);
 }
 
 .badge-danger{
-
   background:var(--danger-light);
-
   color:var(--danger);
 }
 
 .badge-warning{
-
   background:var(--warning-light);
-
   color:#A66C00;
 }
 
 
-/* =========================================================
-   FOOTER
-========================================================= */
+/* ================= FOOTER ================= */
 
 .footer{
-
   margin-top:28px;
-
   text-align:center;
-
   color:#91A4A2;
-
   font-size:9px;
-
   letter-spacing:.4px;
 }
 
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:1100px){
 
   .kpi-grid{
-    grid-template-columns:
-      repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
   }
 
   .attention-grid{
-    grid-template-columns:
-      repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
   }
 
   .chart-grid{
@@ -1508,9 +1091,8 @@ td:first-child{
 
   .heatmap-top,
   .heatmap-main{
-    min-width:720px;
+    min-width:760px;
   }
-
 }
 
 @media(max-width:700px){
@@ -1520,32 +1102,22 @@ td:first-child{
   }
 
   .header-inner{
-
     align-items:flex-start;
-
     gap:15px;
   }
 
   .header-right{
-
     flex-direction:column;
-
     align-items:flex-end;
-
     gap:8px;
   }
 
   .container{
-
-    padding:
-      22px
-      16px
-      35px;
+    padding:22px 16px 35px;
   }
 
   .kpi-grid{
-    grid-template-columns:
-      1fr 1fr;
+    grid-template-columns:1fr 1fr;
   }
 
   .kpi-value{
@@ -1553,43 +1125,29 @@ td:first-child{
   }
 
   .posture{
-
     flex-direction:column;
-
     align-items:flex-start;
-
     gap:15px;
   }
 
   .movement{
-
     width:100%;
-
-    justify-content:
-      space-between;
+    justify-content:space-between;
   }
 
   .attention-grid{
-
-    grid-template-columns:
-      1fr 1fr;
+    grid-template-columns:1fr 1fr;
   }
 
   .rtm-intro{
-
     flex-direction:column;
-
     align-items:flex-start;
-
     gap:15px;
   }
 
   .rtm-stats{
-
     width:100%;
-
-    justify-content:
-      space-between;
+    justify-content:space-between;
   }
 
   .rtm-stat{
@@ -1597,25 +1155,20 @@ td:first-child{
   }
 
   .heatmap-wrapper{
-
     overflow-x:auto;
-
     padding-bottom:5px;
   }
 
   .heatmap-top,
   .heatmap-main{
-
-    min-width:720px;
+    min-width:760px;
   }
-
 }
 
 @media(max-width:450px){
 
   .kpi-grid,
   .attention-grid{
-
     grid-template-columns:1fr;
   }
 
@@ -1628,23 +1181,19 @@ td:first-child{
   }
 
   .logo{
-
     width:44px;
     height:44px;
   }
-
 }
-
 </style>
 </head>
 
 
 <body>
 
-
-<!-- =========================================================
+<!-- =====================================================
      HEADER
-========================================================= -->
+===================================================== -->
 
 <header class="header">
 
@@ -1674,13 +1223,9 @@ td:first-child{
     <div class="header-right">
 
       <div class="live">
-
         <span class="live-dot"></span>
-
         LIVE RISK MONITORING
-
       </div>
-
 
       <select class="period">
 
@@ -1705,13 +1250,12 @@ td:first-child{
 </header>
 
 
-
 <main class="container">
 
 
-<!-- =========================================================
+<!-- =====================================================
      EXECUTIVE OVERVIEW
-========================================================= -->
+===================================================== -->
 
 <section>
 
@@ -1809,7 +1353,6 @@ td:first-child{
   </div>
 
 
-
   <div class="posture">
 
     <div class="posture-left">
@@ -1862,10 +1405,9 @@ td:first-child{
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      CHARTS
-========================================================= -->
+===================================================== -->
 
 <section class="chart-grid">
 
@@ -1881,9 +1423,7 @@ td:first-child{
     </div>
 
     <div class="chart-wrap">
-
       <canvas id="riskDonut"></canvas>
-
     </div>
 
   </div>
@@ -1900,9 +1440,7 @@ td:first-child{
     </div>
 
     <div class="chart-wrap">
-
       <canvas id="riskTrend"></canvas>
-
     </div>
 
   </div>
@@ -1910,13 +1448,11 @@ td:first-child{
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      MANAGEMENT ATTENTION
-========================================================= -->
+===================================================== -->
 
 <section class="attention">
-
 
   <div class="attention-header">
 
@@ -2116,7 +1652,6 @@ td:first-child{
   </div>
 
 
-
   <div class="critical">
 
     <div class="critical-left">
@@ -2149,10 +1684,9 @@ td:first-child{
 </section>
 
 
-
-<!-- =========================================================
-     RISK THAT MATTERS
-========================================================= -->
+<!-- =====================================================
+     RTM
+===================================================== -->
 
 <section class="rtm">
 
@@ -2170,13 +1704,12 @@ td:first-child{
       </div>
 
       <div class="section-description">
-        Inherent vs Residual Risk Position · Data s.d. Juli 2026
+        Inherent Risk vs Residual Risk · Data s.d. Juli 2026
       </div>
 
     </div>
 
   </div>
-
 
 
   <div class="rtm-intro">
@@ -2188,10 +1721,8 @@ td:first-child{
       </div>
 
       <div class="rtm-intro-text">
-
         10 risiko utama yang memiliki materiality dan strategic relevance
         terhadap pencapaian sasaran perusahaan.
-
       </div>
 
     </div>
@@ -2200,35 +1731,18 @@ td:first-child{
     <div class="rtm-stats">
 
       <div class="rtm-stat">
-
         <strong>10</strong>
-
-        <span>
-          RTM
-        </span>
-
+        <span>RTM</span>
       </div>
 
-
       <div class="rtm-stat">
-
         <strong>2</strong>
-
-        <span>
-          Residual High
-        </span>
-
+        <span>Residual High</span>
       </div>
 
-
       <div class="rtm-stat">
-
         <strong>8</strong>
-
-        <span>
-          Controlled
-        </span>
-
+        <span>Controlled</span>
       </div>
 
     </div>
@@ -2236,6 +1750,9 @@ td:first-child{
   </div>
 
 
+  <!-- ===================================================
+       HEATMAP
+  ==================================================== -->
 
   <div class="heatmap-card">
 
@@ -2243,386 +1760,146 @@ td:first-child{
     <div class="heatmap-wrapper">
 
 
-      <!-- =====================================================
-           IMPACT HEADER
-      ====================================================== -->
+      <!-- IMPACT HEADER -->
 
       <div class="heatmap-top">
 
         <div></div>
 
-
         <div class="impact-header">
-
           Sangat Rendah
-
-          <span>
-            1
-          </span>
-
+          <span>1</span>
         </div>
 
-
         <div class="impact-header">
-
           Rendah
-
-          <span>
-            2
-          </span>
-
+          <span>2</span>
         </div>
 
-
         <div class="impact-header">
-
           Moderat
-
-          <span>
-            3
-          </span>
-
+          <span>3</span>
         </div>
 
-
         <div class="impact-header">
-
           Tinggi
-
-          <span>
-            4
-          </span>
-
+          <span>4</span>
         </div>
-
 
         <div class="impact-header">
-
           Sangat Tinggi
-
-          <span>
-            5
-          </span>
-
+          <span>5</span>
         </div>
 
       </div>
 
 
+      <!-- =================================================
+           5 x 5 HEATMAP
+      ================================================== -->
 
-      <!-- =====================================================
-           MATRIX
-      ====================================================== -->
-
-      <div class="heatmap-main">
+      <div class="heatmap-main" id="heatmap">
 
 
-        <!-- ROW 5 -->
+        <!-- PROBABILITY 5 -->
 
         <div class="probability-header">
-
-          <strong>
-            Hampir<br>Pasti
-          </strong>
-
-          <span>
-            5
-          </span>
-
+          <strong>Hampir<br>Pasti</strong>
+          <span>5</span>
         </div>
 
-
+        <div class="heat-cell level-1"></div>
         <div class="heat-cell level-2"></div>
-
         <div class="heat-cell level-3"></div>
-
         <div class="heat-cell level-4"></div>
-
-        <div class="heat-cell level-5"></div>
-
         <div class="heat-cell level-5"></div>
 
 
-        <!-- ROW 4 -->
+        <!-- PROBABILITY 4 -->
 
         <div class="probability-header">
-
-          <strong>
-            Sangat<br>Mungkin
-          </strong>
-
-          <span>
-            4
-          </span>
-
+          <strong>Sangat<br>Mungkin</strong>
+          <span>4</span>
         </div>
 
-
         <div class="heat-cell level-1"></div>
-
         <div class="heat-cell level-2"></div>
-
         <div class="heat-cell level-3"></div>
-
         <div class="heat-cell level-4"></div>
-
         <div class="heat-cell level-5"></div>
 
 
-        <!-- ROW 3 -->
+        <!-- PROBABILITY 3 -->
 
         <div class="probability-header">
-
-          <strong>
-            Bisa<br>Terjadi
-          </strong>
-
-          <span>
-            3
-          </span>
-
+          <strong>Bisa<br>Terjadi</strong>
+          <span>3</span>
         </div>
 
-
         <div class="heat-cell level-1"></div>
-
         <div class="heat-cell level-2"></div>
-
         <div class="heat-cell level-3"></div>
-
         <div class="heat-cell level-4"></div>
-
         <div class="heat-cell level-5"></div>
 
 
-        <!-- ROW 2 -->
+        <!-- PROBABILITY 2 -->
 
         <div class="probability-header">
-
-          <strong>
-            Jarang<br>Terjadi
-          </strong>
-
-          <span>
-            2
-          </span>
-
+          <strong>Jarang<br>Terjadi</strong>
+          <span>2</span>
         </div>
 
-
         <div class="heat-cell level-1"></div>
-
         <div class="heat-cell level-2"></div>
-
-        <div class="heat-cell level-2"></div>
-
-        <div class="heat-cell level-4"></div>
-
-        <div class="heat-cell level-5"></div>
-
-
-        <!-- ROW 1 -->
-
-        <div class="probability-header">
-
-          <strong>
-            Sangat<br>Jarang<br>Terjadi
-          </strong>
-
-          <span>
-            1
-          </span>
-
-        </div>
-
-
-        <div class="heat-cell level-1"></div>
-
-        <div class="heat-cell level-1"></div>
-
-        <div class="heat-cell level-2"></div>
-
         <div class="heat-cell level-3"></div>
-
+        <div class="heat-cell level-4"></div>
         <div class="heat-cell level-5"></div>
 
 
-        <!-- =====================================================
-             MOVEMENT LAYER
-        ====================================================== -->
+        <!-- PROBABILITY 1 -->
 
-        <div
-          class="movement-layer"
-          id="movementLayer">
+        <div class="probability-header">
+          <strong>Sangat<br>Jarang<br>Terjadi</strong>
+          <span>1</span>
         </div>
 
-
-        <!-- =====================================================
-             RTM MARKERS
-        ====================================================== -->
-
-        <!-- RTM 1 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:15%;"
-          title="RTM 1 · Inherent 24 (High) · P4 × I5">
-          IH1
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:43%;top:15%;"
-          title="RTM 1 · Residual Juli 14 (Moderate) · P4 × I3">
-          R1
-        </div>
+        <div class="heat-cell level-1"></div>
+        <div class="heat-cell level-2"></div>
+        <div class="heat-cell level-3"></div>
+        <div class="heat-cell level-4"></div>
+        <div class="heat-cell level-5"></div>
 
 
-        <!-- RTM 2 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:15%;"
-          title="RTM 2 · Inherent 24 (High) · P4 × I5">
-          IH2
-        </div>
+        <!-- SVG MOVEMENT LAYER -->
 
-        <div
-          class="risk-marker residual-marker"
-          style="left:88%;top:15%;"
-          title="RTM 2 · Residual Juli 24 (High) · P4 × I5">
-          R2
-        </div>
+        <svg
+          id="movementSvg"
+          class="movement-svg"
+          preserveAspectRatio="none"
+        >
+          <defs>
 
+            <marker
+              id="arrowhead"
+              markerWidth="7"
+              markerHeight="7"
+              refX="5"
+              refY="3.5"
+              orient="auto"
+            >
 
-        <!-- RTM 3 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:43%;top:57%;"
-          title="RTM 3 · Inherent 11 (Low–Moderate) · P2 × I3">
-          IH3
-        </div>
+              <polygon
+                points="0 0, 7 3.5, 0 7"
+                fill="#173B3A"
+              />
 
-        <div
-          class="risk-marker residual-marker"
-          style="left:47%;top:57%;"
-          title="RTM 3 · Residual Juli 11 (Low–Moderate) · P2 × I3">
-          R3
-        </div>
+            </marker>
 
-
-        <!-- RTM 4 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:65%;top:15%;"
-          title="RTM 4 · Inherent 19 (Moderate–High) · P4 × I4">
-          IH4
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:43%;top:57%;"
-          title="RTM 4 · Residual Juli 11 (Low–Moderate) · P2 × I3">
-          R4
-        </div>
-
-
-        <!-- RTM 5 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:15%;"
-          title="RTM 5 · Inherent 24 (High) · P4 × I5">
-          IH5
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:39%;top:57%;"
-          title="RTM 5 · Residual Juli 11 (Low–Moderate) · P2 × I3">
-          R5
-        </div>
-
-
-        <!-- RTM 6 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:29%;"
-          title="RTM 6 · Inherent 23 (High) · P3 × I5">
-          IH6
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:65%;top:86%;"
-          title="RTM 6 · Residual Juli 15 (Moderate) · P1 × I4">
-          R6
-        </div>
-
-
-        <!-- RTM 7 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:65%;top:29%;"
-          title="RTM 7 · Inherent 18 (Moderate–High) · P3 × I4">
-          IH7
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:65%;top:57%;"
-          title="RTM 7 · Residual Juli 16 (Moderate–High) · P2 × I4">
-          R7
-        </div>
-
-
-        <!-- RTM 8 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:86%;"
-          title="RTM 8 · Inherent 20 (High) · P1 × I5">
-          IH8
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:65%;top:86%;"
-          title="RTM 8 · Residual Juli 15 (Moderate) · P1 × I4">
-          R8
-        </div>
-
-
-        <!-- RTM 9 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:1%;"
-          title="RTM 9 · Inherent 25 (High) · P5 × I5">
-          IH9
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:43%;top:29%;"
-          title="RTM 9 · Residual Juli 13 (Moderate) · P3 × I3">
-          R9
-        </div>
-
-
-        <!-- RTM 10 -->
-        <div
-          class="risk-marker inherent-marker"
-          style="left:84%;top:15%;"
-          title="RTM 10 · Inherent 24 (High) · P4 × I5">
-          IH10
-        </div>
-
-        <div
-          class="risk-marker residual-marker"
-          style="left:91%;top:15%;"
-          title="RTM 10 · Residual Juli 24 (High) · P4 × I5">
-          R10
-        </div>
-
+          </defs>
+        </svg>
 
       </div>
-
 
 
       <div class="impact-axis-title">
@@ -2630,169 +1907,305 @@ td:first-child{
       </div>
 
 
-      <div class="probability-axis-title">
-        Probability
-      </div>
-
-
-
-      <!-- =====================================================
-           COLOR LEGEND
-      ====================================================== -->
+      <!-- LEGEND -->
 
       <div class="heatmap-legend">
 
-
         <div class="legend-item">
-
           <span
             class="legend-color"
             style="background:#00B050">
           </span>
-
           Low
-
         </div>
 
-
         <div class="legend-item">
-
           <span
             class="legend-color"
             style="background:#92D050">
           </span>
-
           Low–Moderate
-
         </div>
 
-
         <div class="legend-item">
-
           <span
             class="legend-color"
             style="background:#FFFF00">
           </span>
-
           Moderate
-
         </div>
 
-
         <div class="legend-item">
-
           <span
             class="legend-color"
             style="background:#FFC000">
           </span>
-
           Moderate–High
-
         </div>
 
-
         <div class="legend-item">
-
           <span
             class="legend-color"
             style="background:#FF0000">
           </span>
-
           High
-
         </div>
 
       </div>
 
 
-
-      <!-- =====================================================
-           MOVEMENT LEGEND
-      ====================================================== -->
+      <!-- MOVEMENT LEGEND -->
 
       <div class="movement-note">
 
-        <span>
-          Risk Movement
-        </span>
-
-
-        <span class="movement-dot inherent-example">
+        <span class="movement-dot inherent">
           IH
         </span>
 
         <span>
-          Inherent
+          Inherent Risk
         </span>
 
-
         <span class="movement-line"></span>
-
 
         <span class="movement-dot">
           RR
         </span>
 
         <span>
-          Residual
+          Residual Risk
         </span>
 
       </div>
 
 
-
-      <!-- =====================================================
-           SUMMARY
-      ====================================================== -->
+      <!-- SUMMARY -->
 
       <div class="rtm-summary">
 
-
         <div class="rtm-summary-item">
-
-          <strong>
-            10
-          </strong>
-
+          <strong>10</strong>
           Strategic Risks
-
         </div>
 
-
         <div class="rtm-summary-item">
-
-          <strong>
-            2
-          </strong>
-
+          <strong>2</strong>
           Residual High
-
         </div>
 
-
         <div class="rtm-summary-item">
-
-          <strong>
-            8
-          </strong>
-
+          <strong>8</strong>
           Controlled
-
         </div>
 
-
         <div class="rtm-summary-item">
-
-          <strong>
-            ↓
-          </strong>
-
+          <strong>↓</strong>
           Risk Reduction
-
         </div>
 
       </div>
 
+
+      <!-- =================================================
+           RTM DETAIL TABLE
+      ================================================== -->
+
+      <div class="rtm-detail">
+
+        <div class="rtm-detail-table">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>RTM</th>
+                <th>Inherent</th>
+                <th>Residual s.d. Juli</th>
+                <th>Movement</th>
+                <th>Status</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td class="rtm-code">RTM 1</td>
+                <td class="rtm-inherent">
+                  24 · 4×5 · High
+                </td>
+                <td class="rtm-residual">
+                  14 · 4×3 · Moderate
+                </td>
+                <td class="reduced">
+                  ↓ 10 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 2</td>
+                <td class="rtm-inherent">
+                  24 · 4×5 · High
+                </td>
+                <td class="rtm-residual">
+                  24 · 4×5 · High
+                </td>
+                <td class="unchanged">
+                  → No movement
+                </td>
+                <td>
+                  <span class="badge badge-danger">HIGH</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 3</td>
+                <td class="rtm-inherent">
+                  11 · 2×3 · Low–Moderate
+                </td>
+                <td class="rtm-residual">
+                  11 · 2×3 · Low–Moderate
+                </td>
+                <td class="unchanged">
+                  → No movement
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 4</td>
+                <td class="rtm-inherent">
+                  19 · 4×4 · Moderate–High
+                </td>
+                <td class="rtm-residual">
+                  11 · 2×3 · Low–Moderate
+                </td>
+                <td class="reduced">
+                  ↓ 8 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 5</td>
+                <td class="rtm-inherent">
+                  24 · 4×5 · High
+                </td>
+                <td class="rtm-residual">
+                  11 · 2×3 · Low–Moderate
+                </td>
+                <td class="reduced">
+                  ↓ 13 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 6</td>
+                <td class="rtm-inherent">
+                  23 · 3×5 · High
+                </td>
+                <td class="rtm-residual">
+                  15 · 1×4 · Moderate
+                </td>
+                <td class="reduced">
+                  ↓ 8 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 7</td>
+                <td class="rtm-inherent">
+                  18 · 3×4 · Moderate–High
+                </td>
+                <td class="rtm-residual">
+                  16 · 2×4 · Moderate–High
+                </td>
+                <td class="reduced">
+                  ↓ 2 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 8</td>
+                <td class="rtm-inherent">
+                  20 · 1×5 · High
+                </td>
+                <td class="rtm-residual">
+                  15 · 1×4 · Moderate
+                </td>
+                <td class="reduced">
+                  ↓ 5 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 9</td>
+                <td class="rtm-inherent">
+                  25 · 5×5 · High
+                </td>
+                <td class="rtm-residual">
+                  13 · 3×3 · Moderate
+                </td>
+                <td class="reduced">
+                  ↓ 12 points
+                </td>
+                <td>
+                  <span class="badge badge-safe">CONTROLLED</span>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="rtm-code">RTM 10</td>
+                <td class="rtm-inherent">
+                  24 · 4×5 · High
+                </td>
+                <td class="rtm-residual">
+                  24 · 4×5 · High
+                </td>
+                <td class="unchanged">
+                  → No movement
+                </td>
+                <td>
+                  <span class="badge badge-danger">HIGH</span>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -2801,10 +2214,9 @@ td:first-child{
 </section>
 
 
-
-<!-- =========================================================
+<!-- =====================================================
      KRI
-========================================================= -->
+===================================================== -->
 
 <section class="kri">
 
@@ -2832,40 +2244,22 @@ td:first-child{
 
   <div class="kri-table-wrap">
 
-
     <table>
 
       <thead>
 
         <tr>
-
-          <th>
-            KRI
-          </th>
-
-          <th>
-            Threshold
-          </th>
-
-          <th>
-            Actual
-          </th>
-
-          <th>
-            Trend
-          </th>
-
-          <th>
-            Status
-          </th>
-
+          <th>KRI</th>
+          <th>Threshold</th>
+          <th>Actual</th>
+          <th>Trend</th>
+          <th>Status</th>
         </tr>
 
       </thead>
 
 
       <tbody>
-
 
         <tr>
 
@@ -2886,11 +2280,9 @@ td:first-child{
           </td>
 
           <td>
-
             <span class="badge badge-safe">
               AMAN
             </span>
-
           </td>
 
         </tr>
@@ -2915,11 +2307,9 @@ td:first-child{
           </td>
 
           <td>
-
             <span class="badge badge-danger">
               BAHAYA
             </span>
-
           </td>
 
         </tr>
@@ -2944,11 +2334,9 @@ td:first-child{
           </td>
 
           <td>
-
             <span class="badge badge-safe">
               AMAN
             </span>
-
           </td>
 
         </tr>
@@ -2973,11 +2361,9 @@ td:first-child{
           </td>
 
           <td>
-
             <span class="badge badge-safe">
               AMAN
             </span>
-
           </td>
 
         </tr>
@@ -3002,15 +2388,12 @@ td:first-child{
           </td>
 
           <td>
-
             <span class="badge badge-safe">
               AMAN
             </span>
-
           </td>
 
         </tr>
-
 
       </tbody>
 
@@ -3021,45 +2404,617 @@ td:first-child{
 </section>
 
 
-
 <div class="footer">
-
-  ENTERPRISE RISK INTELLIGENCE ·
-  PT PUPUK INDONESIA (PERSERO) ·
-  RISK MANAGEMENT
-
+  ENTERPRISE RISK INTELLIGENCE · PT PUPUK INDONESIA (PERSERO) · RISK MANAGEMENT
 </div>
 
 
 </main>
 
 
-
 <script>
 
+/* =====================================================
+   RTM DATA
+   Probability: 1–5
+   Impact: 1–5
+===================================================== */
 
-/* =========================================================
+const rtmData = [
+
+  {
+    id:"R1",
+    inherent:{
+      probability:4,
+      impact:5,
+      score:24,
+      level:"High"
+    },
+    residual:{
+      probability:4,
+      impact:3,
+      score:14,
+      level:"Moderate"
+    }
+  },
+
+  {
+    id:"R2",
+    inherent:{
+      probability:4,
+      impact:5,
+      score:24,
+      level:"High"
+    },
+    residual:{
+      probability:4,
+      impact:5,
+      score:24,
+      level:"High"
+    }
+  },
+
+  {
+    id:"R3",
+    inherent:{
+      probability:2,
+      impact:3,
+      score:11,
+      level:"Low–Moderate"
+    },
+    residual:{
+      probability:2,
+      impact:3,
+      score:11,
+      level:"Low–Moderate"
+    }
+  },
+
+  {
+    id:"R4",
+    inherent:{
+      probability:4,
+      impact:4,
+      score:19,
+      level:"Moderate–High"
+    },
+    residual:{
+      probability:2,
+      impact:3,
+      score:11,
+      level:"Low–Moderate"
+    }
+  },
+
+  {
+    id:"R5",
+    inherent:{
+      probability:4,
+      impact:5,
+      score:24,
+      level:"High"
+    },
+    residual:{
+      probability:2,
+      impact:3,
+      score:11,
+      level:"Low–Moderate"
+    }
+  },
+
+  {
+    id:"R6",
+    inherent:{
+      probability:3,
+      impact:5,
+      score:23,
+      level:"High"
+    },
+    residual:{
+      probability:1,
+      impact:4,
+      score:15,
+      level:"Moderate"
+    }
+  },
+
+  {
+    id:"R7",
+    inherent:{
+      probability:3,
+      impact:4,
+      score:18,
+      level:"Moderate–High"
+    },
+    residual:{
+      probability:2,
+      impact:4,
+      score:16,
+      level:"Moderate–High"
+    }
+  },
+
+  {
+    id:"R8",
+    inherent:{
+      probability:1,
+      impact:5,
+      score:20,
+      level:"High"
+    },
+    residual:{
+      probability:1,
+      impact:4,
+      score:15,
+      level:"Moderate"
+    }
+  },
+
+  {
+    id:"R9",
+    inherent:{
+      probability:5,
+      impact:5,
+      score:25,
+      level:"High"
+    },
+    residual:{
+      probability:3,
+      impact:3,
+      score:13,
+      level:"Moderate"
+    }
+  },
+
+  {
+    id:"R10",
+    inherent:{
+      probability:4,
+      impact:5,
+      score:24,
+      level:"High"
+    },
+    residual:{
+      probability:4,
+      impact:5,
+      score:24,
+      level:"High"
+    }
+  }
+
+];
+
+
+/* =====================================================
+   HEATMAP RENDER ENGINE
+===================================================== */
+
+function renderHeatmap(){
+
+  const heatmap =
+    document.getElementById("heatmap");
+
+  const svg =
+    document.getElementById("movementSvg");
+
+
+  /*
+    Remove old markers and paths
+    while keeping the heatmap cells,
+    probability labels and SVG.
+  */
+
+  heatmap
+    .querySelectorAll(
+      ".risk-marker,.inherent-marker"
+    )
+    .forEach(el => el.remove());
+
+
+  svg
+    .querySelectorAll(
+      ".movement-path"
+    )
+    .forEach(el => el.remove());
+
+
+  /*
+    Find the 25 colored cells.
+  */
+
+  const cells =
+    Array.from(
+      heatmap.querySelectorAll(".heat-cell")
+    );
+
+
+  /*
+    Because the matrix is:
+    
+    Row 0 = Probability 5
+    Row 1 = Probability 4
+    Row 2 = Probability 3
+    Row 3 = Probability 2
+    Row 4 = Probability 1
+  */
+
+  function getCell(probability,impact){
+
+    const row =
+      5 - probability;
+
+    const column =
+      impact - 1;
+
+    return cells[
+      row * 5 + column
+    ];
+
+  }
+
+
+  /*
+    Convert cell center to SVG coordinates.
+  */
+
+  function getPoint(probability,impact){
+
+    const cell =
+      getCell(
+        probability,
+        impact
+      );
+
+    const heatmapRect =
+      heatmap.getBoundingClientRect();
+
+    const svgRect =
+      svg.getBoundingClientRect();
+
+    const cellRect =
+      cell.getBoundingClientRect();
+
+
+    return {
+
+      x:
+        cellRect.left -
+        svgRect.left +
+        cellRect.width / 2,
+
+      y:
+        cellRect.top -
+        svgRect.top +
+        cellRect.height / 2
+
+    };
+
+  }
+
+
+  /*
+    Draw movement arrows.
+  */
+
+  rtmData.forEach((risk,index)=>{
+
+    const start =
+      getPoint(
+        risk.inherent.probability,
+        risk.inherent.impact
+      );
+
+
+    const end =
+      getPoint(
+        risk.residual.probability,
+        risk.residual.impact
+      );
+
+
+    /*
+      Slight offset for overlapping
+      inherent positions.
+    */
+
+    const offset =
+      (index % 3 - 1) * 3;
+
+
+    start.x += offset;
+    start.y += offset;
+
+    end.x += offset;
+    end.y += offset;
+
+
+    const path =
+      document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+
+
+    /*
+      Curved path gives clearer movement
+      when several RTMs share the same cell.
+    */
+
+    const dx =
+      end.x - start.x;
+
+    const dy =
+      end.y - start.y;
+
+
+    const distance =
+      Math.sqrt(
+        dx*dx + dy*dy
+      );
+
+
+    let curve = 0;
+
+
+    if(distance > 2){
+
+      curve =
+        (index % 2 === 0 ? 10 : -10);
+
+    }
+
+
+    const cx =
+      (start.x + end.x) / 2
+      + curve;
+
+
+    const cy =
+      (start.y + end.y) / 2
+      - curve;
+
+
+    path.setAttribute(
+      "d",
+      `M ${start.x} ${start.y}
+       Q ${cx} ${cy}
+         ${end.x} ${end.y}`
+    );
+
+
+    path.setAttribute(
+      "class",
+      "movement-path"
+      +
+      (distance <= 2
+        ? " stationary"
+        : "")
+    );
+
+
+    path.setAttribute(
+      "marker-end",
+      "url(#arrowhead)"
+    );
+
+
+    svg.appendChild(path);
+
+  });
+
+
+  /*
+    Create inherent markers.
+    These are small white circles.
+  */
+
+  rtmData.forEach((risk,index)=>{
+
+    const cell =
+      getCell(
+        risk.inherent.probability,
+        risk.inherent.impact
+      );
+
+
+    const marker =
+      document.createElement("div");
+
+
+    marker.className =
+      "inherent-marker";
+
+
+    marker.textContent =
+      "I";
+
+
+    marker.title =
+      `${risk.id} · Inherent ${risk.inherent.score} · ` +
+      `Probability ${risk.inherent.probability} · ` +
+      `Impact ${risk.inherent.impact}`;
+
+
+    /*
+      For overlapping inherent positions,
+      spread them slightly.
+    */
+
+    const samePosition =
+      rtmData.filter(
+        r =>
+          r.inherent.probability ===
+            risk.inherent.probability &&
+          r.inherent.impact ===
+            risk.inherent.impact
+      );
+
+
+    const position =
+      samePosition.indexOf(risk);
+
+
+    const offsets = [
+
+      [0,0],
+
+      [-10,-10],
+
+      [10,10],
+
+      [-10,10],
+
+      [10,-10]
+
+    ];
+
+
+    const offset =
+      offsets[
+        position % offsets.length
+      ];
+
+
+    marker.style.left =
+      `calc(50% - 8.5px + ${offset[0]}px)`;
+
+    marker.style.top =
+      `calc(50% - 8.5px + ${offset[1]}px)`;
+
+
+    cell.appendChild(marker);
+
+  });
+
+
+  /*
+    Create residual markers.
+  */
+
+  rtmData.forEach((risk,index)=>{
+
+    const cell =
+      getCell(
+        risk.residual.probability,
+        risk.residual.impact
+      );
+
+
+    const marker =
+      document.createElement("div");
+
+
+    marker.className =
+      "risk-marker";
+
+
+    marker.textContent =
+      risk.id;
+
+
+    marker.title =
+      `${risk.id} · Residual ${risk.residual.score} · ` +
+      `Probability ${risk.residual.probability} · ` +
+      `Impact ${risk.residual.impact} · ` +
+      `${risk.residual.level}`;
+
+
+    /*
+      If several RTMs occupy exactly
+      the same residual cell, spread them.
+    */
+
+    const samePosition =
+      rtmData.filter(
+        r =>
+          r.residual.probability ===
+            risk.residual.probability &&
+          r.residual.impact ===
+            risk.residual.impact
+      );
+
+
+    const position =
+      samePosition.indexOf(risk);
+
+
+    const offsets = [
+
+      [0,0],
+
+      [-17,0],
+
+      [17,0],
+
+      [0,-17],
+
+      [0,17],
+
+      [-13,-13],
+
+      [13,13]
+
+    ];
+
+
+    const offset =
+      offsets[
+        position % offsets.length
+      ];
+
+
+    marker.style.left =
+      `calc(50% - 15px + ${offset[0]}px)`;
+
+
+    marker.style.top =
+      `calc(50% - 15px + ${offset[1]}px)`;
+
+
+    cell.appendChild(marker);
+
+  });
+
+}
+
+
+/* =====================================================
+   RENDER WHEN READY
+===================================================== */
+
+window.addEventListener(
+  "load",
+  renderHeatmap
+);
+
+window.addEventListener(
+  "resize",
+  renderHeatmap
+);
+
+
+/* =====================================================
    DONUT
-========================================================= */
+===================================================== */
 
 const donutCtx =
-document.getElementById('riskDonut');
+document.getElementById(
+  "riskDonut"
+);
 
 
 new Chart(
-
   donutCtx,
-
   {
 
-    type:'doughnut',
+    type:"doughnut",
 
     data:{
 
       labels:[
-        'Within Limit',
-        'Above Risk Limit',
-        'Above Trigger'
+        "Within Limit",
+        "Above Risk Limit",
+        "Above Trigger"
       ],
 
       datasets:[{
@@ -3071,9 +3026,9 @@ new Chart(
         ],
 
         backgroundColor:[
-          '#22A06B',
-          '#F4B400',
-          '#E53935'
+          "#22A06B",
+          "#F4B400",
+          "#E53935"
         ],
 
         borderWidth:0,
@@ -3084,26 +3039,25 @@ new Chart(
 
     },
 
-
     options:{
 
       responsive:true,
 
       maintainAspectRatio:false,
 
-      cutout:'72%',
+      cutout:"72%",
 
       plugins:{
 
         legend:{
 
-          position:'bottom',
+          position:"bottom",
 
           labels:{
 
             usePointStyle:true,
 
-            pointStyle:'circle',
+            pointStyle:"circle",
 
             padding:18,
 
@@ -3120,42 +3074,41 @@ new Chart(
     }
 
   }
-
 );
 
 
-/* =========================================================
+/* =====================================================
    TREND
-========================================================= */
+===================================================== */
 
 const trendCtx =
-document.getElementById('riskTrend');
+document.getElementById(
+  "riskTrend"
+);
 
 
 new Chart(
-
   trendCtx,
-
   {
 
-    type:'line',
+    type:"line",
 
     data:{
 
       labels:[
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul'
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul"
       ],
 
       datasets:[{
 
         label:
-          'Risk Parameters Above Limit',
+          "Risk Parameters Above Limit",
 
         data:[
           4,
@@ -3168,10 +3121,10 @@ new Chart(
         ],
 
         borderColor:
-          '#008C83',
+          "#008C83",
 
         backgroundColor:
-          'rgba(0,140,131,.08)',
+          "rgba(0,140,131,.08)",
 
         fill:true,
 
@@ -3180,14 +3133,13 @@ new Chart(
         pointRadius:4,
 
         pointBackgroundColor:
-          '#008C83',
+          "#008C83",
 
         borderWidth:2
 
       }]
 
     },
-
 
     options:{
 
@@ -3203,7 +3155,6 @@ new Chart(
 
       },
 
-
       scales:{
 
         y:{
@@ -3211,21 +3162,17 @@ new Chart(
           beginAtZero:true,
 
           ticks:{
-
             stepSize:1,
-
             font:{
               size:9
             }
-
           },
 
           grid:{
-            color:'#EDF3F2'
+            color:"#EDF3F2"
           }
 
         },
-
 
         x:{
 
@@ -3246,425 +3193,9 @@ new Chart(
     }
 
   }
-
 );
-
-
-/* =========================================================
-   RTM DATA
-========================================================= */
-
-const rtmData = [
-
-  {
-    id:'RTM 1',
-    inherent:{
-      p:4,
-      i:5,
-      score:24,
-      level:'High'
-    },
-    residual:{
-      p:4,
-      i:3,
-      score:14,
-      level:'Moderate'
-    }
-  },
-
-  {
-    id:'RTM 2',
-    inherent:{
-      p:4,
-      i:5,
-      score:24,
-      level:'High'
-    },
-    residual:{
-      p:4,
-      i:5,
-      score:24,
-      level:'High'
-    }
-  },
-
-  {
-    id:'RTM 3',
-    inherent:{
-      p:2,
-      i:3,
-      score:11,
-      level:'Low–Moderate'
-    },
-    residual:{
-      p:2,
-      i:3,
-      score:11,
-      level:'Low–Moderate'
-    }
-  },
-
-  {
-    id:'RTM 4',
-    inherent:{
-      p:4,
-      i:4,
-      score:19,
-      level:'Moderate–High'
-    },
-    residual:{
-      p:2,
-      i:3,
-      score:11,
-      level:'Low–Moderate'
-    }
-  },
-
-  {
-    id:'RTM 5',
-    inherent:{
-      p:4,
-      i:5,
-      score:24,
-      level:'High'
-    },
-    residual:{
-      p:2,
-      i:3,
-      score:11,
-      level:'Low–Moderate'
-    }
-  },
-
-  {
-    id:'RTM 6',
-    inherent:{
-      p:3,
-      i:5,
-      score:23,
-      level:'High'
-    },
-    residual:{
-      p:1,
-      i:4,
-      score:15,
-      level:'Moderate'
-    }
-  },
-
-  {
-    id:'RTM 7',
-    inherent:{
-      p:3,
-      i:4,
-      score:18,
-      level:'Moderate–High'
-    },
-    residual:{
-      p:2,
-      i:4,
-      score:16,
-      level:'Moderate–High'
-    }
-  },
-
-  {
-    id:'RTM 8',
-    inherent:{
-      p:1,
-      i:5,
-      score:20,
-      level:'High'
-    },
-    residual:{
-      p:1,
-      i:4,
-      score:15,
-      level:'Moderate'
-    }
-  },
-
-  {
-    id:'RTM 9',
-    inherent:{
-      p:5,
-      i:5,
-      score:25,
-      level:'High'
-    },
-    residual:{
-      p:3,
-      i:3,
-      score:13,
-      level:'Moderate'
-    }
-  },
-
-  {
-    id:'RTM 10',
-    inherent:{
-      p:4,
-      i:5,
-      score:24,
-      level:'High'
-    },
-    residual:{
-      p:4,
-      i:5,
-      score:24,
-      level:'High'
-    }
-
-  }
-
-];
-
-
-/* =========================================================
-   HEATMAP POSITION CALCULATION
-========================================================= */
-
-const matrix =
-document.querySelector('.heatmap-main');
-
-const layer =
-document.getElementById('movementLayer');
-
-
-/*
-   Karena matrix mempunyai 5 kolom impact
-   dan 5 baris probability.
-
-   Cell width dan height dihitung
-   berdasarkan ukuran matrix aktual.
-*/
-
-function getPoint(p,i){
-
-  const matrixWidth =
-    matrix.clientWidth - 99;
-
-  const colWidth =
-    matrixWidth / 5;
-
-  const rowHeight =
-    70;
-
-  return {
-
-    x:
-      (i - 0.5) *
-      colWidth,
-
-    y:
-      (5 - p + 0.5) *
-      rowHeight
-
-  };
-
-}
-
-
-/* =========================================================
-   DRAW MOVEMENT ARROWS
-========================================================= */
-
-function drawMovement(){
-
-  layer.innerHTML='';
-
-  const markers =
-    matrix.querySelectorAll(
-      '.risk-marker'
-    );
-
-  /*
-     Mapping marker berdasarkan
-     posisi yang sudah kita definisikan.
-  */
-
-  const positions = {
-
-    1:{
-      ih:{p:4,i:5},
-      rr:{p:4,i:3}
-    },
-
-    2:{
-      ih:{p:4,i:5},
-      rr:{p:4,i:5}
-    },
-
-    3:{
-      ih:{p:2,i:3},
-      rr:{p:2,i:3}
-    },
-
-    4:{
-      ih:{p:4,i:4},
-      rr:{p:2,i:3}
-    },
-
-    5:{
-      ih:{p:4,i:5},
-      rr:{p:2,i:3}
-    },
-
-    6:{
-      ih:{p:3,i:5},
-      rr:{p:1,i:4}
-    },
-
-    7:{
-      ih:{p:3,i:4},
-      rr:{p:2,i:4}
-    },
-
-    8:{
-      ih:{p:1,i:5},
-      rr:{p:1,i:4}
-    },
-
-    9:{
-      ih:{p:5,i:5},
-      rr:{p:3,i:3}
-    },
-
-    10:{
-      ih:{p:4,i:5},
-      rr:{p:4,i:5}
-    }
-
-  };
-
-
-  Object.keys(positions)
-    .forEach(id=>{
-
-      const start =
-        getPoint(
-          positions[id].ih.p,
-          positions[id].ih.i
-        );
-
-      const end =
-        getPoint(
-          positions[id].rr.p,
-          positions[id].rr.i
-        );
-
-
-      const dx =
-        end.x - start.x;
-
-      const dy =
-        end.y - start.y;
-
-      const distance =
-        Math.sqrt(
-          dx*dx +
-          dy*dy
-        );
-
-
-      if(distance < 4){
-        return;
-      }
-
-
-      const angle =
-        Math.atan2(
-          dy,
-          dx
-        ) *
-        180 /
-        Math.PI;
-
-
-      const arrow =
-        document.createElement(
-          'div'
-        );
-
-
-      arrow.className =
-        'movement-arrow';
-
-
-      arrow.style.left =
-        start.x + 'px';
-
-      arrow.style.top =
-        start.y + 'px';
-
-      arrow.style.width =
-        distance + 'px';
-
-      arrow.style.transform =
-        `rotate(${angle}deg)`;
-
-
-      layer.appendChild(
-        arrow
-      );
-
-    });
-
-}
-
-
-/* =========================================================
-   INITIAL DRAW
-========================================================= */
-
-window.addEventListener(
-  'load',
-  drawMovement
-);
-
-
-window.addEventListener(
-  'resize',
-  drawMovement
-);
-
-
-/* =========================================================
-   TOOLTIP-STYLE HOVER
-========================================================= */
-
-document
-  .querySelectorAll(
-    '.risk-marker'
-  )
-  .forEach(marker=>{
-
-    marker.addEventListener(
-      'mouseenter',
-      ()=>{
-
-        marker.style.transform =
-          'scale(1.2)';
-
-      }
-    );
-
-
-    marker.addEventListener(
-      'mouseleave',
-      ()=>{
-
-        marker.style.transform =
-          'scale(1)';
-
-      }
-    );
-
-  });
-
 
 </script>
-
 
 </body>
 </html>
